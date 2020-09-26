@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:io';
 import 'dart:math';
 import 'dart:async';
@@ -18,6 +19,7 @@ class InformationLaundry extends StatefulWidget {
 }
 
 class InformationLaundryState extends State<InformationLaundry> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   File imageFile, file;
   String urlPic, name, phone, adress;
   var imageFiles = [];
@@ -91,6 +93,7 @@ class InformationLaundryState extends State<InformationLaundry> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _formKey,
       backgroundColor: Colors.blue[100],
       body: ListView(
         children: <Widget>[
@@ -195,6 +198,7 @@ class InformationLaundryState extends State<InformationLaundry> {
                 TextField(
                   onChanged: (String string) {
                     adress = string.trim();
+                    print('insert adress done');
                   },
                   maxLines: null,
                   decoration: InputDecoration(
@@ -220,8 +224,11 @@ class InformationLaundryState extends State<InformationLaundry> {
             child: Column(
               children: [
                 TextField(
-                  onChanged: (String string) {
-                    phone = string.trim();
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                  onChanged: (value) {
+                    phone = value.trim();
+                    print('insert phone done');
                   },
                   maxLines: null,
                   decoration: InputDecoration(
@@ -279,11 +286,18 @@ class InformationLaundryState extends State<InformationLaundry> {
                       height: 50,
                       child: RaisedButton(
                         onPressed: () {
-                          //print('!!!! object is done !!!!');
-                          uploadPicToStorage();
-
-                          //picimage.currentState.uploadPicToStorage();
-                          //uploae();
+                          if (phone == null) {
+                            print('insert phone done');
+                            showAlert('Wrong', 'please check Phone Number');
+                          } else if (phone.length < 10) {
+                            print('insert phone done');
+                            showAlert('Wrong', 'please check Phone Number');
+                          } else if (phone.length > 10) {
+                            print('insert phone done');
+                            showAlert('Wrong', 'please check Phone Number');
+                          } else {
+                            uploadPicToStorage();
+                          }
                         },
                         padding: EdgeInsets.all(10),
                         color: Colors.white,
@@ -363,27 +377,27 @@ class InformationLaundryState extends State<InformationLaundry> {
 
     urlPic = await (await storageUploadTask.onComplete).ref.getDownloadURL();
     print('urlPic is = $urlPic');
-    //insertinformation();
+    insertinformation();
   }
 
-  // Future<void> insertinformation() async {
-  //   final databaseReference = Firestore.instance;
-  //   //Firestore firestore = Firestore.instance;
+  Future<void> insertinformation() async {
+    final databaseReference = Firestore.instance;
+    //Firestore firestore = Firestore.instance;
 
-  //   Map<String, dynamic> map = Map();
-  //   map['Name'] = name;
-  //   map['Adress'] = adress;
-  //   map['Phone'] = phone;
-  //   map['URLpic'] = urlPic;
-  //   //await Firebase.initializeApp();
-  //   await databaseReference
-  //       .collection('InformationLaundry')
-  //       .document()
-  //       .setData(map)
-  //       .then((value) {
-  //     print('insert Successfully');
-  //   });
-  // }
+    Map<String, dynamic> map = Map();
+    map['Name'] = name;
+    map['Adress'] = adress;
+    map['Phone'] = phone;
+    map['URLpic'] = urlPic;
+    //await Firebase.initializeApp();
+    await databaseReference
+        .collection('InformationLaundry')
+        .document()
+        .setData(map)
+        .then((value) {
+      print('insert Successfully');
+    });
+  }
 
   Future<void> deleteImage(String urlPic) async {
     var fileUrl = Uri.decodeFull(Path.basename(urlPic))
@@ -393,6 +407,25 @@ class InformationLaundryState extends State<InformationLaundry> {
         FirebaseStorage.instance.ref().child(fileUrl);
     await firebaseStorageRef.delete();
     print('Successfully deleted $urlPic from storage');
+  }
+
+  Future<void> showAlert(String title, String message) async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(title),
+            content: Text(message),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              )
+            ],
+          );
+        });
   }
 }
 //}
