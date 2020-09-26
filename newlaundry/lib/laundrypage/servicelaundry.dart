@@ -38,7 +38,21 @@ class ServiceLaundryState extends State<ServiceLaundry> {
                   fontWeight: FontWeight.bold),
             ),
           ),
-          SizedBox(height: 50),
+          SizedBox(height: 25),
+          Stack(
+            children: [
+              Container(
+                margin: EdgeInsets.only(left: 15, right: 15),
+                height: 150,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 30),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

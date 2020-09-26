@@ -37,7 +37,17 @@ class ConfirmationState extends State<Confirmation> {
                   fontSize: 20,
                   fontWeight: FontWeight.bold),
             ),
-          )
+          ),
+          SizedBox(height: 40),
+          Container(
+            margin: EdgeInsets.only(left: 15, right: 15),
+            height: 100,
+            width: 100,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
         ],
       ),
     );

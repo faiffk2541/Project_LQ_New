@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-//import 'package:newlaundry/navigationbar.dart';
+import 'package:newlaundry/navigationbar.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -10,28 +11,34 @@ class RegisterPage extends StatefulWidget {
 
 class RegisterPageState extends State<RegisterPage> {
   final formKey = GlobalKey<FormState>();
-  String nameString, emailString, passwordString;
+  // ignore: deprecated_member_use
+  FirebaseUser user;
+  String nameString;
+  String emailString;
+  String passwordString;
 
   Future<void> registerThread() async {
-    await Firebase.initializeApp();
+    //await Firebase.initializeApp();
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     await firebaseAuth
         .createUserWithEmailAndPassword(
             email: emailString, password: passwordString)
         .then((response) {
       print('Register Success for Email = $emailString');
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => NavigationBarPage()));
       //setupDisplayName();
     }).catchError((response) {
       String title = response.code;
       String message = response.message;
       print('title = $title, message = $message');
+      myAlert(title, message);
     });
   }
 
   // Future<void> setupDisplayName() async {
   //   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   //   await firebaseAuth.currentUser().then((response) {
-
   //     UserUpdateInfo userUpdateInfo =  UserUpdateInfo();
   //     userUpdateInfo.displayName = nameString;
   //     response.updateProfile(userUpdateInfo);
@@ -42,7 +49,38 @@ class RegisterPageState extends State<RegisterPage> {
   //   });
   //  }
 
-  //SingleChildScrollView
+  void myAlert(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: ListTile(
+            leading: Icon(
+              Icons.add_alarm,
+              color: Colors.red,
+              size: 40,
+            ),
+            title: Text(
+              title,
+              style: TextStyle(
+                color: Colors.red,
+              ),
+            ),
+          ),
+          content: Text(message),
+          actions: [
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,7 +118,7 @@ class RegisterPageState extends State<RegisterPage> {
               child: Text(
                 'LAUNDRY',
                 style: TextStyle(
-                    color: Colors.redAccent,
+                    color: Colors.blue[900],
                     fontFamily: 'Prompt',
                     fontSize: 20,
                     fontWeight: FontWeight.w500),
@@ -117,7 +155,7 @@ class RegisterPageState extends State<RegisterPage> {
                       ),
                       validator: (String value) {
                         if (value.isEmpty) {
-                          return 'Please Fill Your Name is the Black';
+                          return 'กรุณากรอกชื่อ';
                         } else {
                           return null;
                         }
@@ -151,7 +189,7 @@ class RegisterPageState extends State<RegisterPage> {
                       ),
                       validator: (String value) {
                         if (!((value.contains('@')) && (value.contains('.')))) {
-                          return 'Please type Email ......';
+                          return 'กรุณากรอกอีเมล์';
                         } else {
                           return null;
                         }
@@ -186,8 +224,8 @@ class RegisterPageState extends State<RegisterPage> {
                         fontSize: 16,
                       ),
                       validator: (String value) {
-                        if (value.length < 6) {
-                          return 'Password More 6 Charactor';
+                        if (value.isEmpty) {
+                          return 'กรุณากรอกรหัสผ่าน';
                         } else {
                           return null;
                         }
@@ -207,7 +245,7 @@ class RegisterPageState extends State<RegisterPage> {
               width: 250,
               child: RaisedButton(
                 onPressed: () {
-                  print('You Click Upload');
+                  //print('You Click Upload');
                   if (formKey.currentState.validate()) {
                     formKey.currentState.save();
                     print(

@@ -44,7 +44,7 @@ class MenuDetailState extends State<MenuDetailPage> {
           ),
           Container(
             padding: EdgeInsets.symmetric(vertical: 35, horizontal: 20),
-            height: MediaQuery.of(context).size.height - 375,
+            //height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: Colors.white,
@@ -72,7 +72,7 @@ class MenuDetailState extends State<MenuDetailPage> {
                     shopDetail(name: "ที่อยู่ร้าน"),
                   ],
                 ),
-                SizedBox(height: 150),
+                SizedBox(height: 100),
                 Column(
                   children: [
                     Container(
