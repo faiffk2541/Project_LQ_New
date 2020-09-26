@@ -11,10 +11,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  //final FirebaseAuth _auth = FirebaseAuth.instance;
   final formKey = GlobalKey<FormState>();
-
-  String emailString, passwordString;
+  String emailString;
+  String passwordString;
 
   // checkAuthentification() async {
   //   // ignore: deprecated_member_use
@@ -45,6 +44,30 @@ class LoginPageState extends State<LoginPage> {
     });
   }
 
+  // bool validateAndSave() {
+  //   final from = formKey.currentState;
+  //   if (from.validate()) {
+  //     from.save();
+  //     return true;
+  //   }
+  //   return false;
+  // }
+
+  // void validateAndSubmit() async {
+  //   // ignore: deprecated_member_use
+  //   FirebaseUser user;
+  //   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  //   if (validateAndSave()) {
+  //     try {
+  //       await firebaseAuth.signInWithEmailAndPassword(
+  //           email: emailString, password: passwordString);
+  //       print('Signed in: ${user.uid}');
+  //     } catch (e) {
+  //       print('Error: $e');
+  //     }
+  //   }
+  // }
+
   Widget showTitle(String title) {
     return ListTile(
       leading: Icon(Icons.add_alarm, size: 30, color: Colors.redAccent),
@@ -70,16 +93,17 @@ class LoginPageState extends State<LoginPage> {
 
   void myAlert(String title, String message) {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: showTitle(title),
-            content: Text(message),
-            actions: <Widget>[
-              okButton(),
-            ],
-          );
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: showTitle(title),
+          content: Text(message),
+          actions: <Widget>[
+            okButton(),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -150,6 +174,8 @@ class LoginPageState extends State<LoginPage> {
                           color: Colors.grey[100],
                         ),
                       ),
+                      validator: (value) =>
+                          value.isEmpty ? 'กรุณากรอกอีเมล์' : null,
                       onSaved: (String value) {
                         emailString = value.trim();
                       },
@@ -179,6 +205,8 @@ class LoginPageState extends State<LoginPage> {
                           color: Colors.grey[100],
                         ),
                       ),
+                      validator: (value) =>
+                          value.isEmpty ? 'กรุณากรอกรหัสผ่าน' : null,
                       onSaved: (String value) {
                         passwordString = value.trim();
                       },
@@ -231,23 +259,52 @@ class LoginPageState extends State<LoginPage> {
           ),
           SizedBox(height: 30),
           Center(
-            child: GoogleSignInButton(
-              onPressed: () {
-                signInWithGoogle().then((result) {
-                  if (result != null) {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return NavigationBarPage();
-                        },
-                      ),
-                    );
-                  }
-                });
-              },
-            ),
-          )
+            child: _signInButton(),
+          ),
+          SizedBox(height: 30),
         ],
+      ),
+    );
+  }
+
+  Widget _signInButton() {
+    return OutlineButton(
+      splashColor: Colors.white,
+      onPressed: () {
+        signInWithGoogle().then((result) {
+          if (result != null) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return NavigationBarPage();
+                },
+              ),
+            );
+          }
+        });
+      },
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      highlightElevation: 0,
+      borderSide: BorderSide(color: Colors.white),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image.asset('assets/logogoogle.png', height: 35),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                'Sign in with Google',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.blue,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
