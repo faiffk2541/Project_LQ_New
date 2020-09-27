@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:newlaundry/widgets/google_signin.dart';
 
 class AccountPage extends StatefulWidget {
   @override
@@ -129,17 +130,14 @@ class AccountPageState extends State<AccountPage> {
               Align(
                 alignment: Alignment.center,
                 child: CircleAvatar(
-                  radius: 80,
+                  radius: 60,
                   backgroundColor: Colors.white,
-                  child: ClipOval(
-                    child: SizedBox(
-                      width: 180,
-                      height: 180,
-                      child: Image.asset(
-                        'assets/boy.png',
-                        fit: BoxFit.fill,
-                      ),
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                      imageUrl,
                     ),
+                    radius: 60,
+                    backgroundColor: Colors.transparent,
                   ),
                 ),
               ),

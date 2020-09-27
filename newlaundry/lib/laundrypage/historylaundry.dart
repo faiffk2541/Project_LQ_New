@@ -37,7 +37,26 @@ class HistoryLaundryState extends State<HistoryLaundry> {
                   fontSize: 20,
                   fontWeight: FontWeight.bold),
             ),
-          )
+          ),
+          SizedBox(height: 100),
+          Container(
+            child: Center(
+              child: Column(
+                children: [
+                  Image.asset('assets/clock.png', height: 100, width: 100),
+                  SizedBox(height: 10),
+                  Text(
+                    'ยังไม่มีรายกาย',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Prompt',
+                        fontSize: 20,
+                        fontWeight: FontWeight.w300),
+                  )
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

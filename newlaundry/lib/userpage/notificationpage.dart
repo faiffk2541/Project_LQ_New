@@ -28,6 +28,29 @@ class NotificationPageState extends State<NotificationPage> {
         backgroundColor: Colors.blue[100],
         elevation: 0,
       ),
+      body: ListView(
+        children: [
+          SizedBox(height: 100),
+          Container(
+            child: Center(
+              child: Column(
+                children: [
+                  Image.asset('assets/clock.png', height: 100, width: 100),
+                  SizedBox(height: 10),
+                  Text(
+                    'ยังไม่มีรายกาย',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Prompt',
+                        fontSize: 20,
+                        fontWeight: FontWeight.w300),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

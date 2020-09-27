@@ -4,6 +4,7 @@ import 'package:newlaundry/laundrypage/profilelaundry.dart';
 import 'package:newlaundry/signinpage/signinpage.dart';
 import 'package:newlaundry/userpage/profileuser/accountpage.dart';
 import 'package:newlaundry/userpage/profileuser/addresspage.dart';
+import 'package:newlaundry/widgets/google_signin.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -65,18 +66,11 @@ class ProfilePageState extends State<ProfilePage> {
                   Align(
                     alignment: Alignment.center,
                     child: CircleAvatar(
-                      radius: 70,
-                      backgroundColor: Colors.white,
-                      child: ClipOval(
-                        child: SizedBox(
-                          width: 180,
-                          height: 180,
-                          child: Image.asset(
-                            'assets/boy.png',
-                            fit: BoxFit.fill,
-                          ),
-                        ),
+                      backgroundImage: NetworkImage(
+                        imageUrl,
                       ),
+                      radius: 60,
+                      backgroundColor: Colors.transparent,
                     ),
                   ),
                 ],
@@ -86,7 +80,8 @@ class ProfilePageState extends State<ProfilePage> {
                   Container(
                     padding: EdgeInsets.only(left: 20),
                     child: Text(
-                      'widget.user.displayNamed',
+                      //'widget.user.displayNamed',
+                      name,
                       style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'Prompt',

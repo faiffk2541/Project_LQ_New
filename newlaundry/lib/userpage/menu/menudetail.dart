@@ -1,6 +1,9 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:newlaundry/widgets/google_signin.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:newlaundry/userpage/menu/menuservice.dart';
+import 'package:path/path.dart' as Path;
 
 class MenuDetailPage extends StatefulWidget {
   @override
@@ -37,14 +40,17 @@ class MenuDetailState extends State<MenuDetailPage> {
                 width: 350,
                 //color: Colors.white,
                 child: Center(
-                  child: Image.asset('assets/shop1.png'),
+                  child: Container(
+                    child: Image.network(
+                        'https://firebasestorage.googleapis.com/v0/b/flutter-firebase-ba75e.appspot.com/o/PicInformationelaundry%2Finforlaunry5387.jpg?alt=media&token=24c76fda-9b20-4d44-9df4-5b0c243dc852'),
+                  ),
                 ),
               ),
             ),
           ),
           Container(
             padding: EdgeInsets.symmetric(vertical: 35, horizontal: 20),
-            height: MediaQuery.of(context).size.height - 375,
+            //height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: Colors.white,
@@ -72,7 +78,7 @@ class MenuDetailState extends State<MenuDetailPage> {
                     shopDetail(name: "ที่อยู่ร้าน"),
                   ],
                 ),
-                SizedBox(height: 150),
+                SizedBox(height: 100),
                 Column(
                   children: [
                     Container(
@@ -112,6 +118,15 @@ class MenuDetailState extends State<MenuDetailPage> {
         ],
       ),
     );
+  }
+
+  Future<Widget> check(String urlPic) async {
+    //uploadPicToStorage();
+    var fileUrl = Uri.decodeFull(Path.basename(urlPic))
+        .replaceAll(new RegExp(r'(\?alt).*'), '');
+    final StorageReference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child(fileUrl);
+    await firebaseStorageRef.getDownloadURL();
   }
 }
 
