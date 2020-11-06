@@ -87,7 +87,7 @@ class MenuDetailState extends State<MenuDetailPage> {
                 child: Center(
                   child: Container(
                     child: Image.network(
-                        'https://firebasestorage.googleapis.com/v0/b/flutter-firebase-ba75e.appspot.com/o/PicInformationelaundry%2Finforlaunry5387.jpg?alt=media&token=24c76fda-9b20-4d44-9df4-5b0c243dc852'),
+                        'https://firebasestorage.googleapis.com/v0/b/flutter-firebase-ba75e.appspot.com/o/PicInformationelaundry%2Finforlaunry67424.jpg?alt=media&token=63155dd7-c33b-4a8d-bc55-96b09d5cad35'),
                   ),
                 ),
               ),
