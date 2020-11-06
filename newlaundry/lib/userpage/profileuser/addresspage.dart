@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// import 'package:geolocator/geolocator.dart';
 
 class AddressPage extends StatefulWidget {
   @override
@@ -6,6 +7,44 @@ class AddressPage extends StatefulWidget {
 }
 
 class AddressPageState extends State<AddressPage> {
+  
+  // String locationMessage = "";
+  //   void getCurrentLocation() async {
+  //   final position = await Geolocator()
+  //       .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  //   print(position);
+
+  //   setState(() {
+  //     locationMessage = "${position.latitude}, ${position.longitude}";
+  //   });
+  // }
+
+  // List project = ["A", "B"];
+
+  // List<DropdownMenuItem<String>> _dropDownMenuItems;
+  // String selectedProject;
+
+  // @override
+  // void initState() {
+  //   _dropDownMenuItems = buildAndGetDropDownMenuItems(project);
+  //   selectedProject = _dropDownMenuItems[0].value;
+  //   super.initState();
+  // }
+
+  // List<DropdownMenuItem<String>> buildAndGetDropDownMenuItems(List fruits) {
+  //   List<DropdownMenuItem<String>> items = List();
+  //   for (String fruit in fruits) {
+  //     items.add(DropdownMenuItem(value: fruit, child: Text(fruit)));
+  //   }
+  //   return items;
+  // }
+
+  // void changedDropDownItem(String selectedFruit) {
+  //   setState(() {
+  //     selectedProject = selectedFruit;
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +83,9 @@ class AddressPageState extends State<AddressPage> {
             children: [
               RaisedButton(
                 elevation: 0,
-                onPressed: () {},
+                onPressed: () {
+
+                },
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(50))),

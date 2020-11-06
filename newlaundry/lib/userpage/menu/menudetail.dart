@@ -10,7 +10,52 @@ class MenuDetailPage extends StatefulWidget {
   MenuDetailState createState() => MenuDetailState();
 }
 
+class ListItem {
+  int value;
+  String name;
+
+  ListItem(this.value, this.name);
+}
+
 class MenuDetailState extends State<MenuDetailPage> {
+  List<ListItem> _dropdownItems = [
+    ListItem(1, "รายวัน"),
+    ListItem(2, "รายเดือน"),
+  ];
+
+  List<DropdownMenuItem<ListItem>> _dropdownMenuItems;
+  ListItem _selectedItem;
+
+  void initState() {
+    super.initState();
+    _dropdownMenuItems = buildDropDownMenuItems(_dropdownItems);
+    _selectedItem = _dropdownMenuItems[0].value;
+  }
+
+  List<DropdownMenuItem<ListItem>> buildDropDownMenuItems(List listItems) {
+    List<DropdownMenuItem<ListItem>> items = List();
+    for (ListItem listItem in listItems) {
+      items.add(
+        DropdownMenuItem(
+          child: Row(
+            children: [
+              Text(
+                listItem.name,
+                style: TextStyle(
+                    color: Colors.blue[900],
+                    fontFamily: 'Prompt',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20),
+              ),
+            ],
+          ),
+          value: listItem,
+        ),
+      );
+    }
+    return items;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,26 +131,58 @@ class MenuDetailState extends State<MenuDetailPage> {
                         child: Container(
                           width: 200,
                           height: 50,
-                          child: RaisedButton(
-                            elevation: 0,
-                            color: Colors.blue,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50)),
-                            child: Text(
-                              'บริการของร้าน',
-                              style: TextStyle(
+                          // child: RaisedButton(
+                          //   elevation: 0,
+                          //   color: Colors.blue,
+                          //   shape: RoundedRectangleBorder(
+                          //       borderRadius: BorderRadius.circular(50)),
+                          //   child: Text(
+                          //     'บริการของร้าน',
+                          //     style: TextStyle(
+                          //         color: Colors.white,
+                          //         fontFamily: 'Prompt',
+                          //         fontWeight: FontWeight.w400,
+                          //         fontSize: 20),
+                          //   ),
+                          //   onPressed: () {
+                          //     Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //           builder: (context) => MenuServicePage()),
+                          //     );
+                          //   },
+                          // ),
+                          // child: DropdownButton<ListItem>(
+                          //     value: _selectedItem,
+                          //     items: _dropdownMenuItems,
+                          //     onChanged: (value) {
+                          //       setState(() {
+                          //         _selectedItem = value;
+                          //       });
+                          //     }),
+                          child: Padding(
+                            padding: const EdgeInsets.all(0.0),
+                            child: Container(
+                              padding: const EdgeInsets.only(
+                                  left: 20.0, right: 15.0),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
                                   color: Colors.white,
-                                  fontFamily: 'Prompt',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 20),
+                                  border: Border.all()),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                    value: _selectedItem,
+                                    items: _dropdownMenuItems,
+                                    onChanged: (value) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MenuServicePage()),
+                                      );
+                                    }),
+                              ),
                             ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MenuServicePage()),
-                              );
-                            },
                           ),
                         ),
                       ),
@@ -233,35 +310,23 @@ Expanded shopDetail({String name}) {
   );
 }
 
-// Expanded selectbutton({String name}) {
-//   return Expanded(
-//     child: Container(
-//       child: Center(
-//         child: Container(
-//           width: 200,
-//           height: 50,
-//           child: RaisedButton(
-//             elevation: 0,
-//             color: Colors.redAccent[100],
-//             shape:
-//                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-//             child: Text(
-//               'เลือกบริการ',
-//               style: TextStyle(
-//                   color: Colors.white,
-//                   fontFamily: 'Prompt',
-//                   fontWeight: FontWeight.w300,
-//                   fontSize: 18),
-//             ),
-//             onPressed: () {
-//               Navigator.push(
-//                 context,
-//                 MaterialPageRoute(builder: (context) => MenuServicePage()),
-//               );
-//             },
-//           ),
-//         ),
-//       ),
-//     ),
-//   );
+// class Item {
+//   const Item(this.name, this.icon);
+//   final String name;
+//   final Icon icon;
 // }
+
+// List<Item> users = <Item>[
+//   const Item(
+//       'รายวัน',
+//       Icon(
+//         Icons.data_usage,
+//         color: Colors.blue,
+//       )),
+//   const Item(
+//       'รายเดือน',
+//       Icon(
+//         Icons.date_range,
+//         color: Colors.blue,
+//       )),
+// ];

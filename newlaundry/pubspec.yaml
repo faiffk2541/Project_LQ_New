@@ -22,6 +22,8 @@ dependencies:
   firebase_database: ^4.0.0
   google_sign_in: ^4.5.3
   flutter_auth_buttons: ^0.10.0
+  geolocator: ^6.0.0+4
+  google_maps_flutter: ^0.5.33
   
 dev_dependencies:
   flutter_test:
@@ -44,6 +46,12 @@ flutter:
   - assets/frame.png
   - assets/boy.png
   - assets/clock.png
+  - assets/dress.png
+  - assets/pants.png
+  - assets/polo-shirt.png
+  - assets/shorts.png
+  - assets/minus.png
+  - assets/add.png
 
 
 
