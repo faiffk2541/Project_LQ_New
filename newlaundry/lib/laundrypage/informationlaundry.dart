@@ -21,7 +21,7 @@ class InformationLaundry extends StatefulWidget {
 class InformationLaundryState extends State<InformationLaundry> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   File imageFile, file;
-  String urlPic, name, phone, adress;
+  String urlPic, name, time, address, phone;
   var imageFiles = [];
   _openGallary(BuildContext context) async {
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -164,9 +164,32 @@ class InformationLaundryState extends State<InformationLaundry> {
 // this part input infor store
           SizedBox(height: 30, width: 30),
           Container(
-            padding: EdgeInsets.only(left: 30, right: 30),
+            padding: EdgeInsets.only(left: 15, right: 15),
             child: Column(
               children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      Text(
+                        'ชื่อร้าน',
+                        style: TextStyle(
+                            color: Colors.blue[900],
+                            fontFamily: 'Prompt',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      Text(
+                        ' **',
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontFamily: 'Prompt',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                ),
                 TextField(
                   onChanged: (String string) {
                     name = string.trim();
@@ -175,15 +198,15 @@ class InformationLaundryState extends State<InformationLaundry> {
                   maxLines: null,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'ชื่อร้าน',
-                    labelStyle: TextStyle(
-                        color: Colors.black,
+                    hintText: 'ชื่อร้าน',
+                    hintStyle: TextStyle(
+                        color: Colors.grey,
                         fontFamily: 'Prompt',
                         fontSize: 16,
                         fontWeight: FontWeight.w400),
                     prefixIcon: Icon(
                       Icons.shopping_basket,
-                      color: Colors.black,
+                      color: Colors.blue[900],
                     ),
                   ),
                 ),
@@ -192,26 +215,100 @@ class InformationLaundryState extends State<InformationLaundry> {
           ),
           SizedBox(height: 30, width: 30),
           Container(
-            padding: EdgeInsets.only(left: 30, right: 30),
+            padding: EdgeInsets.only(left: 15, right: 15),
             child: Column(
               children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      Text(
+                        'เปิด - ปิด',
+                        style: TextStyle(
+                            color: Colors.blue[900],
+                            fontFamily: 'Prompt',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      Text(
+                        ' **',
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontFamily: 'Prompt',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                ),
                 TextField(
                   onChanged: (String string) {
-                    adress = string.trim();
-                    print('insert adress done');
+                    time = string.trim();
+                    print('insert name done');
                   },
                   maxLines: null,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'ที่อยู่ร้าน',
-                    labelStyle: TextStyle(
-                        color: Colors.black,
+                    hintText: 'เวลา',
+                    hintStyle: TextStyle(
+                        color: Colors.grey,
+                        fontFamily: 'Prompt',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                    prefixIcon: Icon(
+                      Icons.access_time,
+                      color: Colors.blue[900],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 30, width: 30),
+          Container(
+            padding: EdgeInsets.only(left: 15, right: 15),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      Text(
+                        'ที่อยู่ร้าน',
+                        style: TextStyle(
+                            color: Colors.blue[900],
+                            fontFamily: 'Prompt',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      Text(
+                        ' **',
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontFamily: 'Prompt',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                ),
+                TextField(
+                  onChanged: (String string) {
+                    address = string.trim();
+                    print('insert address done');
+                  },
+                  maxLines: null,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'ที่อยู่ร้าน',
+                    hintStyle: TextStyle(
+                        color: Colors.grey,
                         fontFamily: 'Prompt',
                         fontSize: 16,
                         fontWeight: FontWeight.w400),
                     prefixIcon: Icon(
                       Icons.location_on,
-                      color: Colors.black,
+                      color: Colors.blue[900],
                     ),
                   ),
                 ),
@@ -220,9 +317,32 @@ class InformationLaundryState extends State<InformationLaundry> {
           ),
           SizedBox(height: 30, width: 30),
           Container(
-            padding: EdgeInsets.only(left: 30, right: 30),
+            padding: EdgeInsets.only(left: 15, right: 15),
             child: Column(
               children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      Text(
+                        'เบอร์โทร',
+                        style: TextStyle(
+                            color: Colors.blue[900],
+                            fontFamily: 'Prompt',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      Text(
+                        ' **',
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontFamily: 'Prompt',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                ),
                 TextField(
                   keyboardType: TextInputType.number,
                   inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
@@ -233,22 +353,22 @@ class InformationLaundryState extends State<InformationLaundry> {
                   maxLines: null,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'เบอร์โทร',
-                    labelStyle: TextStyle(
-                        color: Colors.black,
+                    hintText: 'เบอร์โทร',
+                    hintStyle: TextStyle(
+                        color: Colors.grey,
                         fontFamily: 'Prompt',
                         fontSize: 16,
                         fontWeight: FontWeight.w400),
                     prefixIcon: Icon(
                       Icons.phone,
-                      color: Colors.black,
+                      color: Colors.blue[900],
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 100),
+          SizedBox(height: 50),
           Container(
             padding: EdgeInsets.only(left: 30, right: 30),
             child: Row(
@@ -319,6 +439,7 @@ class InformationLaundryState extends State<InformationLaundry> {
               ],
             ),
           ),
+          SizedBox(height: 50)
         ],
       ),
     );
@@ -386,12 +507,13 @@ class InformationLaundryState extends State<InformationLaundry> {
 
     Map<String, dynamic> map = Map();
     map['Name'] = name;
-    map['Adress'] = adress;
+    map['Time'] = time;
+    map['Address'] = address;
     map['Phone'] = phone;
     map['URLpic'] = urlPic;
     //await Firebase.initializeApp();
     await databaseReference
-        .collection('InformationLaundry')
+        .collection('InformationLaundrys')
         .document()
         .setData(map)
         .then((value) {
