@@ -19,7 +19,7 @@ class InformationLaundry extends StatefulWidget {
 class InformationLaundryState extends State<InformationLaundry> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   File imageFile, file;
-  String urlPic, name, phone, adress;
+  String urlPic, name, phone, address;
   var imageFiles = [];
   _openGallary(BuildContext context) async {
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -195,8 +195,8 @@ class InformationLaundryState extends State<InformationLaundry> {
               children: [
                 TextField(
                   onChanged: (String string) {
-                    adress = string.trim();
-                    print('insert adress done');
+                    address = string.trim();
+                    print('insert address done');
                   },
                   maxLines: null,
                   decoration: InputDecoration(
@@ -384,7 +384,7 @@ class InformationLaundryState extends State<InformationLaundry> {
 
     Map<String, dynamic> map = Map();
     map['Name'] = name;
-    map['Adress'] = adress;
+    map['Address'] = address;
     map['Phone'] = phone;
     map['URLpic'] = urlPic;
     //await Firebase.initializeApp();
