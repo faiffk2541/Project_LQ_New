@@ -22,7 +22,26 @@ class AccountPageState extends State<AccountPage> {
   var imageFiles = [];
   String login;
   String urlPic, fname, lname, birthday, sex, phone, address;
+  String uid;
   SingingCharacter _character = SingingCharacter.notspecified;
+
+  Future<void> getuid() async {
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+    if (firebaseAuth.currentUser != null) {
+      setState(() {
+        uid = firebaseAuth.currentUser.uid;
+      });
+      print(firebaseAuth.currentUser.uid);
+    }
+  }
+
+  //  if (firebaseAuth.currentUser != null) {
+  //     setState(() {
+  //       login = firebaseAuth.currentUser.email;
+  //     });
+  //     print(firebaseAuth.currentUser.email);
+  //   }
 
   @override
   void initState() {
@@ -656,10 +675,19 @@ class AccountPageState extends State<AccountPage> {
     map['Birthday'] = birthday;
     map['Sex'] = sex;
     map['Phone'] = phone;
-    map['Adress'] = address;
-    //await Firebase.initializeApp();
+    map['Address'] = address;
+
     await databaseReference
         .collection('Customer')
+        .document()
+        .setData(map)
+        .then((value) {
+      print('insert Successfully');
+    });
+    await databaseReference
+        .collection('Customer')
+        .document(uid)
+        .collection('TypeOfClothes1')
         .document()
         .setData(map)
         .then((value) {
