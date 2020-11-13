@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:newlaundry/navigationbar.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:newlaundry/signinpage/loginpage.dart';
 import 'package:newlaundry/signinpage/registerpage.dart';
 
@@ -11,11 +11,11 @@ class SignInPage extends StatefulWidget {
 
 class SignInPageState extends State<SignInPage> {
   @override
-  // void initState() {
+  //   void initState() {
   //   super.initState();
   //   checkStatus();
   // }
-  //check login logout
+  // //check login logout
   // Future<void> checkStatus() async {
   //   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   //   FirebaseUser firebaseUser = await firebaseAuth.currentUser();

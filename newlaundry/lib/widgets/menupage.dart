@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:newlaundry/userpage/menu/menudetail.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class MenuPage extends StatefulWidget {
   @override
@@ -9,6 +11,32 @@ class MenuPage extends StatefulWidget {
 class MenuPageState extends State<MenuPage> {
   @override
   Widget build(BuildContext context) {
+    // return Scaffold(
+    //   appBar: AppBar(
+    //     title: Text("InformationLaundry"),
+    //   ),
+    //   body: StreamBuilder(
+    //     stream: Firestore.instance.collection("InformationLaundry").snapshots(),
+    //     builder: (context, snapshot) {
+    //       return ListView.builder(
+    //         itemCount: snapshot.data.documents.length,
+    //         itemBuilder: (context, index) {
+    //           DocumentSnapshot InformationLaundry =
+    //               snapshot.data.documents[index];
+    //           // show img, name and address
+    //           return ListTile(
+    //               leading: Image.network(InformationLaundry.data()['URLpic']),
+    //               title: Text(InformationLaundry.data()['Name']),
+    //               subtitle: new Column(children: <Widget>[
+    //                 new Text(InformationLaundry.data()['Adress']),
+    //                 new Text(InformationLaundry.data()['Phone']),
+    //               ]));
+    //         },
+    //       );
+    //     },
+    //   ),
+    // );
+    
     return Container(
       margin: EdgeInsets.only(left: 10, right: 10),
       width: double.maxFinite,
