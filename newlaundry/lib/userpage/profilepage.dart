@@ -23,7 +23,7 @@ class ProfilePageState extends State<ProfilePage> {
 
   Future<void> findDisplay() async {
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    // FirebaseUser firebaseUser = await firebaseAuth.currentUser();
+    // FirebaseUser firebaseUser = await firebaseAuth.currentUser().instance;
     // setState(() {
     //   login = firebaseUser.displayName;
     // });
@@ -171,52 +171,6 @@ class ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ),
-          // Container(
-          //   margin: EdgeInsets.only(left: 10, right: 10),
-          //   width: double.maxFinite,
-          //   child: InkWell(
-          //     onTap: () => {
-          //       Navigator.push(
-          //         context,
-          //         MaterialPageRoute(builder: (context) => AddressPage()),
-          //       ),
-          //     },
-          //     child: Card(
-          //       child: Container(
-          //         height: 80,
-          //         padding: EdgeInsets.only(left: 20),
-          //         child: Row(
-          //           children: <Widget>[
-          //             Icon(
-          //               Icons.location_on,
-          //               color: Colors.blue,
-          //               size: 25,
-          //             ),
-          //             Padding(
-          //               padding: EdgeInsets.only(right: 20),
-          //             ),
-          //             Text(
-          //               "ที่อยู่ของฉัน ",
-          //               style: TextStyle(
-          //                   color: Colors.black,
-          //                   fontFamily: 'Prompt',
-          //                   fontSize: 16,
-          //                   fontWeight: FontWeight.w300),
-          //             ),
-          //             Padding(
-          //               padding: EdgeInsets.all(90),
-          //             ),
-          //             Icon(
-          //               Icons.arrow_forward_ios,
-          //               size: 25,
-          //               color: Colors.grey,
-          //             )
-          //           ],
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
           SizedBox(height: 50),
           Container(
             margin: EdgeInsets.only(left: 100, right: 100),
