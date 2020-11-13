@@ -571,13 +571,13 @@ class EditAccountState extends State<EditAccount> {
     map['Phone'] = phone;
     map['Address'] = address;
 
-    await databaseReference
-        .collection('Customer')
-        .document()
-        .setData(map)
-        .then((value) {
-      print('insert Successfully');
-    });
+    // await databaseReference
+    //     .collection('Customer')
+    //     .document()
+    //     .setData(map)
+    //     .then((value) {
+    //   print('insert Successfully');
+    // });
     // await databaseReference
     //     .collection('Customer')
     //     .document(uid)
@@ -587,6 +587,7 @@ class EditAccountState extends State<EditAccount> {
     //     .then((value) {
     //   print('insert Successfully');
     // });
+    
   }
 
   //   Future<void> uploadPicToStorage() async {
