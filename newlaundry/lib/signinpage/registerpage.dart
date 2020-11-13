@@ -25,6 +25,8 @@ class RegisterPageState extends State<RegisterPage> {
             email: emailString, password: passwordString)
         .then((response) {
       print('Register Success for Email = $emailString');
+      print('Register Success for Name = $nameString');
+
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => NavigationBarPage()));
       //setupDisplayName();

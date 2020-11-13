@@ -269,7 +269,13 @@ void showAlertDialog(BuildContext context) {
                 ),
                 SizedBox(width: 30),
                 RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NavigationBarPage()),
+                    );
+                  },
                   elevation: 0,
                   color: Colors.blue,
                   shape: RoundedRectangleBorder(

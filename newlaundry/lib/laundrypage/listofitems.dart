@@ -10,6 +10,100 @@ class ListOfItems extends StatefulWidget {
 
 class ListOfItemsState extends State<ListOfItems> {
   String type, price;
+  String uid;
+
+  getType(type) {
+    this.type = type;
+    print(this.type);
+  }
+
+  getPrice(price) {
+    this.price = price;
+    print(this.price);
+  }
+
+  Future<void> getData() async {
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    if (firebaseAuth.currentUser != null) {
+      setState(() {
+        uid = firebaseAuth.currentUser.uid;
+      });
+      print(firebaseAuth.currentUser.uid);
+    }
+  }
+
+  // Future<void> createData() async {
+  //   final databaseReference = Firestore.instance;
+
+  //   Map<String, dynamic> map = Map();
+  //   map['Type'] = type;
+  //   map['Price'] = price;
+  //   //await Firebase.initializeApp();
+  //   await databaseReference
+  //       .collection("Customer")
+  //       .document()
+  //       .collection("TypeOfClothes")
+  //       .document()
+  //       .setData(map)
+  //       .then((value) {
+  //     print('insert Successfully');
+  //   });
+  // }
+
+  createData() {
+    DocumentReference documentReference = Firestore.instance
+        .collection("Customer")
+        .document()
+        .collection("TypeOfClothes")
+        .document();
+
+    Map<String, dynamic> typeofclothes = {"type": type, "price": price};
+
+    documentReference.setData(typeofclothes).whenComplete(() {
+      print("$type created");
+    });
+  }
+
+  // readData() {
+  //   Map<String, dynamic> typeofclothes = {"type": type, "price": price};
+  //   DocumentReference documentReference = Firestore.instance
+  //       .collection("Customer")
+  //       .document()
+  //       .collection("TypeOfClothes")
+  //       .document();
+
+  //   documentReference.get().then((datasnapshot) {
+  //     print("$type read");
+  //   });
+  // }
+
+  // updateData() {
+  //   DocumentReference documentReference = Firestore.instance
+  //       .collection("Customer")
+  //       .document()
+  //       .collection("TypeOfClothes")
+  //       .document();
+
+  //   Map<String, dynamic> typeofclothes = {"type": type, "price": price};
+
+  //   documentReference.setData(typeofclothes).whenComplete(() {
+  //     print("$type update");
+  //   });
+  // }
+
+  // deleteData() {
+  //   DocumentReference documentReference = Firestore.instance
+  //       .collection("Customer")
+  //       .document()
+  //       .collection("TypeOfClothes")
+  //       .document();
+
+  //   Map<String, dynamic> typeofclothes = {"type": type, "price": price};
+
+  //   documentReference.delete().whenComplete(() {
+  //     print("$type delete");
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +280,7 @@ class ListOfItemsState extends State<ListOfItems> {
                                             child: RaisedButton(
                                               elevation: 0,
                                               onPressed: () {
-                                                deleteData();
+                                                // deleteData();
                                               },
                                               color: Colors.red,
                                               shape: RoundedRectangleBorder(
@@ -363,7 +457,8 @@ class ListOfItemsState extends State<ListOfItems> {
                     SizedBox(width: 50),
                     RaisedButton(
                       onPressed: () {
-                        insertinformation();
+                        //insertinformation();
+                        createData();
                       },
                       elevation: 0,
                       color: Colors.blue,
@@ -397,49 +492,21 @@ class ListOfItemsState extends State<ListOfItems> {
     showDialog(context: context, child: dialog);
   }
 
-  Future<void> insertinformation() async {
-    final databaseReference = Firestore.instance;
-    //Firestore firestore = Firestore.instance;
+  // Future<void> insertinformation() async {
+  //   final databaseReference = Firestore.instance;
+  //   //Firestore firestore = Firestore.instance;
 
-    Map<String, dynamic> map = Map();
-    map['Type'] = type;
-    map['Price'] = price;
-    //await Firebase.initializeApp();
-    await databaseReference
-        .collection('TypeOfClothes')
-        .document()
-        .setData(map)
-        .then((value) {
-      print('insert Successfully');
-    });
-  }
-
-  // deleteData() async {
-  //   DocumentReference documentReference =
-  //       Firestore.instance.collection("TypeOfClothes").document(type);
-
-  //   documentReference.delete().whenComplete(() {
-  //     print("$type deleted");
+  //   Map<String, dynamic> map = Map();
+  //   map['Type'] = type;
+  //   map['Price'] = price;
+  //   //await Firebase.initializeApp();
+  //   await databaseReference
+  //       .collection('TypeOfClothes')
+  //       .document()
+  //       .setData(map)
+  //       .then((value) {
+  //     print('insert Successfully');
   //   });
   // }
 
-  getData() async {
-    return await Firestore.instance.collection("TypeOfClothes").getDocuments();
-  }
-
-  // updateData(){
-  //   Firestore.instance.collection("TypeOfClothes").document(type).update(type).catchError((e){
-  //     print(e);
-  //   });
-  // }
-
-  deleteData() async {
-    Firestore.instance
-        .collection("TypeOfClothes")
-        .document()
-        .delete()
-        .catchError((e) {
-      print(e);
-    });
-  }
 }
