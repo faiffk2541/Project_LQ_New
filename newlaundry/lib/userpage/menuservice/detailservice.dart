@@ -55,7 +55,7 @@ class DetailServiceState extends State<DetailServicePage> {
                       ),
                       child: Container(
                         margin: EdgeInsets.all(5),
-                        child: Image.asset('assets/polo-shirt.png'),
+                        child: Image.asset('assets/laundry-basket.png'),
                       ),
                     ),
                     Container(
