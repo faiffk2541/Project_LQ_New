@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:newlaundry/navigationbar.dart';
+import 'package:newlaundry/userpage/homepage.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:newlaundry/userpage/menu/menuservice.dart';
 
@@ -23,7 +25,11 @@ class MenuDetailState extends State<MenuDetailPage> {
                   icon: Icon(Icons.arrow_back_ios),
                   color: Colors.white,
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NavigationBarPage()),
+                    );
                   },
                 ),
               ],
