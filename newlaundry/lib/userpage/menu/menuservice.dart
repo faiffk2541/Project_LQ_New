@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newlaundry/userpage/menu/menudetail.dart';
 import 'package:newlaundry/userpage/menuservice/detailservice.dart';
 
 class MenuServicePage extends StatefulWidget {
@@ -22,7 +23,11 @@ class MenuServiceState extends State<MenuServicePage> {
                   icon: Icon(Icons.arrow_back_ios),
                   color: Colors.white,
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MenuDetailPage()),
+                    );
                   },
                 ),
               ],
@@ -59,11 +64,7 @@ class MenuServiceState extends State<MenuServicePage> {
                         fontSize: 18),
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => DetailServicePage()),
-                    );
+                    showAlert();
                   },
                 ),
               ),
@@ -88,7 +89,9 @@ class MenuServiceState extends State<MenuServicePage> {
                         fontWeight: FontWeight.w300,
                         fontSize: 18),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    showAlert();
+                  },
                 ),
               ),
             ),
@@ -96,5 +99,84 @@ class MenuServiceState extends State<MenuServicePage> {
         ],
       ),
     );
+  }
+
+  void showAlert() {
+    AlertDialog dialog = new AlertDialog(
+      content: new Container(
+        width: 250.0,
+        height: 250.0,
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RaisedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailServicePage()),
+                        );
+                      },
+                      elevation: 0,
+                      color: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                      ),
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'รายวัน',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Prompt',
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 20),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 50),
+                    RaisedButton(
+                      onPressed: () {},
+                      elevation: 0,
+                      color: Colors.blue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                      ),
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'รายเดือน',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Prompt',
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 20),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    showDialog(context: context, child: dialog);
   }
 }
