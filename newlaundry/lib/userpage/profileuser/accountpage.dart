@@ -679,11 +679,22 @@ class AccountPageState extends State<AccountPage> {
 
     await databaseReference
         .collection('Customer')
-        .document()
+        .document('faiTesting')
         .setData(map)
         .then((value) {
+      var database = [];
+      database.add(databaseReference
+          .collection('Customer')
+          .document()
+          .collection('Orders'));
+      database.add(databaseReference
+          .collection('Customer')
+          .document()
+          .collection('Review'));
+      databaseReference.toString();
       print('insert Successfully');
     });
+
     await databaseReference
         .collection('Customer')
         .document(uid)
