@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:newlaundry/date_picker/date_textbox.dart';
+import 'package:newlaundry/widgets/google_signin.dart';
 
 class EditAccount extends StatefulWidget {
   @override
@@ -19,6 +21,7 @@ class EditAccountState extends State<EditAccount> {
   var imageFiles = [];
   DateTime _selectedDateTime = DateTime.now();
   SingingCharacter _character = SingingCharacter.notspecified;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   _openGallary(BuildContext context) async {
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -153,7 +156,9 @@ class EditAccountState extends State<EditAccount> {
             padding: EdgeInsets.only(top: 20, right: 20),
             child: IconButton(
               icon: Icon(Icons.check, size: 30),
-              onPressed: () {},
+              onPressed: () {
+                insertinformation();
+              },
               color: Colors.blue,
             ),
           )
@@ -563,6 +568,7 @@ class EditAccountState extends State<EditAccount> {
     final databaseReference = Firestore.instance;
 
     Map<String, dynamic> map = Map();
+    map['Email'] = email;
     map['URLpic'] = urlPic;
     map['Fname'] = fname;
     map['Lname'] = lname;
@@ -571,23 +577,13 @@ class EditAccountState extends State<EditAccount> {
     map['Phone'] = phone;
     map['Address'] = address;
 
-    // await databaseReference
-    //     .collection('Customer')
-    //     .document()
-    //     .setData(map)
-    //     .then((value) {
-    //   print('insert Successfully');
-    // });
-    // await databaseReference
-    //     .collection('Customer')
-    //     .document(uid)
-    //     .collection('TypeOfClothes1')
-    //     .document()
-    //     .setData(map)
-    //     .then((value) {
-    //   print('insert Successfully');
-    // });
-    
+    await databaseReference
+        .collection('Customer')
+        .document(firebaseAuth.currentUser.uid)
+        .setData(map)
+        .then((value) {
+      print('insert Successfully');
+    });
   }
 
   //   Future<void> uploadPicToStorage() async {
