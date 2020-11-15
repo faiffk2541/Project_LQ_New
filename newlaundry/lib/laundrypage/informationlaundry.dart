@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,6 +24,9 @@ class InformationLaundryState extends State<InformationLaundry> {
   File imageFile, file;
   String urlPic, name, time, address, phone;
   var imageFiles = [];
+
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
   _openGallary(BuildContext context) async {
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
     this.setState(() {
@@ -503,7 +507,6 @@ class InformationLaundryState extends State<InformationLaundry> {
 
   Future<void> insertinformation() async {
     final databaseReference = Firestore.instance;
-    //Firestore firestore = Firestore.instance;
 
     Map<String, dynamic> map = Map();
     map['Name'] = name;
@@ -511,9 +514,10 @@ class InformationLaundryState extends State<InformationLaundry> {
     map['Address'] = address;
     map['Phone'] = phone;
     map['URLpic'] = urlPic;
-    //await Firebase.initializeApp();
     await databaseReference
-        .collection('InformationLaundrys')
+        .collection("Customer")
+        .document(firebaseAuth.currentUser.uid)
+        .collection('InformationLaundry')
         .document()
         .setData(map)
         .then((value) {
