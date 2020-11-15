@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:newlaundry/laundrypage/profilelaundry.dart';
 import 'package:newlaundry/signinpage/signinpage.dart';
 import 'package:newlaundry/userpage/profileuser/accountpage.dart';
-// import 'package:newlaundry/userpage/profileuser/addresspage.dart';
-// import 'package:newlaundry/widgets/google_signin.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -21,21 +19,6 @@ class ProfilePageState extends State<ProfilePage> {
     findDisplay();
   }
 
-  // Future<void> findDisplay() async {
-  //   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  //   // FirebaseUser firebaseUser = await firebaseAuth.currentUser().instance;
-  //   // setState(() {
-  //   //   login = firebaseUser.displayName;
-  //   // });
-  //   // print('login = $login');
-
-  //   if (firebaseAuth.currentUser != null) {
-  //     setState(() {
-  //       login = firebaseAuth.currentUser.email;
-  //     });
-  //     print(firebaseAuth.currentUser.email);
-  //   }
-  // }
 
   Future<void> findDisplay() async {
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
