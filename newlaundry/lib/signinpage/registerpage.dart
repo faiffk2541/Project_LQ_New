@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:newlaundry/navigationbar.dart';
+import 'package:newlaundry/widgets/google_signin.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -11,25 +13,82 @@ class RegisterPage extends StatefulWidget {
 
 class RegisterPageState extends State<RegisterPage> {
   final formKey = GlobalKey<FormState>();
-  // ignore: deprecated_member_use
-  FirebaseUser user;
-  String nameString;
-  String emailString;
-  String passwordString;
+  String fname;
+  String lname;
+  String email;
+  String password;
+
+  final firestore = Firestore.instance;
+
+  Future<void> insertinformation(String email, name, lname) async {
+    final databaseReference = Firestore.instance;
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+    Map<String, dynamic> map = Map();
+    map['Email'] = email;
+    map['URLpic'] = "";
+    map['Fname'] = name;
+    map['Lname'] = lname;
+    map['Birthday'] = "";
+    map['Sex'] = "";
+    map['Phone'] = "";
+    map['Address'] = "";
+
+    try {
+      await databaseReference
+          .collection('Customer')
+          .document(firebaseAuth.currentUser.uid)
+          .setData(map)
+          .then((value) {
+        print('insert email Successfully');
+      });
+      await firestore
+          .collection("Customer")
+          .document(firebaseAuth.currentUser.uid)
+          .collection("InformationLaundry")
+          .document()
+          .setData({});
+      await firestore
+          .collection("Customer")
+          .document(firebaseAuth.currentUser.uid)
+          .collection("TypeOfClothes")
+          .document()
+          .setData({});
+      await firestore
+          .collection("Customer")
+          .document(firebaseAuth.currentUser.uid)
+          .collection("TypeOfService")
+          .document()
+          .setData({});
+      await firestore
+          .collection("Customer")
+          .document(firebaseAuth.currentUser.uid)
+          .collection("Orders")
+          .document()
+          .setData({});
+      await firestore
+          .collection("Customer")
+          .document(firebaseAuth.currentUser.uid)
+          .collection("Review")
+          .document()
+          .setData({});
+    } catch (e) {
+      print(e);
+    }
+  }
 
   Future<void> registerThread() async {
-    //await Firebase.initializeApp();
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     await firebaseAuth
-        .createUserWithEmailAndPassword(
-            email: emailString, password: passwordString)
+        .createUserWithEmailAndPassword(email: email, password: password)
         .then((response) {
-      print('Register Success for Email = $emailString');
-      print('Register Success for Name = $nameString');
+      print('Register Success for Email = $email');
+      print('Register Success for FName = $fname');
+      print('Register Success for LName = $lname');
 
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => NavigationBarPage()));
-      //setupDisplayName();
+      insertinformation(email, fname, lname);
     }).catchError((response) {
       String title = response.code;
       String message = response.message;
@@ -37,19 +96,6 @@ class RegisterPageState extends State<RegisterPage> {
       myAlert(title, message);
     });
   }
-
-  // Future<void> setupDisplayName() async {
-  //   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  //   await firebaseAuth.currentUser().then((response) {
-  //     UserUpdateInfo userUpdateInfo =  UserUpdateInfo();
-  //     userUpdateInfo.displayName = nameString;
-  //     response.updateProfile(userUpdateInfo);
-  //     MaterialPageRoute materialPageRoute =
-  //       MaterialPageRoute(builder: (BuildContext context) => NavigationBarPage());
-  //     Navigator.of(context).pushAndRemoveUntil(
-  //       materialPageRoute, (Route<dynamic>) => false);
-  //   });
-  //  }
 
   void myAlert(String title, String message) {
     showDialog(
@@ -163,7 +209,41 @@ class RegisterPageState extends State<RegisterPage> {
                         }
                       },
                       onSaved: (String value) {
-                        nameString = value.trim();
+                        fname = value.trim();
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    height: 50,
+                    width: 330,
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      //color: Colors.white
+                    ),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                        hintText: "นามสกุล",
+                        icon: Icon(
+                          Icons.person,
+                          color: Colors.grey[100],
+                        ),
+                      ),
+                      style: TextStyle(
+                        fontFamily: 'Prompt',
+                        fontSize: 16,
+                      ),
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return 'กรุณากรอกนามสกุล';
+                        } else {
+                          return null;
+                        }
+                      },
+                      onSaved: (String value) {
+                        lname = value.trim();
                       },
                     ),
                   ),
@@ -197,7 +277,7 @@ class RegisterPageState extends State<RegisterPage> {
                         }
                       },
                       onSaved: (String value) {
-                        emailString = value.trim();
+                        email = value.trim();
                       },
                     ),
                   ),
@@ -233,7 +313,7 @@ class RegisterPageState extends State<RegisterPage> {
                         }
                       },
                       onSaved: (String value) {
-                        passwordString = value.trim();
+                        password = value.trim();
                       },
                     ),
                   ),
@@ -247,11 +327,10 @@ class RegisterPageState extends State<RegisterPage> {
               width: 250,
               child: RaisedButton(
                 onPressed: () {
-                  //print('You Click Upload');
                   if (formKey.currentState.validate()) {
                     formKey.currentState.save();
                     print(
-                        'name = $nameString, email =$emailString, password = $passwordString');
+                        'fname = $fname, lname = $lname ,email =$email, password = $password');
                     registerThread(); //ถ้าเมื่อไรที่ได้ค่า name email pass ให้ไปทำงานที่  registerThread()
                   }
                 },

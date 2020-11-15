@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:newlaundry/navigationbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -12,8 +11,8 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
-  String emailString;
-  String passwordString;
+  String email;
+  String password;
 
   // checkAuthentification() async {
   //   // ignore: deprecated_member_use
@@ -29,10 +28,11 @@ class LoginPageState extends State<LoginPage> {
     await Firebase.initializeApp();
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     await firebaseAuth
-        .signInWithEmailAndPassword(
-            email: emailString, password: passwordString)
-        .then((response) {
-      print('Authen Success');
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((response) async {
+      if (firebaseAuth.currentUser != null) {
+        print(firebaseAuth.currentUser);
+      }
       MaterialPageRoute materialPageRoute = MaterialPageRoute(
           builder: (BuildContext context) => NavigationBarPage());
       Navigator.of(context).pushAndRemoveUntil(
@@ -162,7 +162,6 @@ class LoginPageState extends State<LoginPage> {
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
-                      //color: Colors.white
                     ),
                     child: TextFormField(
                       keyboardType: TextInputType.emailAddress,
@@ -177,7 +176,7 @@ class LoginPageState extends State<LoginPage> {
                       validator: (value) =>
                           value.isEmpty ? 'กรุณากรอกอีเมล์' : null,
                       onSaved: (String value) {
-                        emailString = value.trim();
+                        email = value.trim();
                       },
                       style: TextStyle(
                         fontFamily: 'Prompt',
@@ -190,9 +189,8 @@ class LoginPageState extends State<LoginPage> {
                     height: 50,
                     width: 330,
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                    decoration: BoxDecoration(
-                        //color: Colors.white,
-                        borderRadius: BorderRadius.circular(25)),
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(25)),
                     child: TextFormField(
                       keyboardType: TextInputType.text,
                       obscureText: true,
@@ -208,7 +206,7 @@ class LoginPageState extends State<LoginPage> {
                       validator: (value) =>
                           value.isEmpty ? 'กรุณากรอกรหัสผ่าน' : null,
                       onSaved: (String value) {
-                        passwordString = value.trim();
+                        password = value.trim();
                       },
                       style: TextStyle(
                         fontFamily: 'Prompt',
@@ -227,7 +225,7 @@ class LoginPageState extends State<LoginPage> {
               child: RaisedButton(
                 onPressed: () {
                   formKey.currentState.save();
-                  print('email = $emailString, password = $passwordString');
+                  print('email = $email, password = $password');
                   checkAuthen();
                 },
                 padding: EdgeInsets.all(10),

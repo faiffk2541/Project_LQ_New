@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -8,6 +9,65 @@ final GoogleSignIn googleSignIn = GoogleSignIn();
 String name;
 String email;
 String imageUrl;
+
+final firestore = Firestore.instance;
+
+Future<void> insertinformation(String email) async {
+  final databaseReference = Firestore.instance;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  Map<String, dynamic> map = Map();
+  map['Email'] = email;
+  map['URLpic'] = "";
+  map['Fname'] = "";
+  map['Lname'] = "";
+  map['Birthday'] = "";
+  map['Sex'] = "";
+  map['Phone'] = "";
+  map['Address'] = "";
+
+  try {
+    await databaseReference
+        .collection('Customer')
+        .document(firebaseAuth.currentUser.uid)
+        .setData(map)
+        .then((value) {
+      print('insert email Successfully');
+    });
+    await firestore
+        .collection("Customer")
+        .document(firebaseAuth.currentUser.uid)
+        .collection("InformationLaundry")
+        .document(firebaseAuth.currentUser.uid)
+        .setData({});
+    await firestore
+        .collection("Customer")
+        .document(firebaseAuth.currentUser.uid)
+        .collection("TypeOfClothes")
+        .document(firebaseAuth.currentUser.uid)
+        .setData({});
+    await firestore
+        .collection("Customer")
+        .document(firebaseAuth.currentUser.uid)
+        .collection("TypeOfService")
+        .document(firebaseAuth.currentUser.uid)
+        .setData({});
+    await firestore
+        .collection("Customer")
+        .document(firebaseAuth.currentUser.uid)
+        .collection("Orders")
+        .document(firebaseAuth.currentUser.uid)
+        .setData({});
+    await firestore
+        .collection("Customer")
+        .document(firebaseAuth.currentUser.uid)
+        .collection("Review")
+        .document(firebaseAuth.currentUser.uid)
+        .setData({});
+  } catch (e) {
+    print(e);
+  }
+}
 
 Future<String> signInWithGoogle() async {
   await Firebase.initializeApp();
@@ -44,15 +104,20 @@ Future<String> signInWithGoogle() async {
     }
 
     print('signInWithGoogle succeeded: $user');
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    if (firebaseAuth.currentUser != null) {
+      print(firebaseAuth.currentUser);
+      insertinformation(firebaseAuth.currentUser.email);
 
-    return '$user';
+      return '$user';
+    }
+
+    return null;
   }
 
-  return null;
-}
+  Future<void> signOutGoogle() async {
+    await googleSignIn.signOut();
 
-Future<void> signOutGoogle() async {
-  await googleSignIn.signOut();
-
-  print("User Signed Out");
+    print("User Signed Out");
+  }
 }
