@@ -578,7 +578,7 @@ class EditAccountState extends State<EditAccount> {
     final databaseReference = Firestore.instance;
 
     Map<String, dynamic> map = Map();
-    map['Email'] = email;
+    map['Email'] = firebaseAuth.currentUser.email;
     map['URLpic'] = urlPic;
     map['Fname'] = fname;
     map['Lname'] = lname;
