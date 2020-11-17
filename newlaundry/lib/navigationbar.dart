@@ -1,4 +1,3 @@
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'userpage/historypage.dart';
@@ -13,13 +12,6 @@ class NavigationBarPage extends StatefulWidget {
 
 class NavigationBarPageState extends State<NavigationBarPage> {
   int _currentIndex = 0;
-
-  // final _pageActive = [
-  //   HomePage(),
-  //   HistoryPage(),
-  //   NotificationPage(),
-  //   ProfilePage(),
-  // ];
 
   @override
   Widget build(BuildContext context) {
