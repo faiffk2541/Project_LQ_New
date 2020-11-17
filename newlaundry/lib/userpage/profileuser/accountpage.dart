@@ -3,8 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:newlaundry/tabbar/doscreen.dart';
 import 'package:newlaundry/userpage/profileuser/editaccount.dart';
 
+//final FirebaseAuth _auth = FirebaseAuth.instance;
 class AccountPage extends StatefulWidget {
   @override
   AccountPageState createState() => AccountPageState();
@@ -12,16 +14,15 @@ class AccountPage extends StatefulWidget {
 
 class AccountPageState extends State<AccountPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-
+  Map map;
   String login;
   String urlPic, fname, lname, birthday, sex, phone, address;
 
   @override
-  // void initState() {
-  //   super.initState();
-  //   findDisplay();
-  // }
+  void initState() {
+    super.initState();
+    getData();
+  }
 
   // Future<void> findDisplay() async {
   //   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -41,6 +42,40 @@ class AccountPageState extends State<AccountPage> {
   //     print('Data : ${snapshot.value}');
   //   });
   // }
+  Future<Null> getData() async {
+    await Firebase.initializeApp().then((value) async {
+      await FirebaseAuth.instance.authStateChanges().listen((event) async {
+        String uid = event.uid;
+        print("uid of user   ===> $uid");
+
+        DocumentReference querySnapshot =
+            await Firestore.instance.collection("Customer").doc(uid);
+        DocumentSnapshot snap =
+            await Firestore.instance.collection("Customer").doc(uid).get();
+        print(snap.data()["Address"].toString());
+        print(snap.data()["Fname"].toString());
+        print(snap.data()["Lname"].toString());
+        print(snap.data()["Birthday"].toString());
+        print(snap.data()["Phone"].toString());
+        print(snap.data()["Email"].toString());
+        await Firestore.instance
+            .collection('Customer')
+            .doc(uid)
+            .snapshots()
+            .listen((event) {
+          setState(() {
+            address = snap.data()["Address"].toString();
+            fname = snap.data()["Fname"].toString();
+            lname = snap.data()["Lname"].toString();
+            birthday = snap.data()["Birthday"].toString();
+            sex = snap.data()["Sex"].toString();
+            phone = snap.data()["Phone"].toString();
+            login = snap.data()["Email"].toString();
+          });
+        });
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -172,12 +207,14 @@ class AccountPageState extends State<AccountPage> {
                 Column(
                   children: [
                     RaisedButton(
-                      onPressed: () {
+                      onPressed: () => {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => EditAccount()),
-                        );
+                              builder: (context) => EditAccount(
+                                    model: map,
+                                  )),
+                        ).then((value) => getData()),
                       },
                       padding: EdgeInsets.only(left: 20, right: 20),
                       color: Colors.white,
@@ -433,60 +470,59 @@ class AccountPageState extends State<AccountPage> {
     );
   }
 
-  Future<void> insertinformation() async {
-    final databaseReference = Firestore.instance;
-    
-    //Firestore firestore = Firestore.instance;
+  // Future<void> insertinformation() async {
+  //   final databaseReference = Firestore.instance;
 
-    Map<String, dynamic> map = Map();
-    map['URLpic'] = urlPic;
-    map['Fname'] = fname;
-    map['Lname'] = lname;
-    map['Birthday'] = birthday;
-    map['Sex'] = sex;
-    map['Phone'] = phone;
-    map['Address'] = address;
+  //   //Firestore firestore = Firestore.instance;
 
-    await databaseReference
-        .collection('Customer')
-        .document('faiTesting')
-        .setData(map)
-        .then((value) {
-      var database = [];
-      database.add(databaseReference
-          .collection('Customer')
-          .document()
-          .collection('Orders'));
-      database.add(databaseReference
-          .collection('Customer')
-          .document()
-          .collection('Review'));
-      databaseReference.toString();
-      print('insert Successfully');
-    });
+  //   Map<String, dynamic> map = Map();
+  //   map['URLpic'] = urlPic;
+  //   map['Fname'] = fname;
+  //   map['Lname'] = lname;
+  //   map['Birthday'] = birthday;
+  //   map['Sex'] = sex;
+  //   map['Phone'] = phone;
+  //   map['Address'] = address;
 
-    // await databaseReference
-    //     .collection('Customer')
-    //     .document(uid)
-    //     .collection('TypeOfClothes1')
-    //     .document()
-    //     .setData(map)
-    //     .then((value) {
-    //   print('insert Successfully');
-    // });
-  }
+  //   await databaseReference
+  //       .collection('Customer')
+  //       .document('faiTesting')
+  //       .setData(map)
+  //       .then((value) {
+  //     var database = [];
+  //     database.add(databaseReference
+  //         .collection('Customer')
+  //         .document()
+  //         .collection('Orders'));
+  //     database.add(databaseReference
+  //         .collection('Customer')
+  //         .document()
+  //         .collection('Review'));
+  //     databaseReference.toString();
+  //     print('insert Successfully');
+  //   });
 
-  //   Future<void> uploadPicToStorage() async {
-  //   Random random = Random();
-  //   int i = random.nextInt(100000);
-
-  //   FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-  //   StorageReference storageReference =
-  //       firebaseStorage.ref().child('PicInformationelaundry/inforlaunry$i.jpg');
-  //   StorageUploadTask storageUploadTask = storageReference.putFile(imageFile);
-
-  //   urlPic = await (await storageUploadTask.onComplete).ref.getDownloadURL();
-  //   print('urlPic is = $urlPic');
-  //   insertinformation();
-  // }
+  // await databaseReference
+  //     .collection('Customer')
+  //     .document(uid)
+  //     .collection('TypeOfClothes1')
+  //     .document()
+  //     .setData(map)
+  //     .then((value) {
+  //   print('insert Successfully');
+  // });
 }
+
+//   Future<void> uploadPicToStorage() async {
+//   Random random = Random();
+//   int i = random.nextInt(100000);
+
+//   FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+//   StorageReference storageReference =
+//       firebaseStorage.ref().child('PicInformationelaundry/inforlaunry$i.jpg');
+//   StorageUploadTask storageUploadTask = storageReference.putFile(imageFile);
+
+//   urlPic = await (await storageUploadTask.onComplete).ref.getDownloadURL();
+//   print('urlPic is = $urlPic');
+//   insertinformation();
+// }

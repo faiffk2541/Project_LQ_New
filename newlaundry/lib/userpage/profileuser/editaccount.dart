@@ -8,6 +8,8 @@ import 'package:newlaundry/date_picker/date_textbox.dart';
 import 'package:newlaundry/widgets/google_signin.dart';
 
 class EditAccount extends StatefulWidget {
+  final Map model;
+  EditAccount({Key key, this.model}) : super(key: key);
   @override
   EditAccountState createState() => EditAccountState();
 }
@@ -22,6 +24,14 @@ class EditAccountState extends State<EditAccount> {
   DateTime _selectedDateTime = DateTime.now();
   SingingCharacter _character = SingingCharacter.notspecified;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  Map map;
+
+  @override
+  void initState() {
+    super.initState();
+    map = widget.model;
+  }
 
   _openGallary(BuildContext context) async {
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);

@@ -11,99 +11,24 @@ class ListOfItems extends StatefulWidget {
 class ListOfItemsState extends State<ListOfItems> {
   String type, price;
   String uid;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-  getType(type) {
-    this.type = type;
-    print(this.type);
-  }
+  Future<void> createData() async {
+    final databaseReference = Firestore.instance;
 
-  getPrice(price) {
-    this.price = price;
-    print(this.price);
-  }
-
-  Future<void> getData() async {
-    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    if (firebaseAuth.currentUser != null) {
-      setState(() {
-        uid = firebaseAuth.currentUser.uid;
-      });
-      print(firebaseAuth.currentUser.uid);
-    }
-  }
-
-  // Future<void> createData() async {
-  //   final databaseReference = Firestore.instance;
-
-  //   Map<String, dynamic> map = Map();
-  //   map['Type'] = type;
-  //   map['Price'] = price;
-  //   //await Firebase.initializeApp();
-  //   await databaseReference
-  //       .collection("Customer")
-  //       .document()
-  //       .collection("TypeOfClothes")
-  //       .document()
-  //       .setData(map)
-  //       .then((value) {
-  //     print('insert Successfully');
-  //   });
-  // }
-
-  createData() {
-    DocumentReference documentReference = Firestore.instance
+    Map<String, dynamic> map = Map();
+    map['Type'] = type;
+    map['Price'] = price;
+    await databaseReference
         .collection("Customer")
-        .document()
+        .document(firebaseAuth.currentUser.uid)
         .collection("TypeOfClothes")
-        .document();
-
-    Map<String, dynamic> typeofclothes = {"type": type, "price": price};
-
-    documentReference.setData(typeofclothes).whenComplete(() {
-      print("$type created");
+        .document()
+        .setData(map)
+        .then((value) {
+      print('insert Successfully');
     });
   }
-
-  // readData() {
-  //   Map<String, dynamic> typeofclothes = {"type": type, "price": price};
-  //   DocumentReference documentReference = Firestore.instance
-  //       .collection("Customer")
-  //       .document()
-  //       .collection("TypeOfClothes")
-  //       .document();
-
-  //   documentReference.get().then((datasnapshot) {
-  //     print("$type read");
-  //   });
-  // }
-
-  // updateData() {
-  //   DocumentReference documentReference = Firestore.instance
-  //       .collection("Customer")
-  //       .document()
-  //       .collection("TypeOfClothes")
-  //       .document();
-
-  //   Map<String, dynamic> typeofclothes = {"type": type, "price": price};
-
-  //   documentReference.setData(typeofclothes).whenComplete(() {
-  //     print("$type update");
-  //   });
-  // }
-
-  // deleteData() {
-  //   DocumentReference documentReference = Firestore.instance
-  //       .collection("Customer")
-  //       .document()
-  //       .collection("TypeOfClothes")
-  //       .document();
-
-  //   Map<String, dynamic> typeofclothes = {"type": type, "price": price};
-
-  //   documentReference.delete().whenComplete(() {
-  //     print("$type delete");
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -183,166 +108,176 @@ class ListOfItemsState extends State<ListOfItems> {
                 child: SafeArea(
                   child: StreamBuilder(
                     stream: Firestore.instance
+                        .collection("Customer")
+                        .document(firebaseAuth.currentUser.uid)
                         .collection("TypeOfClothes")
                         .snapshots(),
                     builder: (context, snapshot) {
-                      return ListView.builder(
-                        itemCount: snapshot.data.documents.length,
-                        itemBuilder: (context, index) {
-                          DocumentSnapshot TypeOfClothes =
-                              snapshot.data.documents[index];
-                          return Stack(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(
-                                    left: 15, right: 15, top: 20),
-                                height: 150,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 30, left: 15),
-                                          child: InkWell(
-                                            onTap: () {},
-                                            child: Image.asset(
-                                                'assets/laundry-basket.png',
-                                                height: 90,
-                                                width: 90),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 30, left: 20),
-                                          child: Text(
-                                            TypeOfClothes.data()['Type'],
-                                            style: TextStyle(
-                                                color: Colors.blue[900],
-                                                fontFamily: 'Prompt',
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ),
-                                        SizedBox(height: 20),
-                                        Row(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 20),
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    TypeOfClothes.data()[
-                                                        'Price'],
-                                                    style: TextStyle(
-                                                        color: Colors.blue[900],
-                                                        fontFamily: 'Prompt',
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w400),
-                                                  ),
-                                                  Text(
-                                                    '  บาท',
-                                                    style: TextStyle(
-                                                        color: Colors.blue[900],
-                                                        fontFamily: 'Prompt',
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w400),
-                                                  ),
-                                                ],
-                                              ),
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                          itemCount: snapshot.data.documents.length,
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot TypeOfClothes =
+                                snapshot.data.documents[index];
+                            return Stack(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: 15, right: 15, top: 20),
+                                  height: 150,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Column(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 30, left: 15),
+                                            child: InkWell(
+                                              onTap: () {},
+                                              child: Image.asset(
+                                                  'assets/laundry-basket.png',
+                                                  height: 90,
+                                                  width: 90),
                                             ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(bottom: 10),
-                                          child: Container(
-                                            height: 30,
-                                            width: 70,
-                                            child: RaisedButton(
-                                              elevation: 0,
-                                              onPressed: () {
-                                                // deleteData();
-                                              },
-                                              color: Colors.red,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(50))),
-                                              child: Center(
-                                                child: Text(
-                                                  'ลบ',
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontFamily: 'Prompt',
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: 16),
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 30, left: 20),
+                                            child: Text(
+                                              TypeOfClothes.data()['Type'],
+                                              style: TextStyle(
+                                                  color: Colors.blue[900],
+                                                  fontFamily: 'Prompt',
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                          ),
+                                          SizedBox(height: 20),
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 20),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      TypeOfClothes.data()[
+                                                          'Price'],
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.blue[900],
+                                                          fontFamily: 'Prompt',
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                    Text(
+                                                      '  บาท',
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.blue[900],
+                                                          fontFamily: 'Prompt',
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                EdgeInsets.only(bottom: 10),
+                                            child: Container(
+                                              height: 30,
+                                              width: 70,
+                                              child: RaisedButton(
+                                                elevation: 0,
+                                                onPressed: () {},
+                                                color: Colors.red,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                50))),
+                                                child: Center(
+                                                  child: Text(
+                                                    'ลบ',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontFamily: 'Prompt',
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize: 16),
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(width: 20),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(bottom: 10),
-                                          child: Container(
-                                            height: 30,
-                                            width: 70,
-                                            child: RaisedButton(
-                                              elevation: 0,
-                                              onPressed: () {},
-                                              color: Colors.green[800],
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(50))),
-                                              child: Center(
-                                                child: Text(
-                                                  'แก้ไข',
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontFamily: 'Prompt',
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: 16),
+                                        ],
+                                      ),
+                                      SizedBox(width: 20),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                EdgeInsets.only(bottom: 10),
+                                            child: Container(
+                                              height: 30,
+                                              width: 70,
+                                              child: RaisedButton(
+                                                elevation: 0,
+                                                onPressed: () {},
+                                                color: Colors.green[800],
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                50))),
+                                                child: Center(
+                                                  child: Text(
+                                                    'แก้ไข',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontFamily: 'Prompt',
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize: 16),
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                              ],
+                            );
+                          },
+                        );
+                      }
                     },
                   ),
                 ),
@@ -491,22 +426,4 @@ class ListOfItemsState extends State<ListOfItems> {
 
     showDialog(context: context, child: dialog);
   }
-
-  // Future<void> insertinformation() async {
-  //   final databaseReference = Firestore.instance;
-  //   //Firestore firestore = Firestore.instance;
-
-  //   Map<String, dynamic> map = Map();
-  //   map['Type'] = type;
-  //   map['Price'] = price;
-  //   //await Firebase.initializeApp();
-  //   await databaseReference
-  //       .collection('TypeOfClothes')
-  //       .document()
-  //       .setData(map)
-  //       .then((value) {
-  //     print('insert Successfully');
-  //   });
-  // }
-
 }
