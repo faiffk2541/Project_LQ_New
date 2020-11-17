@@ -1,6 +1,7 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:newlaundry/widgets/google_signin.dart';
+import 'package:newlaundry/navigationbar.dart';
+import 'package:newlaundry/userpage/homepage.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:newlaundry/userpage/menu/menuservice.dart';
 import 'package:path/path.dart' as Path;
@@ -10,52 +11,7 @@ class MenuDetailPage extends StatefulWidget {
   MenuDetailState createState() => MenuDetailState();
 }
 
-class ListItem {
-  int value;
-  String name;
-
-  ListItem(this.value, this.name);
-}
-
 class MenuDetailState extends State<MenuDetailPage> {
-  List<ListItem> _dropdownItems = [
-    ListItem(1, "รายวัน"),
-    ListItem(2, "รายเดือน"),
-  ];
-
-  List<DropdownMenuItem<ListItem>> _dropdownMenuItems;
-  ListItem _selectedItem;
-
-  void initState() {
-    super.initState();
-    _dropdownMenuItems = buildDropDownMenuItems(_dropdownItems);
-    _selectedItem = _dropdownMenuItems[0].value;
-  }
-
-  List<DropdownMenuItem<ListItem>> buildDropDownMenuItems(List listItems) {
-    List<DropdownMenuItem<ListItem>> items = List();
-    for (ListItem listItem in listItems) {
-      items.add(
-        DropdownMenuItem(
-          child: Row(
-            children: [
-              Text(
-                listItem.name,
-                style: TextStyle(
-                    color: Colors.blue[900],
-                    fontFamily: 'Prompt',
-                    fontWeight: FontWeight.w400,
-                    fontSize: 20),
-              ),
-            ],
-          ),
-          value: listItem,
-        ),
-      );
-    }
-    return items;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +27,11 @@ class MenuDetailState extends State<MenuDetailPage> {
                   icon: Icon(Icons.arrow_back_ios),
                   color: Colors.white,
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NavigationBarPage()),
+                    );
                   },
                 ),
               ],
@@ -83,7 +43,6 @@ class MenuDetailState extends State<MenuDetailPage> {
               child: Container(
                 height: 250,
                 width: 350,
-                //color: Colors.white,
                 child: Center(
                   child: Container(
                     child: Image.network(
@@ -93,105 +52,78 @@ class MenuDetailState extends State<MenuDetailPage> {
               ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 35, horizontal: 20),
-            //height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-            ),
-            child: Column(
-              children: [
-                shopLocation(name: "พิกัด"),
-                SizedBox(height: 10),
-                Row(
-                  children: [
-                    shopName(name: "ร้านซักรีด"),
-                  ],
-                ),
-                SizedBox(height: 15),
-                Row(
-                  children: [
-                    showtime(name: "time"),
-                  ],
-                ),
-                SizedBox(height: 15),
-                Row(
-                  children: [
-                    shopDetail(name: "ที่อยู่ร้าน"),
-                  ],
-                ),
-                SizedBox(height: 100),
-                Column(
-                  children: [
-                    Container(
-                      child: Center(
-                        child: Container(
-                          width: 200,
-                          height: 50,
-                          // child: RaisedButton(
-                          //   elevation: 0,
-                          //   color: Colors.blue,
-                          //   shape: RoundedRectangleBorder(
-                          //       borderRadius: BorderRadius.circular(50)),
-                          //   child: Text(
-                          //     'บริการของร้าน',
-                          //     style: TextStyle(
-                          //         color: Colors.white,
-                          //         fontFamily: 'Prompt',
-                          //         fontWeight: FontWeight.w400,
-                          //         fontSize: 20),
-                          //   ),
-                          //   onPressed: () {
-                          //     Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           builder: (context) => MenuServicePage()),
-                          //     );
-                          //   },
-                          // ),
-                          // child: DropdownButton<ListItem>(
-                          //     value: _selectedItem,
-                          //     items: _dropdownMenuItems,
-                          //     onChanged: (value) {
-                          //       setState(() {
-                          //         _selectedItem = value;
-                          //       });
-                          //     }),
-                          child: Padding(
-                            padding: const EdgeInsets.all(0.0),
-                            child: Container(
-                              padding: const EdgeInsets.only(
-                                  left: 20.0, right: 15.0),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: Colors.white,
-                                  border: Border.all()),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton(
-                                    value: _selectedItem,
-                                    items: _dropdownMenuItems,
-                                    onChanged: (value) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                MenuServicePage()),
-                                      );
-                                    }),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+          Padding(
+            padding: EdgeInsets.only(right: 20, left: 20),
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 35, horizontal: 20),
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15)),
+              ),
+              child: Column(
+                children: [
+                  shopLocation(name: "พิกัด"),
+                  SizedBox(height: 20),
+                  Row(
+                    children: [
+                      shopName(name: "ร้านซักรีด"),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    children: [
+                      showtime(name: "time"),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    children: [
+                      shopDetail(name: "ที่อยู่ร้าน"),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    children: [
+                      telphone(name: "เบอร์โทร"),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
+          Padding(
+            padding: EdgeInsets.only(top: 30, left: 40, right: 40, bottom: 30),
+            child: Container(
+              width: 120,
+              height: 50,
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MenuServicePage()),
+                  );
+                },
+                padding: EdgeInsets.all(10),
+                color: Colors.white,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30)),
+                child: Text(
+                  'เลือกบริการ',
+                  style: TextStyle(
+                      color: Colors.blue[900],
+                      fontFamily: 'Prompt',
+                      fontSize: 18,
+                      fontWeight: FontWeight.w300),
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -310,23 +242,24 @@ Expanded shopDetail({String name}) {
   );
 }
 
-// class Item {
-//   const Item(this.name, this.icon);
-//   final String name;
-//   final Icon icon;
-// }
-
-// List<Item> users = <Item>[
-//   const Item(
-//       'รายวัน',
-//       Icon(
-//         Icons.data_usage,
-//         color: Colors.blue,
-//       )),
-//   const Item(
-//       'รายเดือน',
-//       Icon(
-//         Icons.date_range,
-//         color: Colors.blue,
-//       )),
-// ];
+Expanded telphone({String name}) {
+  return Expanded(
+    child: Row(
+      children: [
+        Icon(Icons.phone),
+        SizedBox(height: 10, width: 10),
+        Flexible(
+          child: Text(
+            '0128924567',
+            overflow: TextOverflow.visible,
+            style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'Prompt',
+                fontSize: 16,
+                fontWeight: FontWeight.w300),
+          ),
+        ),
+      ],
+    ),
+  );
+}

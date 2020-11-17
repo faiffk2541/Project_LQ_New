@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:newlaundry/laundrypage/historylaundry.dart';
 import 'package:newlaundry/laundrypage/informationlaundry.dart';
+import 'package:newlaundry/laundrypage/listofitems.dart';
 import 'package:newlaundry/laundrypage/servicelaundry.dart';
 import 'package:newlaundry/laundrypage/todolistlaundry.dart';
 
@@ -102,7 +103,7 @@ class ProfileLaundryState extends State<ProfileLaundry> {
               onTap: () => {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ServiceLaundry()),
+                  MaterialPageRoute(builder: (context) => ListOfItems()),
                 ),
               },
               child: Card(
@@ -120,7 +121,7 @@ class ProfileLaundryState extends State<ProfileLaundry> {
                         padding: EdgeInsets.only(right: 20),
                       ),
                       Text(
-                        "บริการของร้าน",
+                        "รายการของร้าน",
                         style: TextStyle(
                             color: Colors.black,
                             fontFamily: 'Prompt',
@@ -128,7 +129,7 @@ class ProfileLaundryState extends State<ProfileLaundry> {
                             fontWeight: FontWeight.w300),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(right: 165),
+                        padding: EdgeInsets.only(right: 160),
                       ),
                       Icon(
                         Icons.arrow_forward_ios,

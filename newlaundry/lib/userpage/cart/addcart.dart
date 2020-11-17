@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:newlaundry/navigationbar.dart';
 import 'package:newlaundry/userpage/historypage.dart';
+import 'package:newlaundry/userpage/menuservice/detailservice.dart';
 
 class AddCartPage extends StatefulWidget {
   @override
@@ -12,380 +13,295 @@ class AddCartState extends State<AddCartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[100],
-      body: ListView(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: 15, left: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
-                  color: Colors.white,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+      body: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 35, left: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.arrow_back_ios),
+                      color: Colors.white,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailServicePage()),
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-          Container(
-            alignment: Alignment.topCenter,
-            child: Text(
-              'สรุปรายการ',
-              style: TextStyle(
-                  color: Colors.blue[900],
-                  fontFamily: 'Prompt',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          SizedBox(height: 20),
-          Card(
-            margin: EdgeInsets.only(left: 15, right: 15),
-            child: Container(
-              padding: EdgeInsets.only(top: 10),
-              height: 195,
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 20),
-                      ),
-                      Icon(Icons.pin_drop, color: Colors.red, size: 40),
-                      SizedBox(height: 10, width: 10),
-                      Flexible(
-                        child: Text(
-                          'ร้านซักรีด',
-                          overflow: TextOverflow.visible,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'Prompt',
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Divider(
-                    height: 5,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 20),
-                      ),
-                      Icon(Icons.date_range, color: Colors.blue, size: 40),
-                      SizedBox(height: 10, width: 10),
-                      Flexible(
-                        child: Text(
-                          'รายวัน',
-                          overflow: TextOverflow.visible,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'Prompt',
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Divider(
-                    height: 5,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 20),
-                      ),
-                      Icon(Icons.fast_forward, color: Colors.blue, size: 40),
-                      SizedBox(height: 10, width: 10),
-                      Flexible(
-                        child: Text(
-                          'ซักอบรีด',
-                          overflow: TextOverflow.visible,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'Prompt',
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
               ),
-            ),
-          ),
-          Container(
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 30),
-                ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 20, left: 20),
-                    ),
-                    Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 2),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: Text('1x',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'Prompt',
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400)),
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(top: 20, left: 20),
-                          ),
-                          Text('เสื้อ',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Prompt',
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500)),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(right: 210),
-                          ),
-                          Text('25',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Prompt',
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400)),
-                        ],
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-          Container(
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 20),
-                ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 20, left: 20),
-                    ),
-                    Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 2),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: Text('1x',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'Prompt',
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400)),
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(top: 20, left: 20),
-                          ),
-                          Text('กางเกง',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Prompt',
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500)),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(right: 175),
-                          ),
-                          Text('25',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Prompt',
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400)),
-                        ],
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-          Container(
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 20),
-                ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 20, left: 20),
-                    ),
-                    Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey, width: 2),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: Text('1x',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'Prompt',
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400)),
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(top: 20, left: 20),
-                          ),
-                          Text('กระโปรง',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Prompt',
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500)),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(right: 170),
-                          ),
-                          Text('25',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Prompt',
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400)),
-                        ],
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-          SizedBox(height: 50),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.only(left: 15, right: 15),
-              height: 50,
-              child: RaisedButton(
+              Container(
+                alignment: Alignment.topCenter,
                 child: Text(
-                  "ส่งรายการ",
+                  'สรุปรายการ',
                   style: TextStyle(
                       color: Colors.blue[900],
                       fontFamily: 'Prompt',
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400),
-                ),
-                onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => AddCartPage()),
-                  // );
-                  showAlertDialog(context);
-                },
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
-            ),
-          )
-        ],
+              SizedBox(height: 20),
+              Container(
+                child: Padding(
+                  padding: EdgeInsets.only(right: 30, left: 30),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 35, horizontal: 20),
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          topRight: Radius.circular(15),
+                          bottomLeft: Radius.circular(15),
+                          bottomRight: Radius.circular(15)),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_on,
+                              color: Colors.red,
+                            ),
+                            SizedBox(width: 10, height: 10),
+                            Text(
+                              'ชื่อร้าน',
+                              style: TextStyle(
+                                  height: 1.5,
+                                  color: Colors.black,
+                                  fontFamily: 'Prompt',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w300),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 15),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.store_mall_directory,
+                              color: Colors.blue,
+                            ),
+                            SizedBox(width: 10, height: 10),
+                            Text(
+                              'รายวัน',
+                              style: TextStyle(
+                                  height: 1.5,
+                                  color: Colors.black,
+                                  fontFamily: 'Prompt',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w300),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 15),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.local_grocery_store,
+                              color: Colors.green,
+                            ),
+                            SizedBox(width: 10, height: 10),
+                            Text(
+                              'ซักอบรีด',
+                              style: TextStyle(
+                                  height: 1.5,
+                                  color: Colors.black,
+                                  fontFamily: 'Prompt',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w300),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 30),
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 20, left: 20),
+                        ),
+                        Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.grey, width: 1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Text(
+                              '1 x',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'Prompt',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: 20, left: 20),
+                              ),
+                              Text(
+                                'เสื้อ',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'Prompt',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(right: 210),
+                              ),
+                              Text(
+                                '25',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'Prompt',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: 50),
+              Container(
+                padding: EdgeInsets.only(left: 15, right: 15),
+                height: 50,
+                width: 200,
+                child: RaisedButton(
+                  elevation: 0,
+                  color: Colors.blue,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  onPressed: () {
+                    showAlertDialog(context);
+                  },
+                  child: Text(
+                    'ส่งรายการ',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Prompt',
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
 
-showAlertDialog(BuildContext context) {
-  // set up the button
-  Widget okButton = FlatButton(
-    child: Text(
-      "OK",
-      style: TextStyle(
-          color: Colors.black,
-          fontFamily: 'Prompt',
-          fontSize: 18,
-          fontWeight: FontWeight.w400),
+void showAlertDialog(BuildContext context) {
+  AlertDialog dialog = new AlertDialog(
+    title: Center(
+      child: Text(
+        "ยืนยันการทำรายการ",
+        style: TextStyle(
+            color: Colors.red,
+            fontFamily: 'Prompt',
+            fontSize: 18,
+            fontWeight: FontWeight.w400),
+      ),
     ),
-    onPressed: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => NavigationBarPage()),
-      );
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text(
-      "ทำรายการสำเร็จ",
-      style: TextStyle(
-          color: Colors.black,
-          fontFamily: 'Prompt',
-          fontSize: 18,
-          fontWeight: FontWeight.w400),
+    content: new Container(
+      height: 50,
+      child: new Column(
+        children: <Widget>[
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                RaisedButton(
+                  onPressed: () {},
+                  elevation: 0,
+                  color: Colors.red,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(50))),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'ยกเลิก',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Prompt',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(width: 30),
+                RaisedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NavigationBarPage()),
+                    );
+                  },
+                  elevation: 0,
+                  color: Colors.blue,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(50))),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'บันทึก',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Prompt',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     ),
-    actions: [
-      okButton,
-    ],
   );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
+  showDialog(context: context, child: dialog);
 }
