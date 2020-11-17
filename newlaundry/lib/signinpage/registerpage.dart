@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:newlaundry/navigationbar.dart';
-import 'package:newlaundry/widgets/google_signin.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -36,7 +35,7 @@ class RegisterPageState extends State<RegisterPage> {
 
     try {
       await databaseReference
-          .collection('Customer')
+          .collection("Customer")
           .document(firebaseAuth.currentUser.uid)
           .setData(map)
           .then((value) {
@@ -46,32 +45,48 @@ class RegisterPageState extends State<RegisterPage> {
           .collection("Customer")
           .document(firebaseAuth.currentUser.uid)
           .collection("InformationLaundry")
-          .document()
-          .setData({});
+          .getDocuments();
       await firestore
           .collection("Customer")
           .document(firebaseAuth.currentUser.uid)
           .collection("TypeOfClothes")
-          .document()
-          .setData({});
+          .getDocuments();
       await firestore
           .collection("Customer")
           .document(firebaseAuth.currentUser.uid)
           .collection("TypeOfService")
-          .document()
-          .setData({});
+          .getDocuments();
+      await firestore
+          .collection("Customer")
+          .document(firebaseAuth.currentUser.uid)
+          .collection("TypeOfService")
+          .document(firebaseAuth.currentUser.uid)
+          .collection("ซักรีด")
+          .getDocuments();
+      await firestore
+          .collection("Customer")
+          .document(firebaseAuth.currentUser.uid)
+          .collection("TypeOfService")
+          .document(firebaseAuth.currentUser.uid)
+          .collection("ซักพับ")
+          .getDocuments();
+      await firestore
+          .collection("Customer")
+          .document(firebaseAuth.currentUser.uid)
+          .collection("TypeOfService")
+          .document(firebaseAuth.currentUser.uid)
+          .collection("รีด")
+          .getDocuments();
       await firestore
           .collection("Customer")
           .document(firebaseAuth.currentUser.uid)
           .collection("Orders")
-          .document()
-          .setData({});
+          .getDocuments();
       await firestore
           .collection("Customer")
           .document(firebaseAuth.currentUser.uid)
           .collection("Review")
-          .document()
-          .setData({});
+          .getDocuments();
     } catch (e) {
       print(e);
     }
@@ -85,7 +100,6 @@ class RegisterPageState extends State<RegisterPage> {
       print('Register Success for Email = $email');
       print('Register Success for FName = $fname');
       print('Register Success for LName = $lname');
-
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => NavigationBarPage()));
       insertinformation(email, fname, lname);
