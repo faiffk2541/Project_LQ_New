@@ -1,15 +1,57 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:newlaundry/navigationbar.dart';
 import 'package:newlaundry/userpage/homepage.dart';
+import 'package:newlaundry/widgets/google_signin.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:newlaundry/userpage/menu/menuservice.dart';
 
 class MenuDetailPage extends StatefulWidget {
+  // final String address, name, phone, time, urlPic;
+
+  // MenuDetailPage(this.address, this.name, this.phone, this.time, this.urlPic);
+
   @override
   MenuDetailState createState() => MenuDetailState();
 }
 
 class MenuDetailState extends State<MenuDetailPage> {
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  // Future<Null> getData() async {
+  //   await Firebase.initializeApp().then((value) async {
+  //     await FirebaseAuth.instance.authStateChanges().listen((event) async {
+  //       String uid = event.uid;
+  //       print("uid of user   ===> $uid");
+
+  //       DocumentReference querySnapshot =
+  //           await Firestore.instance.collection("Laundry").doc(uid);
+  //       DocumentSnapshot snap =
+  //           await Firestore.instance.collection("Laundry").doc(uid).get();
+  //       print(snap.data()["Address"].toString());
+  //       print(snap.data()["Name"].toString());
+  //       print(snap.data()["Phone"].toString());
+  //       print(snap.data()["Time"].toString());
+  //       print(snap.data()["URLpic"].toString());
+  //       await Firestore.instance
+  //           .collection('Laundry')
+  //           .doc(uid)
+  //           .snapshots()
+  //           .listen((event) {
+  //         setState(() {
+  //           address = snap.data()["Address"].toString();
+  //           name = snap.data()["Fname"].toString();
+  //           phone = snap.data()["Phone"].toString();
+  //           time = snap.data()["Email"].toString();
+  //           urlPic = snap.data()["Email"].toString();
+  //         });
+  //       });
+  //     });
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,34 +102,36 @@ class MenuDetailState extends State<MenuDetailPage> {
                     bottomLeft: Radius.circular(15),
                     bottomRight: Radius.circular(15)),
               ),
-              child: Column(
-                children: [
-                  shopLocation(name: "พิกัด"),
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      shopName(name: "ร้านซักรีด"),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      showtime(name: "time"),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      shopDetail(name: "ที่อยู่ร้าน"),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      telphone(name: "เบอร์โทร"),
-                    ],
-                  ),
-                ],
+              child: Container(
+                child: Column(
+                  children: [
+                    shopLocation(name: "พิกัด"),
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        shopName(name: "name"),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        showtime(time: "Test"),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        shopDetail(address: "address"),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        telphone(phone: "phone"),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -100,8 +144,7 @@ class MenuDetailState extends State<MenuDetailPage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => MenuServicePage()),
+                    MaterialPageRoute(builder: (context) => MenuServicePage()),
                   );
                 },
                 padding: EdgeInsets.all(10),
@@ -185,7 +228,7 @@ Expanded shopName({String name}) {
   );
 }
 
-Expanded showtime({String name}) {
+Expanded showtime({String time}) {
   return Expanded(
     child: Row(
       children: [
@@ -193,7 +236,7 @@ Expanded showtime({String name}) {
         SizedBox(height: 10, width: 10),
         Flexible(
           child: Text(
-            '8:00 - 18:00 น.',
+            '$time',
             overflow: TextOverflow.visible,
             style: TextStyle(
                 color: Colors.black,
@@ -207,7 +250,7 @@ Expanded showtime({String name}) {
   );
 }
 
-Expanded shopDetail({String name}) {
+Expanded shopDetail({String address}) {
   return Expanded(
     child: Row(
       children: [
@@ -215,7 +258,7 @@ Expanded shopDetail({String name}) {
         SizedBox(height: 10, width: 10),
         Flexible(
           child: Text(
-            '104 ซอย ประชาอุทิศ 45 ถนนประชาอุทิศ แขวงบางมด เขตทุ่งครุ กรุงเทพมหานคร 10140',
+            '$address',
             overflow: TextOverflow.visible,
             style: TextStyle(
                 color: Colors.black,
@@ -229,7 +272,7 @@ Expanded shopDetail({String name}) {
   );
 }
 
-Expanded telphone({String name}) {
+Expanded telphone({String phone}) {
   return Expanded(
     child: Row(
       children: [
@@ -237,7 +280,7 @@ Expanded telphone({String name}) {
         SizedBox(height: 10, width: 10),
         Flexible(
           child: Text(
-            '0128924567',
+            '$phone',
             overflow: TextOverflow.visible,
             style: TextStyle(
                 color: Colors.black,

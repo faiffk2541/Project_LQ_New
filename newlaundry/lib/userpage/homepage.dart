@@ -11,6 +11,41 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  String address, name, phone, time, urlPic;
+
+  // Future<Null> getData() async {
+  //   await Firebase.initializeApp().then((value) async {
+  //     await FirebaseAuth.instance.authStateChanges().listen((event) async {
+  //       String uid = event.uid;
+  //       print("uid of user   ===> $uid");
+
+  //       DocumentReference querySnapshot =
+  //           await Firestore.instance.collection("Laundry").doc(uid);
+  //       DocumentSnapshot snap =
+  //           await Firestore.instance.collection("Laundry").doc(uid).get();
+  //       print(snap.data()["Address"].toString());
+  //       print(snap.data()["Name"].toString());
+  //       print(snap.data()["Phone"].toString());
+  //       print(snap.data()["Time"].toString());
+  //       print(snap.data()["URLpic"].toString());
+  //       await Firestore.instance
+  //           .collection('Laundry')
+  //           .doc(uid)
+  //           .snapshots()
+  //           .listen((event) {
+  //         setState(() {
+  //           address = snap.data()["Address"].toString();
+  //           name = snap.data()["Fname"].toString();
+  //           phone = snap.data()["Phone"].toString();
+  //           time = snap.data()["Email"].toString();
+  //           urlPic = snap.data()["Email"].toString();
+  //         });
+  //       });
+  //     });
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,8 +100,15 @@ class HomePageState extends State<HomePage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              MenuDetailPage()),
+                                          builder: (context) => MenuDetailPage(
+                                              // name = Laundry.data()['Name'],
+                                              // address =
+                                              //     Laundry.data()['Address'],
+                                              // phone = Laundry.data()['Phone'],
+                                              // time = Laundry.data()['Time'],
+                                              // urlPic =
+                                              //     Laundry.data()['URLpic'],
+                                              )),
                                     ),
                                   },
                                   child: Card(
