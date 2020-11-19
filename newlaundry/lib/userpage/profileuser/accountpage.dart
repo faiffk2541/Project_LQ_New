@@ -17,105 +17,52 @@ class AccountPageState extends State<AccountPage> {
   String login;
   String urlPic, fname, lname, birthday, sex, phone, address;
 
+  Map map;
   @override
-  // void initState() {
-  //   super.initState();
-  //   findDisplay();
-  // }
+  void initState() {
+    super.initState();
+    getData();
+  }
 
-  // Future<void> findDisplay() async {
-  //   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  Future<Null> getData() async {
+    await Firebase.initializeApp().then((value) async {
+      await FirebaseAuth.instance.authStateChanges().listen((event) async {
+        String uid = event.uid;
+        print("uid of user   ===> $uid");
 
-  //   if (firebaseAuth.currentUser != null) {
-  //     setState(() {
-  //       login = firebaseAuth.currentUser.email;
-  //       print(firebaseAuth.currentUser.uid);
-  //     });
-  //   }
-  // }
-
-  // final databaseReference = FirebaseDatabase.instance.reference();
-
-  // void getData() {
-  //   databaseReference.once().then((DataSnapshot snapshot) {
-  //     print('Data : ${snapshot.value}');
-  //   });
-  // }
+        DocumentReference querySnapshot =
+            await Firestore.instance.collection("Customer").doc(uid);
+        DocumentSnapshot snap =
+            await Firestore.instance.collection("Customer").doc(uid).get();
+        print(snap.data()["Address"].toString());
+        print(snap.data()["Fname"].toString());
+        print(snap.data()["Lname"].toString());
+        print(snap.data()["Birthday"].toString());
+        print(snap.data()["Phone"].toString());
+        print(snap.data()["Email"].toString());
+        await Firestore.instance
+            .collection('Customer')
+            .doc(uid)
+            .snapshots()
+            .listen((event) {
+          setState(() {
+            address = snap.data()["Address"].toString();
+            fname = snap.data()["Fname"].toString();
+            lname = snap.data()["Lname"].toString();
+            birthday = snap.data()["Birthday"].toString();
+            sex = snap.data()["Sex"].toString();
+            phone = snap.data()["Phone"].toString();
+            login = snap.data()["Email"].toString();
+          });
+        });
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[100],
-      // body: SingleChildScrollView(
-      //   child: Container(
-      //     child: Column(
-      //       children: [
-      //         Padding(
-      //           padding: EdgeInsets.only(top: 35, left: 15),
-      //           child: Row(
-      //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //             children: [
-      //               IconButton(
-      //                 icon: Icon(Icons.arrow_back_ios),
-      //                 color: Colors.white,
-      //                 onPressed: () {
-      //                   Navigator.pop(context);
-      //                 },
-      //               ),
-      //             ],
-      //           ),
-      //         ),
-      //         Container(
-      //           alignment: Alignment.topCenter,
-      //           child: Text(
-      //             'บัญชีของฉัน',
-      //             style: TextStyle(
-      //                 color: Colors.blue[900],
-      //                 fontFamily: 'Prompt',
-      //                 fontSize: 20,
-      //                 fontWeight: FontWeight.bold),
-      //           ),
-      //         ),
-      //         Container(
-      //           child: StreamBuilder(
-      //             stream: Firestore.instance
-      //                 .collection("Customer")
-      //                 .document(firebaseAuth.currentUser.uid)
-      //                 .snapshots(),
-      //             builder: (context, snapshot) {
-      //               return ListView.builder(
-      //                   itemCount: snapshot.data.documents.length,
-      //                   itemBuilder: (context, index) {
-      //                     DocumentSnapshot Customer =
-      //                         snapshot.data.documents[index];
-      //                     return Column(
-      //                       children: [
-      //                         Padding(
-      //                           padding: EdgeInsets.only(top: 20, bottom: 10),
-      //                           child: Stack(
-      //                             children: [
-      //                               CircleAvatar(
-      //                                 radius: 50,
-      //                                 child: ClipOval(
-      //                                   child: Image.asset(
-      //                                     'assets/boy.png',
-      //                                     fit: BoxFit.fill,
-      //                                   ),
-      //                                 ),
-      //                               ),
-      //                             ],
-      //                           ),
-      //                         )
-      //                       ],
-      //                     );
-      //                   });
-      //             },
-      //           ),
-      //         )
-      //       ],
-      //     ),
-      //   ),
-      // ),
       body: ListView(
         children: [
           Padding(
@@ -176,8 +123,10 @@ class AccountPageState extends State<AccountPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => EditAccount()),
-                        );
+                              builder: (context) => EditAccount(
+                                    model: map,
+                                  )),
+                        ).then((value) => getData());
                       },
                       padding: EdgeInsets.only(left: 20, right: 20),
                       color: Colors.white,

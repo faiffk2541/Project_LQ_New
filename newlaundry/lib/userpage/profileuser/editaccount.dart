@@ -8,6 +8,8 @@ import 'package:newlaundry/date_picker/date_textbox.dart';
 import 'package:newlaundry/widgets/google_signin.dart';
 
 class EditAccount extends StatefulWidget {
+  final Map model;
+  EditAccount({Key key, this.model}) : super(key: key);
   @override
   EditAccountState createState() => EditAccountState();
 }
@@ -15,6 +17,7 @@ class EditAccount extends StatefulWidget {
 enum SingingCharacter { male, female, notspecified }
 
 class EditAccountState extends State<EditAccount> {
+  
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String urlPic, fname, lname, birthday, sex, phone, address;
   File imageFile, file;
@@ -22,6 +25,13 @@ class EditAccountState extends State<EditAccount> {
   DateTime _selectedDateTime = DateTime.now();
   SingingCharacter _character = SingingCharacter.notspecified;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  Map map;
+  @override
+  void initState() {
+    super.initState();
+    map = widget.model;
+  }
 
   _openGallary(BuildContext context) async {
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -568,7 +578,7 @@ class EditAccountState extends State<EditAccount> {
     final databaseReference = Firestore.instance;
 
     Map<String, dynamic> map = Map();
-    map['Email'] = email;
+    map['Email'] = firebaseAuth.currentUser.email;
     map['URLpic'] = urlPic;
     map['Fname'] = fname;
     map['Lname'] = lname;
