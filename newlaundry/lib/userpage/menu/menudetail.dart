@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,9 +11,10 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:newlaundry/userpage/menu/menuservice.dart';
 
 class MenuDetailPage extends StatefulWidget {
-  // final String address, name, phone, time, urlPic;
+  final String address, name, phone, time, urlPic;
 
-  // MenuDetailPage(this.address, this.name, this.phone, this.time, this.urlPic);
+  MenuDetailPage(@required this.address, @required this.name,
+      @required this.phone, @required this.time, @required this.urlPic);
 
   @override
   MenuDetailState createState() => MenuDetailState();
@@ -85,6 +88,7 @@ class MenuDetailState extends State<MenuDetailPage> {
                 width: 350,
                 child: Center(
                   child: Image.asset('assets/shop1.png'),
+                  // child: Image.network(widget.urlPic),
                 ),
               ),
             ),
@@ -109,25 +113,93 @@ class MenuDetailState extends State<MenuDetailPage> {
                     SizedBox(height: 20),
                     Row(
                       children: [
-                        shopName(name: "name"),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.name,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'Prompt',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              children: [
+                                SmoothStarRating(
+                                  color: Colors.yellow[700],
+                                  rating: 4,
+                                  borderColor: Colors.yellow[700],
+                                  size: 20,
+                                ),
+                                SizedBox(height: 10, width: 15),
+                                Text(
+                                  '(20 รีวิว)',
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontFamily: 'Prompt',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w300),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                     SizedBox(height: 20),
                     Row(
                       children: [
-                        showtime(time: "Test"),
+                        Icon(Icons.access_time),
+                        SizedBox(height: 10, width: 10),
+                        Flexible(
+                          child: Text(
+                            widget.time,
+                            overflow: TextOverflow.visible,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'Prompt',
+                                fontSize: 16,
+                                fontWeight: FontWeight.w300),
+                          ),
+                        ),
                       ],
                     ),
                     SizedBox(height: 20),
                     Row(
                       children: [
-                        shopDetail(address: "address"),
+                        Icon(Icons.home),
+                        SizedBox(height: 10, width: 10),
+                        Flexible(
+                          child: Text(
+                            widget.address,
+                            overflow: TextOverflow.visible,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'Prompt',
+                                fontSize: 16,
+                                fontWeight: FontWeight.w300),
+                          ),
+                        ),
                       ],
                     ),
                     SizedBox(height: 20),
                     Row(
                       children: [
-                        telphone(phone: "phone"),
+                        Icon(Icons.phone),
+                        SizedBox(height: 10, width: 10),
+                        Flexible(
+                          child: Text(
+                            widget.phone,
+                            overflow: TextOverflow.visible,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'Prompt',
+                                fontSize: 16,
+                                fontWeight: FontWeight.w300),
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -187,109 +259,5 @@ Row shopLocation({String name}) {
             fontWeight: FontWeight.w300),
       )
     ],
-  );
-}
-
-Expanded shopName({String name}) {
-  return Expanded(
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'ร้านซักผ้า',
-          style: TextStyle(
-              color: Colors.black,
-              fontFamily: 'Prompt',
-              fontSize: 20,
-              fontWeight: FontWeight.w500),
-        ),
-        SizedBox(height: 10),
-        Row(
-          children: [
-            SmoothStarRating(
-              color: Colors.yellow[700],
-              rating: 4,
-              borderColor: Colors.yellow[700],
-              size: 20,
-            ),
-            SizedBox(height: 10, width: 15),
-            Text(
-              '(20 รีวิว)',
-              style: TextStyle(
-                  color: Colors.grey,
-                  fontFamily: 'Prompt',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w300),
-            )
-          ],
-        ),
-      ],
-    ),
-  );
-}
-
-Expanded showtime({String time}) {
-  return Expanded(
-    child: Row(
-      children: [
-        Icon(Icons.access_time),
-        SizedBox(height: 10, width: 10),
-        Flexible(
-          child: Text(
-            '$time',
-            overflow: TextOverflow.visible,
-            style: TextStyle(
-                color: Colors.black,
-                fontFamily: 'Prompt',
-                fontSize: 16,
-                fontWeight: FontWeight.w300),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Expanded shopDetail({String address}) {
-  return Expanded(
-    child: Row(
-      children: [
-        Icon(Icons.home),
-        SizedBox(height: 10, width: 10),
-        Flexible(
-          child: Text(
-            '$address',
-            overflow: TextOverflow.visible,
-            style: TextStyle(
-                color: Colors.black,
-                fontFamily: 'Prompt',
-                fontSize: 16,
-                fontWeight: FontWeight.w300),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Expanded telphone({String phone}) {
-  return Expanded(
-    child: Row(
-      children: [
-        Icon(Icons.phone),
-        SizedBox(height: 10, width: 10),
-        Flexible(
-          child: Text(
-            '$phone',
-            overflow: TextOverflow.visible,
-            style: TextStyle(
-                color: Colors.black,
-                fontFamily: 'Prompt',
-                fontSize: 16,
-                fontWeight: FontWeight.w300),
-          ),
-        ),
-      ],
-    ),
   );
 }

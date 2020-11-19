@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:newlaundry/userpage/menu/menudetail.dart';
+import 'package:newlaundry/widgets/google_signin.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -11,8 +12,22 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-
+  final firestore = Firestore.instance;
+  List<DocumentSnapshot> laundry = [];
   String address, name, phone, time, urlPic;
+
+  getLaundry() async {
+    Query q = firestore.collection("Laundry");
+
+    QuerySnapshot querySnapshot = await q.getDocuments();
+    laundry = querySnapshot.documents;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getLaundry();
+  }
 
   // Future<Null> getData() async {
   //   await Firebase.initializeApp().then((value) async {
@@ -101,14 +116,16 @@ class HomePageState extends State<HomePage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => MenuDetailPage(
-                                              // name = Laundry.data()['Name'],
-                                              // address =
-                                              //     Laundry.data()['Address'],
-                                              // phone = Laundry.data()['Phone'],
-                                              // time = Laundry.data()['Time'],
-                                              // urlPic =
-                                              //     Laundry.data()['URLpic'],
-                                              )),
+                                              address = laundry[index]
+                                                  .data()['Address'],
+                                              name =
+                                                  laundry[index].data()['Name'],
+                                              phone = laundry[index]
+                                                  .data()['Phone'],
+                                              time =
+                                                  laundry[index].data()['Time'],
+                                              urlPic = laundry[index]
+                                                  .data()['URLPic'])),
                                     ),
                                   },
                                   child: Card(
