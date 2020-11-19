@@ -41,52 +41,6 @@ class RegisterPageState extends State<RegisterPage> {
           .then((value) {
         print('insert email Successfully');
       });
-      await firestore
-          .collection("Customer")
-          .document(firebaseAuth.currentUser.uid)
-          .collection("InformationLaundry")
-          .getDocuments();
-      await firestore
-          .collection("Customer")
-          .document(firebaseAuth.currentUser.uid)
-          .collection("TypeOfClothes")
-          .getDocuments();
-      await firestore
-          .collection("Customer")
-          .document(firebaseAuth.currentUser.uid)
-          .collection("TypeOfService")
-          .getDocuments();
-      await firestore
-          .collection("Customer")
-          .document(firebaseAuth.currentUser.uid)
-          .collection("TypeOfService")
-          .document(firebaseAuth.currentUser.uid)
-          .collection("ซักรีด")
-          .getDocuments();
-      await firestore
-          .collection("Customer")
-          .document(firebaseAuth.currentUser.uid)
-          .collection("TypeOfService")
-          .document(firebaseAuth.currentUser.uid)
-          .collection("ซักพับ")
-          .getDocuments();
-      await firestore
-          .collection("Customer")
-          .document(firebaseAuth.currentUser.uid)
-          .collection("TypeOfService")
-          .document(firebaseAuth.currentUser.uid)
-          .collection("รีด")
-          .getDocuments();
-      await firestore
-          .collection("Customer")
-          .document(firebaseAuth.currentUser.uid)
-          .collection("Orders")
-          .getDocuments();
-      await firestore
-          .collection("Customer")
-          .document(firebaseAuth.currentUser.uid)
-          .collection("Review")
-          .getDocuments();
     } catch (e) {
       print(e);
     }
@@ -200,7 +154,6 @@ class RegisterPageState extends State<RegisterPage> {
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
-                      //color: Colors.white
                     ),
                     child: TextFormField(
                       decoration: InputDecoration(
@@ -234,7 +187,6 @@ class RegisterPageState extends State<RegisterPage> {
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
-                      //color: Colors.white
                     ),
                     child: TextFormField(
                       decoration: InputDecoration(
@@ -268,7 +220,6 @@ class RegisterPageState extends State<RegisterPage> {
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
-                      //color: Colors.white
                     ),
                     child: TextFormField(
                       decoration: InputDecoration(
@@ -300,9 +251,8 @@ class RegisterPageState extends State<RegisterPage> {
                     height: 50,
                     width: 330,
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    decoration: BoxDecoration(
-                        //color: Colors.white,
-                        borderRadius: BorderRadius.circular(25)),
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(25)),
                     child: TextFormField(
                       keyboardType: TextInputType.text,
                       obscureText: true,
