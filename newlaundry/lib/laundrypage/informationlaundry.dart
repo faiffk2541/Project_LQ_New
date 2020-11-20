@@ -27,6 +27,7 @@ class InformationLaundryState extends State<InformationLaundry> {
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
     this.setState(() {
       imageFile = picture;
+      this.imageFiles.add(picture);
     });
     Navigator.of(context).pop();
   }
