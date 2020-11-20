@@ -25,6 +25,15 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
     });
   }
 
+  // DocumentReference laundtyID = Firestore.instance
+  //     .collection("Laundry")
+  //     .document('laundtyID.documentID')
+  //     .collection("TypeOfService")
+  //     .document();
+
+  // DocumentSnapshot docSnap = await laundtyID.get();
+  // var doc_id2 = docSnap.reference.documentID;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +75,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
               SizedBox(height: 30),
               Container(
                 height: 500,
-                child: StreamBuilder(
+                child: StreamBuilder<QuerySnapshot>(
                   stream: Firestore.instance
                       .collection("Laundry")
                       .document(firebaseAuth.currentUser.uid)
@@ -75,12 +84,18 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                       .collection("Washing")
                       .snapshots(),
                   builder: (context, snapshot) {
-                    if (snapshot.hasData) {
+                    if (snapshot.hasError) return Text('Some Error');
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      print('it can connect to firebase of service');
+                      return CircularProgressIndicator();
+                    } else {
                       return ListView.builder(
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) {
-                            DocumentSnapshot TypeOfClothes =
+                            DocumentSnapshot typeOfClothes =
                                 snapshot.data.documents[index];
+                            print(typeOfClothes.data());
+                            print(typeOfClothes.documentID);
                             return Stack(
                               children: [
                                 Container(
@@ -110,7 +125,9 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                         child: Column(
                                           children: [
                                             Text(
-                                              TypeOfClothes.data()['Type'],
+                                              typeOfClothes
+                                                  .data()['Type']
+                                                  .toString(),
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontFamily: 'Prompt',
@@ -119,7 +136,9 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                             ),
                                             SizedBox(height: 10),
                                             Text(
-                                              TypeOfClothes.data()['Price'],
+                                              typeOfClothes
+                                                  .data()['Price']
+                                                  .toString(),
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontFamily: 'Prompt',
