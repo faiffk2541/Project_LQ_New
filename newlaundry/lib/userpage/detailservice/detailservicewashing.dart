@@ -2,9 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:newlaundry/userpage/cart/addcart.dart';
-import 'package:newlaundry/userpage/menu/menuservice.dart';
 
 class DetailServiceWashingPage extends StatefulWidget {
+  final String laundryUID;
+
+  DetailServiceWashingPage(this.laundryUID);
+
   @override
   DetailServiceWashingState createState() => DetailServiceWashingState();
 }
@@ -12,6 +15,11 @@ class DetailServiceWashingPage extends StatefulWidget {
 class DetailServiceWashingState extends State<DetailServiceWashingPage> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   int count = 0;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   void add() {
     setState(() {
@@ -42,11 +50,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                       icon: Icon(Icons.arrow_back_ios),
                       color: Colors.white,
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MenuServicePage()),
-                        );
+                        Navigator.pop(context);
                       },
                     ),
                   ],
@@ -69,9 +73,9 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                 child: StreamBuilder(
                   stream: Firestore.instance
                       .collection("Laundry")
-                      .document(firebaseAuth.currentUser.uid)
+                      .document(widget.laundryUID)
                       .collection("TypeOfService")
-                      .document(firebaseAuth.currentUser.uid)
+                      .document("typeofservice")
                       .collection("Washing")
                       .snapshots(),
                   builder: (context, snapshot) {
@@ -79,15 +83,11 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                       return ListView.builder(
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) {
-                            DocumentSnapshot TypeOfClothes =
+                            DocumentSnapshot TypeOfService =
                                 snapshot.data.documents[index];
                             return Stack(
                               children: [
                                 Container(
-                                  // decoration: BoxDecoration(
-                                  //   color: Colors.white,
-                                  //   borderRadius: BorderRadius.circular(20),
-                                  // ),
                                   child: Row(
                                     children: [
                                       Container(
@@ -95,7 +95,6 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                         height: 120,
                                         width: 120,
                                         decoration: BoxDecoration(
-                                          //color: Colors.white,
                                           borderRadius:
                                               BorderRadius.circular(20),
                                         ),
@@ -110,7 +109,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                         child: Column(
                                           children: [
                                             Text(
-                                              TypeOfClothes.data()['Type'],
+                                              TypeOfService.data()['Type'],
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontFamily: 'Prompt',
@@ -119,7 +118,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                             ),
                                             SizedBox(height: 10),
                                             Text(
-                                              TypeOfClothes.data()['Price'],
+                                              TypeOfService.data()['Price'],
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontFamily: 'Prompt',
