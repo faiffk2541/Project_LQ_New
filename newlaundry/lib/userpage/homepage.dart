@@ -98,12 +98,17 @@ class HomePageState extends State<HomePage> {
                 child: StreamBuilder(
                   stream: Firestore.instance.collection("Laundry").snapshots(),
                   builder: (context, snapshot) {
-                    if (snapshot.hasData) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      print('it can connect to firebase');
+                      return CircularProgressIndicator();
+                    } else {
                       return ListView.builder(
                         itemCount: snapshot.data.documents.length,
                         itemBuilder: (context, index) {
                           DocumentSnapshot Laundry =
                               snapshot.data.documents[index];
+                          //print(Laundry.data());
+                          print(Laundry.documentID);
                           return Column(
                             children: [
                               Container(
