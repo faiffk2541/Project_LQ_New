@@ -34,14 +34,6 @@ class AccountPageState extends State<AccountPage> {
   //     });
   //   }
   // }
-
-  // final databaseReference = FirebaseDatabase.instance.reference();
-
-  // void getData() {
-  //   databaseReference.once().then((DataSnapshot snapshot) {
-  //     print('Data : ${snapshot.value}');
-  //   });
-  // }
   Future<Null> getData() async {
     await Firebase.initializeApp().then((value) async {
       await FirebaseAuth.instance.authStateChanges().listen((event) async {
@@ -81,76 +73,6 @@ class AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[100],
-      // body: SingleChildScrollView(
-      //   child: Container(
-      //     child: Column(
-      //       children: [
-      //         Padding(
-      //           padding: EdgeInsets.only(top: 35, left: 15),
-      //           child: Row(
-      //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //             children: [
-      //               IconButton(
-      //                 icon: Icon(Icons.arrow_back_ios),
-      //                 color: Colors.white,
-      //                 onPressed: () {
-      //                   Navigator.pop(context);
-      //                 },
-      //               ),
-      //             ],
-      //           ),
-      //         ),
-      //         Container(
-      //           alignment: Alignment.topCenter,
-      //           child: Text(
-      //             'บัญชีของฉัน',
-      //             style: TextStyle(
-      //                 color: Colors.blue[900],
-      //                 fontFamily: 'Prompt',
-      //                 fontSize: 20,
-      //                 fontWeight: FontWeight.bold),
-      //           ),
-      //         ),
-      //         Container(
-      //           child: StreamBuilder(
-      //             stream: Firestore.instance
-      //                 .collection("Customer")
-      //                 .document(firebaseAuth.currentUser.uid)
-      //                 .snapshots(),
-      //             builder: (context, snapshot) {
-      //               return ListView.builder(
-      //                   itemCount: snapshot.data.documents.length,
-      //                   itemBuilder: (context, index) {
-      //                     DocumentSnapshot Customer =
-      //                         snapshot.data.documents[index];
-      //                     return Column(
-      //                       children: [
-      //                         Padding(
-      //                           padding: EdgeInsets.only(top: 20, bottom: 10),
-      //                           child: Stack(
-      //                             children: [
-      //                               CircleAvatar(
-      //                                 radius: 50,
-      //                                 child: ClipOval(
-      //                                   child: Image.asset(
-      //                                     'assets/boy.png',
-      //                                     fit: BoxFit.fill,
-      //                                   ),
-      //                                 ),
-      //                               ),
-      //                             ],
-      //                           ),
-      //                         )
-      //                       ],
-      //                     );
-      //                   });
-      //             },
-      //           ),
-      //         )
-      //       ],
-      //     ),
-      //   ),
-      // ),
       body: ListView(
         children: [
           Padding(
@@ -511,6 +433,7 @@ class AccountPageState extends State<AccountPage> {
   //     .then((value) {
   //   print('insert Successfully');
   // });
+
 }
 
 //   Future<void> uploadPicToStorage() async {
@@ -525,4 +448,4 @@ class AccountPageState extends State<AccountPage> {
 //   urlPic = await (await storageUploadTask.onComplete).ref.getDownloadURL();
 //   print('urlPic is = $urlPic');
 //   insertinformation();
-// }
+//}

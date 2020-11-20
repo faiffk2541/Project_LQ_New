@@ -26,7 +26,6 @@ class EditAccountState extends State<EditAccount> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   Map map;
-
   @override
   void initState() {
     super.initState();

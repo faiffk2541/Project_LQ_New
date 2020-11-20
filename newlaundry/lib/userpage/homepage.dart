@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:newlaundry/userpage/menu/menudetail.dart';
+import 'package:newlaundry/widgets/google_signin.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -11,6 +12,55 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final firestore = Firestore.instance;
+  List<DocumentSnapshot> laundry = [];
+  String address, name, phone, time, urlPic;
+
+  getLaundry() async {
+    Query q = firestore.collection("Laundry");
+
+    QuerySnapshot querySnapshot = await q.getDocuments();
+    laundry = querySnapshot.documents;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getLaundry();
+  }
+
+  // Future<Null> getData() async {
+  //   await Firebase.initializeApp().then((value) async {
+  //     await FirebaseAuth.instance.authStateChanges().listen((event) async {
+  //       String uid = event.uid;
+  //       print("uid of user   ===> $uid");
+
+  //       DocumentReference querySnapshot =
+  //           await Firestore.instance.collection("Laundry").doc(uid);
+  //       DocumentSnapshot snap =
+  //           await Firestore.instance.collection("Laundry").doc(uid).get();
+  //       print(snap.data()["Address"].toString());
+  //       print(snap.data()["Name"].toString());
+  //       print(snap.data()["Phone"].toString());
+  //       print(snap.data()["Time"].toString());
+  //       print(snap.data()["URLpic"].toString());
+  //       await Firestore.instance
+  //           .collection('Laundry')
+  //           .doc(uid)
+  //           .snapshots()
+  //           .listen((event) {
+  //         setState(() {
+  //           address = snap.data()["Address"].toString();
+  //           name = snap.data()["Fname"].toString();
+  //           phone = snap.data()["Phone"].toString();
+  //           time = snap.data()["Email"].toString();
+  //           urlPic = snap.data()["Email"].toString();
+  //         });
+  //       });
+  //     });
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,8 +115,17 @@ class HomePageState extends State<HomePage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              MenuDetailPage()),
+                                          builder: (context) => MenuDetailPage(
+                                              address = laundry[index]
+                                                  .data()['Address'],
+                                              name =
+                                                  laundry[index].data()['Name'],
+                                              phone = laundry[index]
+                                                  .data()['Phone'],
+                                              time =
+                                                  laundry[index].data()['Time'],
+                                              urlPic = laundry[index]
+                                                  .data()['URLPic'])),
                                     ),
                                   },
                                   child: Card(

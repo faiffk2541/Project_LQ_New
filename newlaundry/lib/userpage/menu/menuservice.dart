@@ -27,10 +27,10 @@ class MenuServiceState extends State<MenuServicePage> {
                   icon: Icon(Icons.arrow_back_ios),
                   color: Colors.white,
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MenuDetailPage()),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => MenuDetailPage(Laundry.documentID)),
+                    // );
                   },
                 ),
               ],
