@@ -1,20 +1,16 @@
 import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:newlaundry/navigationbar.dart';
-import 'package:newlaundry/userpage/homepage.dart';
-import 'package:newlaundry/widgets/google_signin.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:newlaundry/userpage/menu/menuservice.dart';
 
 class MenuDetailPage extends StatefulWidget {
-  final String address, name, phone, time, urlPic;
+  final String uid, address, name, phone, time, urlPic;
 
-  MenuDetailPage(@required this.address, @required this.name,
-      @required this.phone, @required this.time, @required this.urlPic);
+  MenuDetailPage(
+      this.uid, this.address, this.name, this.phone, this.time, this.urlPic);
 
   @override
   MenuDetailState createState() => MenuDetailState();
@@ -22,38 +18,6 @@ class MenuDetailPage extends StatefulWidget {
 
 class MenuDetailState extends State<MenuDetailPage> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-
-  // Future<Null> getData() async {
-  //   await Firebase.initializeApp().then((value) async {
-  //     await FirebaseAuth.instance.authStateChanges().listen((event) async {
-  //       String uid = event.uid;
-  //       print("uid of user   ===> $uid");
-
-  //       DocumentReference querySnapshot =
-  //           await Firestore.instance.collection("Laundry").doc(uid);
-  //       DocumentSnapshot snap =
-  //           await Firestore.instance.collection("Laundry").doc(uid).get();
-  //       print(snap.data()["Address"].toString());
-  //       print(snap.data()["Name"].toString());
-  //       print(snap.data()["Phone"].toString());
-  //       print(snap.data()["Time"].toString());
-  //       print(snap.data()["URLpic"].toString());
-  //       await Firestore.instance
-  //           .collection('Laundry')
-  //           .doc(uid)
-  //           .snapshots()
-  //           .listen((event) {
-  //         setState(() {
-  //           address = snap.data()["Address"].toString();
-  //           name = snap.data()["Fname"].toString();
-  //           phone = snap.data()["Phone"].toString();
-  //           time = snap.data()["Email"].toString();
-  //           urlPic = snap.data()["Email"].toString();
-  //         });
-  //       });
-  //     });
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -70,11 +34,7 @@ class MenuDetailState extends State<MenuDetailPage> {
                   icon: Icon(Icons.arrow_back_ios),
                   color: Colors.white,
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => NavigationBarPage()),
-                    );
+                    Navigator.pop(context);
                   },
                 ),
               ],
@@ -84,11 +44,15 @@ class MenuDetailState extends State<MenuDetailPage> {
             margin: EdgeInsets.only(top: 15, right: 10, left: 10, bottom: 25),
             child: Center(
               child: Container(
-                height: 250,
-                width: 350,
+                //color: Colors.white,
                 child: Center(
-                  child: Image.asset('assets/shop1.png'),
-                  // child: Image.network(widget.urlPic),
+                  child: widget.urlPic == "null"
+                      ? Image.asset(
+                          'assets/shop1.png',
+                          width: 350,
+                          height: 250,
+                        )
+                      : Image.network(widget.urlPic, width: 350, height: 250),
                 ),
               ),
             ),
@@ -216,7 +180,8 @@ class MenuDetailState extends State<MenuDetailPage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MenuServicePage()),
+                    MaterialPageRoute(
+                        builder: (context) => MenuServicePage(widget.uid)),
                   );
                 },
                 padding: EdgeInsets.all(10),
