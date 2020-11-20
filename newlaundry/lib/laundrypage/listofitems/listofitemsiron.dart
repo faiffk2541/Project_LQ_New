@@ -23,7 +23,7 @@ class ListOfItemsIronState extends State<ListOfItemsIron> {
         .collection("Laundry")
         .document(firebaseAuth.currentUser.uid)
         .collection("TypeOfService")
-        .document(firebaseAuth.currentUser.uid)
+        .document("typeofservice")
         .collection("Iron")
         .document()
         .setData(map)
@@ -113,7 +113,7 @@ class ListOfItemsIronState extends State<ListOfItemsIron> {
                         .collection("Laundry")
                         .document(firebaseAuth.currentUser.uid)
                         .collection("TypeOfService")
-                        .document(firebaseAuth.currentUser.uid)
+                        .document("typeofservice")
                         .collection("Iron")
                         .snapshots(),
                     builder: (context, snapshot) {

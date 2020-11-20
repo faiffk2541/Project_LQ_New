@@ -23,7 +23,7 @@ class ListOfItemsFoldState extends State<ListOfItemsFold> {
         .collection("Laundry")
         .document(firebaseAuth.currentUser.uid)
         .collection("TypeOfService")
-        .document(firebaseAuth.currentUser.uid)
+        .document("typeofservice")
         .collection("Fold")
         .document()
         .setData(map)
@@ -113,7 +113,7 @@ class ListOfItemsFoldState extends State<ListOfItemsFold> {
                         .collection("Laundry")
                         .document(firebaseAuth.currentUser.uid)
                         .collection("TypeOfService")
-                        .document(firebaseAuth.currentUser.uid)
+                        .document("typeofservice")
                         .collection("Fold")
                         .snapshots(),
                     builder: (context, snapshot) {
