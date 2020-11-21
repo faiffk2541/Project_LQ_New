@@ -5,13 +5,23 @@ import 'package:newlaundry/userpage/cart/addcart.dart';
 import 'package:newlaundry/userpage/menu/menuservice.dart';
 
 class DetailServiceWashingPage extends StatefulWidget {
+  final Map map;
+  const DetailServiceWashingPage({Key key, this.map}) : super(key: key);
+
   @override
   DetailServiceWashingState createState() => DetailServiceWashingState();
 }
 
 class DetailServiceWashingState extends State<DetailServiceWashingPage> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  int count = 0;
+  String type;
+  int count = 0, sum = 0, price = 0;
+  Map map;
+
+  @override
+  void initState() {
+    map = widget.map;
+  }
 
   void add() {
     setState(() {
@@ -24,6 +34,14 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
       if (count != 0) count--;
     });
   }
+
+  /*void total() {
+    setState(() {
+      if (count != 0) {
+        sum = price * count;
+      }
+    });
+  }*/
 
   // DocumentReference laundtyID = Firestore.instance
   //     .collection("Laundry")
@@ -80,7 +98,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                       .collection("Laundry")
                       .document(firebaseAuth.currentUser.uid)
                       .collection("TypeOfService")
-                      .document(firebaseAuth.currentUser.uid)
+                      .document("typeofservice")
                       .collection("Washing")
                       .snapshots(),
                   builder: (context, snapshot) {
@@ -94,7 +112,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                           itemBuilder: (context, index) {
                             DocumentSnapshot typeOfClothes =
                                 snapshot.data.documents[index];
-                            print(typeOfClothes.data());
+                            //print(typeOfClothes.data());
                             print(typeOfClothes.documentID);
                             return Stack(
                               children: [
@@ -150,7 +168,22 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                               children: [
                                                 InkWell(
                                                   onTap: () {
-                                                    minus();
+                                                    if (count > 1) {
+                                                      setState(() {
+                                                        count--;
+                                                        price = int.parse(
+                                                            typeOfClothes
+                                                                    .data()[
+                                                                'Price']);
+                                                        sum = price * count;
+
+                                                        print(sum);
+                                                        print(typeOfClothes
+                                                            .data()['Price']);
+                                                        print(
+                                                            'count ==> $count');
+                                                      });
+                                                    }
                                                   },
                                                   child: Image.asset(
                                                       'assets/minus.png',
@@ -170,7 +203,19 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                 SizedBox(width: 20),
                                                 InkWell(
                                                   onTap: () {
-                                                    add();
+                                                    // add();
+                                                    setState(() {
+                                                      count++;
+                                                      price = int.parse(
+                                                          typeOfClothes
+                                                              .data()['Price']);
+                                                      sum = price * count;
+                                                      print(sum);
+                                                      print(typeOfClothes
+                                                          .data()['Price']);
+                                                      print('sum  ==> $price');
+                                                      print('count ==> $count');
+                                                    });
                                                   },
                                                   child: Image.asset(
                                                       'assets/add.png',
@@ -211,7 +256,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                               fontWeight: FontWeight.w300),
                         ),
                         Text(
-                          "$count บาท",
+                          "$sum บาท",
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Prompt',
