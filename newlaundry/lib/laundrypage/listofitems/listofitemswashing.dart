@@ -24,7 +24,7 @@ class ListOfItemsWashingState extends State<ListOfItemsWashing> {
         .collection("Laundry")
         .document(firebaseAuth.currentUser.uid)
         .collection("TypeOfService")
-        .document(firebaseAuth.currentUser.uid)
+        .document("typeofservice")
         .collection("Washing")
         .document()
         .setData(map)
@@ -114,7 +114,7 @@ class ListOfItemsWashingState extends State<ListOfItemsWashing> {
                         .collection("Laundry")
                         .document(firebaseAuth.currentUser.uid)
                         .collection("TypeOfService")
-                        .document(firebaseAuth.currentUser.uid)
+                        .document("typeofservice")
                         .collection("Washing")
                         .snapshots(),
                     builder: (context, snapshot) {
