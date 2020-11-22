@@ -1,12 +1,17 @@
+//import 'dart:html';
+
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:newlaundry/userpage/cart/addcart.dart';
-import 'package:newlaundry/userpage/menu/menuservice.dart';
 
 class DetailServiceWashingPage extends StatefulWidget {
-  final Map map;
-  const DetailServiceWashingPage({Key key, this.map}) : super(key: key);
+  final String laundryUID;
+  //final String washingUID;
+
+  DetailServiceWashingPage(this.laundryUID);
 
   @override
   DetailServiceWashingState createState() => DetailServiceWashingState();
@@ -15,25 +20,32 @@ class DetailServiceWashingPage extends StatefulWidget {
 class DetailServiceWashingState extends State<DetailServiceWashingPage> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   String type;
-  int count = 0, sum = 0, price = 0;
-  Map map;
+  int count = 0,
+      sum = 0,
+      sum1 = 0,
+      sum2 = 0,
+      price = 0,
+      total = 0,
+      amount = 0,
+      i = 0;
+  Map<String, dynamic> map = Map();
 
   @override
   void initState() {
-    map = widget.map;
+    super.initState();
   }
 
-  void add() {
-    setState(() {
-      count++;
-    });
-  }
+  // void add() {
+  //   setState(() {
+  //     count++;
+  //   });
+  // }
 
-  void minus() {
-    setState(() {
-      if (count != 0) count--;
-    });
-  }
+  // void minus() {
+  //   setState(() {
+  //     if (count != 0) count--;
+  //   });
+  // }
 
   /*void total() {
     setState(() {
@@ -69,11 +81,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                       icon: Icon(Icons.arrow_back_ios),
                       color: Colors.white,
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MenuServicePage()),
-                        );
+                        Navigator.pop(context);
                       },
                     ),
                   ],
@@ -96,7 +104,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                 child: StreamBuilder<QuerySnapshot>(
                   stream: Firestore.instance
                       .collection("Laundry")
-                      .document(firebaseAuth.currentUser.uid)
+                      .document(widget.laundryUID)
                       .collection("TypeOfService")
                       .document("typeofservice")
                       .collection("Washing")
@@ -110,25 +118,21 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                       return ListView.builder(
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) {
-                            DocumentSnapshot typeOfClothes =
+                            DocumentSnapshot TypeOfService =
                                 snapshot.data.documents[index];
                             //print(typeOfClothes.data());
-                            print(typeOfClothes.documentID);
+                            print(TypeOfService.documentID);
+
                             return Stack(
-                              children: [
+                              children: <Widget>[
                                 Container(
-                                  // decoration: BoxDecoration(
-                                  //   color: Colors.white,
-                                  //   borderRadius: BorderRadius.circular(20),
-                                  // ),
                                   child: Row(
-                                    children: [
+                                    children: <Widget>[
                                       Container(
                                         margin: EdgeInsets.only(left: 15),
                                         height: 120,
                                         width: 120,
                                         decoration: BoxDecoration(
-                                          //color: Colors.white,
                                           borderRadius:
                                               BorderRadius.circular(20),
                                         ),
@@ -141,11 +145,9 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                       Container(
                                         margin: EdgeInsets.only(left: 40),
                                         child: Column(
-                                          children: [
+                                          children: <Widget>[
                                             Text(
-                                              typeOfClothes
-                                                  .data()['Type']
-                                                  .toString(),
+                                              TypeOfService.data()['Type'],
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontFamily: 'Prompt',
@@ -154,9 +156,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                             ),
                                             SizedBox(height: 10),
                                             Text(
-                                              typeOfClothes
-                                                  .data()['Price']
-                                                  .toString(),
+                                              TypeOfService.data()['Price'],
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontFamily: 'Prompt',
@@ -165,23 +165,36 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                             ),
                                             SizedBox(height: 10),
                                             Row(
-                                              children: [
+                                              children: <Widget>[
                                                 InkWell(
                                                   onTap: () {
-                                                    if (count > 1) {
+                                                    if (count != 0) {
                                                       setState(() {
-                                                        count--;
-                                                        price = int.parse(
-                                                            typeOfClothes
-                                                                    .data()[
-                                                                'Price']);
-                                                        sum = price * count;
-
-                                                        print(sum);
-                                                        print(typeOfClothes
-                                                            .data()['Price']);
+                                                        if (!map.containsKey(
+                                                            TypeOfService
+                                                                .documentID)) {
+                                                          count = map[TypeOfService
+                                                              .documentID] = 1;
+                                                        } else {
+                                                          count = map[TypeOfService
+                                                              .documentID] -= 1;
+                                                        }
+                                                        print(
+                                                            'test2 ==>${map[TypeOfService.documentID]}');
+                                                        sum = int.parse(
+                                                                TypeOfService
+                                                                        .data()[
+                                                                    'Price']) *
+                                                            count;
+                                                        //sum1 += sum1;
+                                                        total -= sum;
+                                                        print(
+                                                            'price ==> ${TypeOfService.data()['Price']}');
+                                                        print('sum ==> $sum');
                                                         print(
                                                             'count ==> $count');
+                                                        print(
+                                                            'total ==> $total');
                                                       });
                                                     }
                                                   },
@@ -192,7 +205,11 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                 ),
                                                 SizedBox(width: 20),
                                                 Text(
-                                                  '$count',
+                                                  map[TypeOfService
+                                                              .documentID] !=
+                                                          null
+                                                      ? "${map[TypeOfService.documentID]}"
+                                                      : 0.toString(),
                                                   style: TextStyle(
                                                       color: Colors.black,
                                                       fontFamily: 'Prompt',
@@ -205,16 +222,35 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                   onTap: () {
                                                     // add();
                                                     setState(() {
-                                                      count++;
-                                                      price = int.parse(
-                                                          typeOfClothes
-                                                              .data()['Price']);
-                                                      sum = price * count;
-                                                      print(sum);
-                                                      print(typeOfClothes
-                                                          .data()['Price']);
-                                                      print('sum  ==> $price');
+                                                      //count++;
+
+                                                      if (!map.containsKey(
+                                                          TypeOfService
+                                                              .documentID)) {
+                                                        count = map[TypeOfService
+                                                            .documentID] = 1;
+                                                        //count++;
+                                                      } else {
+                                                        count = map[TypeOfService
+                                                            .documentID] += 1;
+                                                      }
+                                                      print(
+                                                          'test2 ==>${map[TypeOfService.documentID]}');
+                                                      sum = int.parse(
+                                                              TypeOfService
+                                                                      .data()[
+                                                                  'Price']) *
+                                                          count;
+
+                                                      total += sum;
+
+                                                      //amount = sum1 + total;
+                                                      //print(sum1);
+                                                      print(
+                                                          'price ==> ${TypeOfService.data()['Price']}');
+                                                      print('sum  ==> $sum');
                                                       print('count ==> $count');
+                                                      print('total ==> $total');
                                                     });
                                                   },
                                                   child: Image.asset(
@@ -239,7 +275,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
               ),
               SizedBox(height: 30),
               Row(
-                children: [
+                children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(left: 10, right: 15),
                   ),
@@ -256,7 +292,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                               fontWeight: FontWeight.w300),
                         ),
                         Text(
-                          "$sum บาท",
+                          "$sum  บาท",
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Prompt',
