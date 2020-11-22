@@ -61,7 +61,7 @@ class HomePageState extends State<HomePage> {
                 ),
               ),
               Container(
-                height: MediaQuery.of(context).size.height,
+                height: 700,
                 margin: EdgeInsets.only(left: 5, right: 5),
                 child: StreamBuilder(
                   stream: Firestore.instance.collection("Laundry").snapshots(),
@@ -75,8 +75,6 @@ class HomePageState extends State<HomePage> {
                         itemBuilder: (context, index) {
                           DocumentSnapshot Laundry =
                               snapshot.data.documents[index];
-                          //print(Laundry.data());
-                          print(Laundry.documentID);
                           return Column(
                             children: [
                               Container(
