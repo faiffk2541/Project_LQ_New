@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:newlaundry/userpage/detailservice/detailservicefold.dart';
+import 'package:newlaundry/userpage/detailservice/detailserviceiron.dart';
 import 'package:newlaundry/userpage/detailservice/detailservicewashing.dart';
-import 'package:newlaundry/userpage/menu/menudetail.dart';
 
 class MenuServicePage extends StatefulWidget {
+  final String laundryUID;
+
+  MenuServicePage(this.laundryUID);
+
   @override
   MenuServiceState createState() => MenuServiceState();
 }
@@ -11,6 +16,11 @@ class MenuServiceState extends State<MenuServicePage> {
   String washing = "ซักรีด";
   String fold = "ซักพับ";
   String iron = "รีด";
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +37,7 @@ class MenuServiceState extends State<MenuServicePage> {
                   icon: Icon(Icons.arrow_back_ios),
                   color: Colors.white,
                   onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => MenuDetailPage(Laundry.documentID)),
-                    // );
+                    Navigator.pop(context);
                   },
                 ),
               ],
@@ -70,7 +77,8 @@ class MenuServiceState extends State<MenuServicePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => DetailServiceWashingPage()),
+                          builder: (context) =>
+                              DetailServiceWashingPage(widget.laundryUID)),
                     );
                     // showAlert();
                   },
@@ -99,6 +107,12 @@ class MenuServiceState extends State<MenuServicePage> {
                   ),
                   onPressed: () {
                     // showAlert();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              DetailServiceFoldPage(widget.laundryUID)),
+                    );
                   },
                 ),
               ),
@@ -124,6 +138,12 @@ class MenuServiceState extends State<MenuServicePage> {
                         fontSize: 18),
                   ),
                   onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              DetailServiceIronPage(widget.laundryUID)),
+                    );
                     // showAlert();
                   },
                 ),

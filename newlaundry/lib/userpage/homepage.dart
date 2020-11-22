@@ -89,16 +89,12 @@ class HomePageState extends State<HomePage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => MenuDetailPage(
-                                              address = laundry[index]
-                                                  .data()['Address'],
-                                              name =
-                                                  laundry[index].data()['Name'],
-                                              phone = laundry[index]
-                                                  .data()['Phone'],
-                                              time =
-                                                  laundry[index].data()['Time'],
-                                              urlPic = laundry[index]
-                                                  .data()['URLPic'])),
+                                              laundry[index].documentID,
+                                              laundry[index].data()['Address'],
+                                              laundry[index].data()['Name'],
+                                              laundry[index].data()['Phone'],
+                                              laundry[index].data()['Time'],
+                                              laundry[index].data()['URLpic'])),
                                     ),
                                   },
                                   child: Card(

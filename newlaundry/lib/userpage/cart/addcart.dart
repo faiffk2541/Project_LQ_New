@@ -26,11 +26,7 @@ class AddCartState extends State<AddCartPage> {
                       icon: Icon(Icons.arrow_back_ios),
                       color: Colors.white,
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DetailServiceWashingPage()),
-                        );
+                        Navigator.pop(context);
                       },
                     ),
                   ],

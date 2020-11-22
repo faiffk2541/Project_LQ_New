@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
@@ -27,6 +26,7 @@ class InformationLaundryState extends State<InformationLaundry> {
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
     this.setState(() {
       imageFile = picture;
+      this.imageFiles.add(picture);
     });
     Navigator.of(context).pop();
   }
@@ -513,7 +513,7 @@ class InformationLaundryState extends State<InformationLaundry> {
     map['URLpic'] = urlPic;
     await databaseReference
         .collection("Laundry")
-        .document(firebaseAuth.currentUser.uid)
+        .doc(firebaseAuth.currentUser.uid)
         .setData(map)
         .then((value) {
       print('insert Successfully');
