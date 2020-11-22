@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:newlaundry/navigationbar.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:newlaundry/userpage/menu/menuservice.dart';
+import 'package:path/path.dart' as Path;
 
 class MenuDetailPage extends StatefulWidget {
   final String uid, address, name, phone, time, urlPic;
@@ -203,6 +206,15 @@ class MenuDetailState extends State<MenuDetailPage> {
         ],
       ),
     );
+  }
+
+  Future<Widget> check(String urlPic) async {
+    //uploadPicToStorage();
+    var fileUrl = Uri.decodeFull(Path.basename(urlPic))
+        .replaceAll(new RegExp(r'(\?alt).*'), '');
+    final StorageReference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child(fileUrl);
+    await firebaseStorageRef.getDownloadURL();
   }
 }
 

@@ -10,6 +10,7 @@ class ListOfItemsWashing extends StatefulWidget {
 
 class ListOfItemsWashingState extends State<ListOfItemsWashing> {
   String type, price;
+  //int price;
   String uid;
   final firestore = Firestore.instance;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -20,6 +21,7 @@ class ListOfItemsWashingState extends State<ListOfItemsWashing> {
     Map<String, dynamic> map = Map();
     map['Type'] = type;
     map['Price'] = price;
+
     await databaseReference
         .collection("Laundry")
         .document(firebaseAuth.currentUser.uid)
@@ -177,8 +179,7 @@ class ListOfItemsWashingState extends State<ListOfItemsWashing> {
                                                 child: Row(
                                                   children: [
                                                     Text(
-                                                      Washing.data()[
-                                                          'Price'],
+                                                      Washing.data()['Price'],
                                                       style: TextStyle(
                                                           color:
                                                               Colors.blue[900],

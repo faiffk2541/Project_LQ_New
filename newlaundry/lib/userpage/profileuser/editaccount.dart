@@ -17,7 +17,6 @@ class EditAccount extends StatefulWidget {
 enum SingingCharacter { male, female, notspecified }
 
 class EditAccountState extends State<EditAccount> {
-  
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String urlPic, fname, lname, birthday, sex, phone, address;
   File imageFile, file;
