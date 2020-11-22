@@ -1,17 +1,27 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:newlaundry/navigationbar.dart';
-import 'package:newlaundry/userpage/homepage.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:newlaundry/userpage/menu/menuservice.dart';
 import 'package:path/path.dart' as Path;
 
 class MenuDetailPage extends StatefulWidget {
+  final String uid, address, name, phone, time, urlPic;
+
+  MenuDetailPage(
+      this.uid, this.address, this.name, this.phone, this.time, this.urlPic);
+
   @override
   MenuDetailState createState() => MenuDetailState();
 }
 
 class MenuDetailState extends State<MenuDetailPage> {
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,11 +37,7 @@ class MenuDetailState extends State<MenuDetailPage> {
                   icon: Icon(Icons.arrow_back_ios),
                   color: Colors.white,
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => NavigationBarPage()),
-                    );
+                    Navigator.pop(context);
                   },
                 ),
               ],
@@ -41,13 +47,15 @@ class MenuDetailState extends State<MenuDetailPage> {
             margin: EdgeInsets.only(top: 15, right: 10, left: 10, bottom: 25),
             child: Center(
               child: Container(
-                height: 250,
-                width: 350,
+                //color: Colors.white,
                 child: Center(
-                  child: Container(
-                    child: Image.network(
-                        'https://firebasestorage.googleapis.com/v0/b/flutter-firebase-ba75e.appspot.com/o/PicInformationelaundry%2Finforlaunry67424.jpg?alt=media&token=63155dd7-c33b-4a8d-bc55-96b09d5cad35'),
-                  ),
+                  child: widget.urlPic == "null"
+                      ? Image.asset(
+                          'assets/shop1.png',
+                          width: 350,
+                          height: 250,
+                        )
+                      : Image.network(widget.urlPic, width: 350, height: 250),
                 ),
               ),
             ),
@@ -65,34 +73,104 @@ class MenuDetailState extends State<MenuDetailPage> {
                     bottomLeft: Radius.circular(15),
                     bottomRight: Radius.circular(15)),
               ),
-              child: Column(
-                children: [
-                  shopLocation(name: "พิกัด"),
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      shopName(name: "ร้านซักรีด"),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      showtime(name: "time"),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      shopDetail(name: "ที่อยู่ร้าน"),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      telphone(name: "เบอร์โทร"),
-                    ],
-                  ),
-                ],
+              child: Container(
+                child: Column(
+                  children: [
+                    shopLocation(name: "พิกัด"),
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.name,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'Prompt',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              children: [
+                                SmoothStarRating(
+                                  color: Colors.yellow[700],
+                                  rating: 4,
+                                  borderColor: Colors.yellow[700],
+                                  size: 20,
+                                ),
+                                SizedBox(height: 10, width: 15),
+                                Text(
+                                  '(20 รีวิว)',
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontFamily: 'Prompt',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w300),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Icon(Icons.access_time),
+                        SizedBox(height: 10, width: 10),
+                        Flexible(
+                          child: Text(
+                            widget.time,
+                            overflow: TextOverflow.visible,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'Prompt',
+                                fontSize: 16,
+                                fontWeight: FontWeight.w300),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Icon(Icons.home),
+                        SizedBox(height: 10, width: 10),
+                        Flexible(
+                          child: Text(
+                            widget.address,
+                            overflow: TextOverflow.visible,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'Prompt',
+                                fontSize: 16,
+                                fontWeight: FontWeight.w300),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Icon(Icons.phone),
+                        SizedBox(height: 10, width: 10),
+                        Flexible(
+                          child: Text(
+                            widget.phone,
+                            overflow: TextOverflow.visible,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'Prompt',
+                                fontSize: 16,
+                                fontWeight: FontWeight.w300),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -105,7 +183,8 @@ class MenuDetailState extends State<MenuDetailPage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MenuServicePage()),
+                    MaterialPageRoute(
+                        builder: (context) => MenuServicePage(widget.uid)),
                   );
                 },
                 padding: EdgeInsets.all(10),
@@ -157,109 +236,5 @@ Row shopLocation({String name}) {
             fontWeight: FontWeight.w300),
       )
     ],
-  );
-}
-
-Expanded shopName({String name}) {
-  return Expanded(
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'ร้านซักผ้า',
-          style: TextStyle(
-              color: Colors.black,
-              fontFamily: 'Prompt',
-              fontSize: 20,
-              fontWeight: FontWeight.w500),
-        ),
-        SizedBox(height: 10),
-        Row(
-          children: [
-            SmoothStarRating(
-              color: Colors.yellow[700],
-              rating: 4,
-              borderColor: Colors.yellow[700],
-              size: 20,
-            ),
-            SizedBox(height: 10, width: 15),
-            Text(
-              '(20 รีวิว)',
-              style: TextStyle(
-                  color: Colors.grey,
-                  fontFamily: 'Prompt',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w300),
-            )
-          ],
-        ),
-      ],
-    ),
-  );
-}
-
-Expanded showtime({String name}) {
-  return Expanded(
-    child: Row(
-      children: [
-        Icon(Icons.access_time),
-        SizedBox(height: 10, width: 10),
-        Flexible(
-          child: Text(
-            '8:00 - 18:00 น.',
-            overflow: TextOverflow.visible,
-            style: TextStyle(
-                color: Colors.black,
-                fontFamily: 'Prompt',
-                fontSize: 16,
-                fontWeight: FontWeight.w300),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Expanded shopDetail({String name}) {
-  return Expanded(
-    child: Row(
-      children: [
-        Icon(Icons.home),
-        SizedBox(height: 10, width: 10),
-        Flexible(
-          child: Text(
-            '104 ซอย ประชาอุทิศ 45 ถนนประชาอุทิศ แขวงบางมด เขตทุ่งครุ กรุงเทพมหานคร 10140',
-            overflow: TextOverflow.visible,
-            style: TextStyle(
-                color: Colors.black,
-                fontFamily: 'Prompt',
-                fontSize: 16,
-                fontWeight: FontWeight.w300),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Expanded telphone({String name}) {
-  return Expanded(
-    child: Row(
-      children: [
-        Icon(Icons.phone),
-        SizedBox(height: 10, width: 10),
-        Flexible(
-          child: Text(
-            '0128924567',
-            overflow: TextOverflow.visible,
-            style: TextStyle(
-                color: Colors.black,
-                fontFamily: 'Prompt',
-                fontSize: 16,
-                fontWeight: FontWeight.w300),
-          ),
-        ),
-      ],
-    ),
   );
 }

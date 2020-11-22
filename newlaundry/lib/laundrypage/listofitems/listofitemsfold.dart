@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-class ListOfItems extends StatefulWidget {
+class ListOfItemsFold extends StatefulWidget {
   @override
-  ListOfItemsState createState() => ListOfItemsState();
+  ListOfItemsFoldState createState() => ListOfItemsFoldState();
 }
 
-class ListOfItemsState extends State<ListOfItems> {
+class ListOfItemsFoldState extends State<ListOfItemsFold> {
   String type, price;
-  String uid;
+
+  final firestore = Firestore.instance;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   Future<void> createData() async {
@@ -20,9 +20,11 @@ class ListOfItemsState extends State<ListOfItems> {
     map['Type'] = type;
     map['Price'] = price;
     await databaseReference
-        .collection("Customer")
+        .collection("Laundry")
         .document(firebaseAuth.currentUser.uid)
-        .collection("TypeOfClothes")
+        .collection("TypeOfService")
+        .document("typeofservice")
+        .collection("Fold")
         .document()
         .setData(map)
         .then((value) {
@@ -56,7 +58,7 @@ class ListOfItemsState extends State<ListOfItems> {
               Container(
                 alignment: Alignment.topCenter,
                 child: Text(
-                  'เพิ่มรายการของร้าน',
+                  'เพิ่มบริการรีด',
                   style: TextStyle(
                       color: Colors.blue[900],
                       fontFamily: 'Prompt',
@@ -108,16 +110,18 @@ class ListOfItemsState extends State<ListOfItems> {
                 child: SafeArea(
                   child: StreamBuilder(
                     stream: Firestore.instance
-                        .collection("Customer")
+                        .collection("Laundry")
                         .document(firebaseAuth.currentUser.uid)
-                        .collection("TypeOfClothes")
+                        .collection("TypeOfService")
+                        .document("typeofservice")
+                        .collection("Fold")
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return ListView.builder(
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) {
-                            DocumentSnapshot TypeOfClothes =
+                            DocumentSnapshot Fold =
                                 snapshot.data.documents[index];
                             return Stack(
                               children: [
@@ -155,7 +159,7 @@ class ListOfItemsState extends State<ListOfItems> {
                                             padding: EdgeInsets.only(
                                                 top: 30, left: 20),
                                             child: Text(
-                                              TypeOfClothes.data()['Type'],
+                                              Fold.data()['Type'],
                                               style: TextStyle(
                                                   color: Colors.blue[900],
                                                   fontFamily: 'Prompt',
@@ -172,7 +176,7 @@ class ListOfItemsState extends State<ListOfItems> {
                                                 child: Row(
                                                   children: [
                                                     Text(
-                                                      TypeOfClothes.data()[
+                                                      Fold.data()[
                                                           'Price'],
                                                       style: TextStyle(
                                                           color:
@@ -392,7 +396,6 @@ class ListOfItemsState extends State<ListOfItems> {
                     SizedBox(width: 50),
                     RaisedButton(
                       onPressed: () {
-                        //insertinformation();
                         createData();
                       },
                       elevation: 0,

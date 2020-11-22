@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
@@ -9,8 +8,6 @@ import 'dart:async';
 import 'package:path/path.dart' as Path;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
-
-// import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
 class InformationLaundry extends StatefulWidget {
   @override
@@ -29,6 +26,7 @@ class InformationLaundryState extends State<InformationLaundry> {
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
     this.setState(() {
       imageFile = picture;
+      this.imageFiles.add(picture);
     });
     Navigator.of(context).pop();
   }
@@ -503,6 +501,7 @@ class InformationLaundryState extends State<InformationLaundry> {
     insertinformation();
   }
 
+  final firestore = Firestore.instance;
   Future<void> insertinformation() async {
     final databaseReference = Firestore.instance;
 
@@ -513,10 +512,8 @@ class InformationLaundryState extends State<InformationLaundry> {
     map['Phone'] = phone;
     map['URLpic'] = urlPic;
     await databaseReference
-        .collection("Customer")
-        .document(firebaseAuth.currentUser.uid)
-        .collection('InformationLaundry')
-        .document()
+        .collection("Laundry")
+        .doc(firebaseAuth.currentUser.uid)
         .setData(map)
         .then((value) {
       print('insert Successfully');
@@ -552,4 +549,3 @@ class InformationLaundryState extends State<InformationLaundry> {
         });
   }
 }
-//}

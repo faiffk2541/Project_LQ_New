@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:newlaundry/navigationbar.dart';
+import 'package:newlaundry/userpage/detailservice/detailservicewashing.dart';
 import 'package:newlaundry/userpage/historypage.dart';
-import 'package:newlaundry/userpage/menuservice/detailservice.dart';
 
 class AddCartPage extends StatefulWidget {
   @override
@@ -26,11 +26,7 @@ class AddCartState extends State<AddCartPage> {
                       icon: Icon(Icons.arrow_back_ios),
                       color: Colors.white,
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DetailServicePage()),
-                        );
+                        Navigator.pop(context);
                       },
                     ),
                   ],
