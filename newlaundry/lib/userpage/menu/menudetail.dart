@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:newlaundry/navigationbar.dart';
+import 'package:newlaundry/widgets/commentpage.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:newlaundry/userpage/menu/menuservice.dart';
 import 'package:path/path.dart' as Path;
@@ -76,8 +77,8 @@ class MenuDetailState extends State<MenuDetailPage> {
               child: Container(
                 child: Column(
                   children: [
-                    shopLocation(name: "พิกัด"),
-                    SizedBox(height: 20),
+                    //shopLocation(name: "พิกัด"),
+                    //SizedBox(height: 20),
                     Row(
                       children: [
                         Column(
@@ -92,25 +93,25 @@ class MenuDetailState extends State<MenuDetailPage> {
                                   fontWeight: FontWeight.w500),
                             ),
                             SizedBox(height: 10),
-                            Row(
-                              children: [
-                                SmoothStarRating(
-                                  color: Colors.yellow[700],
-                                  rating: 4,
-                                  borderColor: Colors.yellow[700],
-                                  size: 20,
-                                ),
-                                SizedBox(height: 10, width: 15),
-                                Text(
-                                  '(20 รีวิว)',
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontFamily: 'Prompt',
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w300),
-                                )
-                              ],
-                            ),
+                            // Row(
+                            //   children: [
+                            //     SmoothStarRating(
+                            //       color: Colors.yellow[700],
+                            //       rating: 4,
+                            //       borderColor: Colors.yellow[700],
+                            //       size: 20,
+                            //     ),
+                            //     SizedBox(height: 10, width: 15),
+                            //     Text(
+                            //       '(20 รีวิว)',
+                            //       style: TextStyle(
+                            //           color: Colors.grey,
+                            //           fontFamily: 'Prompt',
+                            //           fontSize: 16,
+                            //           fontWeight: FontWeight.w300),
+                            //     )
+                            //   ],
+                            // ),
                           ],
                         ),
                       ],
@@ -168,6 +169,65 @@ class MenuDetailState extends State<MenuDetailPage> {
                           ),
                         ),
                       ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+            child: Container(
+              height: 70,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15)),
+              ),
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10, left: 20),
+                      child: Row(
+                        children: [
+                          Text(
+                            'ความคิดเห็น',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'Prompt',
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 90),
+                            child: FlatButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          CommentPage(widget.uid)),
+                                );
+                              },
+                              child: new Text(
+                                "ดูทั้งหมด",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'Prompt',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                            ),
+                          ),
+                          Icon(Icons.arrow_forward_ios,
+                              color: Colors.grey, size: 15)
+                        ],
+                      ),
                     ),
                   ],
                 ),

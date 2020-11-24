@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:newlaundry/userpage/menu/menudetail.dart';
-import 'package:newlaundry/widgets/google_signin.dart';
+import 'package:newlaundry/widgets/searchpage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -14,7 +13,6 @@ class HomePageState extends State<HomePage> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final firestore = Firestore.instance;
   List<DocumentSnapshot> laundry = [];
-  String address, name, phone, time, urlPic;
 
   getLaundry() async {
     Query q = firestore.collection("Laundry");
@@ -37,26 +35,43 @@ class HomePageState extends State<HomePage> {
         child: Container(
           child: Column(
             children: [
-              Container(
-                margin: EdgeInsets.only(top: 50, left: 15, right: 15),
+              InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SearchPage()));
+                },
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  height: 50,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(20)),
-                  child: TextField(
-                    decoration: InputDecoration(
-                        enabledBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        icon: Icon(Icons.search, size: 30, color: Colors.grey),
-                        hintText: 'Search',
-                        hintStyle: TextStyle(
+                  margin: EdgeInsets.only(top: 50, left: 15, right: 15),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    height: 50,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Text(
+                        'Search',
+                        style: TextStyle(
                             color: Colors.grey,
                             fontFamily: 'Prompt',
                             fontSize: 18,
-                            fontWeight: FontWeight.w300)),
+                            fontWeight: FontWeight.w300),
+                      ),
+                    ),
+                    // child: TextField(
+                    //   decoration: InputDecoration(
+                    //       enabledBorder: InputBorder.none,
+                    //       focusedBorder: InputBorder.none,
+                    //       icon: Icon(Icons.search, size: 30, color: Colors.grey),
+                    //       hintText: 'Search',
+                    //       hintStyle: TextStyle(
+                    //           color: Colors.grey,
+                    //           fontFamily: 'Prompt',
+                    //           fontSize: 18,
+                    //           fontWeight: FontWeight.w300)),
+                    // ),
                   ),
                 ),
               ),
@@ -129,12 +144,13 @@ class HomePageState extends State<HomePage> {
                                                     MainAxisAlignment.center,
                                                 children: [
                                                   Image.asset(
-                                                    'assets/location.png',
+                                                    'assets/phone-call.png',
                                                     width: 15,
                                                     height: 15,
                                                   ),
+                                                  SizedBox(width: 5),
                                                   Text(
-                                                    ' 0.4 km',
+                                                    Laundry.data()['Phone'],
                                                     style: TextStyle(
                                                         color: Colors.black,
                                                         fontFamily: 'Prompt',
@@ -157,7 +173,7 @@ class HomePageState extends State<HomePage> {
                                                     height: 15,
                                                   ),
                                                   Text(
-                                                    ' 4.0 (20 รีวิว)',
+                                                    ' 20 รีวิว',
                                                     style: TextStyle(
                                                         color: Colors.black,
                                                         fontFamily: 'Prompt',
