@@ -67,7 +67,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 35, left: 15),
+                padding: EdgeInsets.only(top: 45, left: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -94,7 +94,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
               ),
               SizedBox(height: 30),
               Container(
-                height: 500,
+                height: 550,
                 child: StreamBuilder<QuerySnapshot>(
                   stream: Firestore.instance
                       .collection("Laundry")
@@ -114,9 +114,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                           itemBuilder: (context, index) {
                             DocumentSnapshot TypeOfService =
                                 snapshot.data.documents[index];
-                            //print(typeOfClothes.data());
                             print(TypeOfService.documentID);
-
                             return Stack(
                               children: <Widget>[
                                 Container(

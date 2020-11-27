@@ -69,7 +69,7 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
               ),
               SizedBox(height: 30),
               Container(
-                height: 500,
+                height: 550,
                 child: StreamBuilder(
                   stream: Firestore.instance
                       .collection("Laundry")
@@ -79,7 +79,11 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                       .collection("Iron")
                       .snapshots(),
                   builder: (context, snapshot) {
-                    if (snapshot.hasData) {
+                    if (snapshot.hasError) return Text('Some Error');
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      print('it can connect to firebase of service');
+                      return CircularProgressIndicator();
+                    } else {
                       return ListView.builder(
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) {
