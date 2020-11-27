@@ -19,7 +19,7 @@ class RegisterPageState extends State<RegisterPage> {
 
   final firestore = Firestore.instance;
 
-  Future<void> insertinformation(String email, name, lname) async {
+  Future<void> createuser(String email, name, lname) async {
     final databaseReference = Firestore.instance;
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
@@ -56,7 +56,7 @@ class RegisterPageState extends State<RegisterPage> {
       print('Register Success for LName = $lname');
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => NavigationBarPage()));
-      insertinformation(email, fname, lname);
+      createuser(email, fname, lname);
     }).catchError((response) {
       String title = response.code;
       String message = response.message;
