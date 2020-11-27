@@ -188,17 +188,8 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                       total = intArr.reduce(
                                                           (value, element) =>
                                                               value + element);
-                                                      //total = amount;
-                                                      print(intArr);
-                                                          // sum = int.parse(
-                                                          //         TypeOfService
-                                                          //                 .data()[
-                                                          //             'Price']) *
-                                                          //     count;
-
-                                                        
-                                                        //total -= sum;
-
+                                                      
+                                                      print(intArr);                                                         
                                                         print(
                                                             'price ==> ${TypeOfService.data()['Price']}');
                                                         print('sum ==> $sum');
@@ -231,16 +222,15 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                 SizedBox(width: 20),
                                                 InkWell(
                                                   onTap: () {
-                                                    // add();
-                                                    //List<int> intArr = [];
+                                                    
                                                     setState(() {
-                                                      //count++;
+                                                      
                                                       if (!map.containsKey(
                                                           TypeOfService
                                                               .documentID)) {
                                                         count = map[TypeOfService
                                                             .documentID] = 1;
-                                                        //count++;
+                                                        
                                                       } else {
                                                         count = map[TypeOfService
                                                             .documentID] += 1;
@@ -254,19 +244,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                       total = intArr.reduce(
                                                           (value, element) =>
                                                               value + element);
-                                                      print(intArr);
-
-                                                      // sum = int.parse(
-                                                      //         TypeOfService
-                                                      //                 .data()[
-                                                      //             'Price']) *
-                                                      //     count;
-
-                                                      
-
-                                                      //total += sum;
-                                                      //amount = sum1 + total;
-                                                      //print(sum1);
+                                                      print(intArr);                                                    
                                                       print(
                                                           'price ==> ${TypeOfService.data()['Price']}');
                                                       print('sum  ==> $sum');
