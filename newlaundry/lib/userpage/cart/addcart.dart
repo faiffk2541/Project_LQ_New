@@ -1,14 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:newlaundry/navigationbar.dart';
 import 'package:newlaundry/userpage/detailservice/detailservicewashing.dart';
 import 'package:newlaundry/userpage/historypage.dart';
 
 class AddCartPage extends StatefulWidget {
+  final String laundryUID;
+  const AddCartPage({Key key, this.laundryUID}) : super(key: key);
   @override
   AddCartState createState() => AddCartState();
 }
 
 class AddCartState extends State<AddCartPage> {
+  List model;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,47 +83,116 @@ class AddCartState extends State<AddCartPage> {
                             )
                           ],
                         ),
-                        SizedBox(height: 15),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.store_mall_directory,
-                              color: Colors.blue,
-                            ),
-                            SizedBox(width: 10, height: 10),
-                            Text(
-                              'รายวัน',
-                              style: TextStyle(
-                                  height: 1.5,
-                                  color: Colors.black,
-                                  fontFamily: 'Prompt',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w300),
-                            )
-                          ],
-                        ),
-                        SizedBox(height: 15),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.local_grocery_store,
-                              color: Colors.green,
-                            ),
-                            SizedBox(width: 10, height: 10),
-                            Text(
-                              'ซักอบรีด',
-                              style: TextStyle(
-                                  height: 1.5,
-                                  color: Colors.black,
-                                  fontFamily: 'Prompt',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w300),
-                            )
-                          ],
-                        )
+                        // SizedBox(height: 15),
+                        // Row(
+                        //   children: [
+                        //     Icon(
+                        //       Icons.store_mall_directory,
+                        //       color: Colors.blue,
+                        //     ),
+                        //     SizedBox(width: 10, height: 10),
+                        //     Text(
+                        //       'รายวัน',
+                        //       style: TextStyle(
+                        //           height: 1.5,
+                        //           color: Colors.black,
+                        //           fontFamily: 'Prompt',
+                        //           fontSize: 16,
+                        //           fontWeight: FontWeight.w300),
+                        //     )
+                        //   ],
+                        // ),
+                        // SizedBox(height: 15),
+                        // Row(
+                        //   children: [
+                        //     Icon(
+                        //       Icons.local_grocery_store,
+                        //       color: Colors.green,
+                        //     ),
+                        //     SizedBox(width: 10, height: 10),
+                        //     Text(
+                        //       'ซักอบรีด',
+                        //       style: TextStyle(
+                        //           height: 1.5,
+                        //           color: Colors.black,
+                        //           fontFamily: 'Prompt',
+                        //           fontSize: 16,
+                        //           fontWeight: FontWeight.w300),
+                        //     )
+                        //   ],
+                        // )
                       ],
                     ),
                   ),
+                ),
+              ),
+              Container(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 30),
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 20, left: 20),
+                        ),
+                        Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.grey, width: 1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Text(
+                              '1 x',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'Prompt',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: 20, left: 20),
+                              ),
+                              Text(
+                                'เสื้อ',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'Prompt',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(right: 210),
+                              ),
+                              Text(
+                                '25',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'Prompt',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    )
+                  ],
                 ),
               ),
               Container(

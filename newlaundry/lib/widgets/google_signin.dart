@@ -21,8 +21,6 @@ Future<void> insertinformation(String email) async {
   map['URLpic'] = imageUrl;
   map['Fname'] = name;
   map['Lname'] = "";
-  map['Birthday'] = "";
-  map['Sex'] = "";
   map['Phone'] = "";
   map['Address'] = "";
 

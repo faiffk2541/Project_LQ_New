@@ -319,7 +319,7 @@ class ListOfItemsWashingState extends State<ListOfItemsWashing> {
                           },
                         );
                       }
-                    },
+                    }
                   ),
                 ),
               ),
