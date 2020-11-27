@@ -1,7 +1,5 @@
 import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class CommentPage extends StatefulWidget {
@@ -23,12 +21,6 @@ class CommentPageState extends State<CommentPage> {
         .doc(widget.uid)
         .collection("Review")
         .getDocuments();
-
-    // documentReference.get().then((value) => {
-    //   if (value.data() != null){
-
-    //   }
-    // });
   }
 
   @override
@@ -74,56 +66,63 @@ class CommentPageState extends State<CommentPage> {
                       .collection("Review")
                       .snapshots(),
                   builder: (context, snapshot) {
-                    return ListView.builder(
-                      itemCount: snapshot.data.documents.length,
-                      itemBuilder: (context, index) {
-                        DocumentSnapshot Review =
-                            snapshot.data.documents[index];
-                        return Container(
-                          margin: EdgeInsets.only(left: 15, right: 15, top: 15),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    top: 10, left: 15, bottom: 10),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      'ความคิดเห็นที่',
-                                      style: TextStyle(
-                                          color: Colors.blue[900],
-                                          fontFamily: 'Prompt',
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ],
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      print('it can connect to firebase');
+                      return CircularProgressIndicator();
+                    } else {
+                      return ListView.builder(
+                        itemCount: snapshot.data.documents.length,
+                        itemBuilder: (context, index) {
+                          DocumentSnapshot Review =
+                              snapshot.data.documents[index];
+                          return Container(
+                            margin:
+                                EdgeInsets.only(left: 15, right: 15, top: 15),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 10, left: 15, bottom: 10),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'ความคิดเห็นที่',
+                                        style: TextStyle(
+                                            color: Colors.blue[900],
+                                            fontFamily: 'Prompt',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 15, bottom: 10),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      Review.data()['Comment'],
-                                      style: TextStyle(
-                                          color: Colors.blue[900],
-                                          fontFamily: 'Prompt',
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ],
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(left: 15, bottom: 10),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        Review.data()['Comment'],
+                                        style: TextStyle(
+                                            color: Colors.blue[900],
+                                            fontFamily: 'Prompt',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    }
                   },
                 ),
               ),
