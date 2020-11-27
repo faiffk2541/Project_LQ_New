@@ -28,8 +28,6 @@ class RegisterPageState extends State<RegisterPage> {
     map['URLpic'] = "";
     map['Fname'] = name;
     map['Lname'] = lname;
-    map['Birthday'] = "";
-    map['Sex'] = "";
     map['Phone'] = "";
     map['Address'] = "";
 
