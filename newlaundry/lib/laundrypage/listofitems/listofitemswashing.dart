@@ -120,7 +120,10 @@ class ListOfItemsWashingState extends State<ListOfItemsWashing> {
                         .collection("Washing")
                         .snapshots(),
                     builder: (context, snapshot) {
-                      if (snapshot.hasData) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        print('it can connect to firebase');
+                        return CircularProgressIndicator();
+                      } else {
                         return ListView.builder(
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) {
@@ -284,7 +287,7 @@ class ListOfItemsWashingState extends State<ListOfItemsWashing> {
                           },
                         );
                       }
-                    },
+                    }
                   ),
                 ),
               ),
