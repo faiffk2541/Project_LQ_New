@@ -18,8 +18,8 @@ Future<void> insertinformation(String email) async {
 
   Map<String, dynamic> map = Map();
   map['Email'] = email;
-  map['URLpic'] = "";
-  map['Fname'] = "";
+  map['URLpic'] = imageUrl;
+  map['Fname'] = name;
   map['Lname'] = "";
   map['Birthday'] = "";
   map['Sex'] = "";
@@ -34,36 +34,6 @@ Future<void> insertinformation(String email) async {
         .then((value) {
       print('insert email Successfully');
     });
-    await firestore
-        .collection("Customer")
-        .document(firebaseAuth.currentUser.uid)
-        .collection("InformationLaundry")
-        .document(firebaseAuth.currentUser.uid)
-        .setData({});
-    await firestore
-        .collection("Customer")
-        .document(firebaseAuth.currentUser.uid)
-        .collection("TypeOfClothes")
-        .document(firebaseAuth.currentUser.uid)
-        .setData({});
-    await firestore
-        .collection("Customer")
-        .document(firebaseAuth.currentUser.uid)
-        .collection("TypeOfService")
-        .document(firebaseAuth.currentUser.uid)
-        .setData({});
-    await firestore
-        .collection("Customer")
-        .document(firebaseAuth.currentUser.uid)
-        .collection("Orders")
-        .document(firebaseAuth.currentUser.uid)
-        .setData({});
-    await firestore
-        .collection("Customer")
-        .document(firebaseAuth.currentUser.uid)
-        .collection("Review")
-        .document(firebaseAuth.currentUser.uid)
-        .setData({});
   } catch (e) {
     print(e);
   }

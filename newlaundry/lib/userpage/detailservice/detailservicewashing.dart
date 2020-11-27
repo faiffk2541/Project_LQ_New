@@ -18,6 +18,7 @@ class DetailServiceWashingPage extends StatefulWidget {
 }
 
 class DetailServiceWashingState extends State<DetailServiceWashingPage> {
+  List<int> intArr = [];
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   String type;
   int count = 0,
@@ -171,8 +172,8 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                     if (count != 0) {
                                                       setState(() {
                                                         if (!map.containsKey(
-                                                            TypeOfService
-                                                                .documentID)) {
+                                                            TypeOfService.documentID))
+                                                                 {
                                                           count = map[TypeOfService
                                                               .documentID] = 1;
                                                         } else {
@@ -181,13 +182,23 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                         }
                                                         print(
                                                             'test2 ==>${map[TypeOfService.documentID]}');
-                                                        sum = int.parse(
-                                                                TypeOfService
-                                                                        .data()[
-                                                                    'Price']) *
-                                                            count;
-                                                        //sum1 += sum1;
-                                                        total -= sum;
+                                                      intArr.remove(int.parse(
+                                                          TypeOfService.data()[
+                                                              'Price']));
+                                                      total = intArr.reduce(
+                                                          (value, element) =>
+                                                              value + element);
+                                                      //total = amount;
+                                                      print(intArr);
+                                                          // sum = int.parse(
+                                                          //         TypeOfService
+                                                          //                 .data()[
+                                                          //             'Price']) *
+                                                          //     count;
+
+                                                        
+                                                        //total -= sum;
+
                                                         print(
                                                             'price ==> ${TypeOfService.data()['Price']}');
                                                         print('sum ==> $sum');
@@ -221,9 +232,9 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                 InkWell(
                                                   onTap: () {
                                                     // add();
+                                                    //List<int> intArr = [];
                                                     setState(() {
                                                       //count++;
-
                                                       if (!map.containsKey(
                                                           TypeOfService
                                                               .documentID)) {
@@ -236,14 +247,24 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                       }
                                                       print(
                                                           'test2 ==>${map[TypeOfService.documentID]}');
-                                                      sum = int.parse(
-                                                              TypeOfService
-                                                                      .data()[
-                                                                  'Price']) *
-                                                          count;
 
-                                                      total += sum;
+                                                      intArr.add(int.parse(
+                                                          TypeOfService.data()[
+                                                              'Price']));
+                                                      total = intArr.reduce(
+                                                          (value, element) =>
+                                                              value + element);
+                                                      print(intArr);
 
+                                                      // sum = int.parse(
+                                                      //         TypeOfService
+                                                      //                 .data()[
+                                                      //             'Price']) *
+                                                      //     count;
+
+                                                      
+
+                                                      //total += sum;
                                                       //amount = sum1 + total;
                                                       //print(sum1);
                                                       print(
@@ -292,7 +313,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                               fontWeight: FontWeight.w300),
                         ),
                         Text(
-                          "$sum  บาท",
+                          "$total  บาท",
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Prompt',
