@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:newlaundry/navigationbar.dart';
 import 'package:newlaundry/widgets/commentpage.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
+//import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:newlaundry/userpage/menu/menuservice.dart';
 import 'package:path/path.dart' as Path;
 

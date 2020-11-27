@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:newlaundry/date_picker/date_textbox.dart';
+//import 'package:newlaundry/date_picker/date_textbox.dart';
 import 'package:newlaundry/widgets/google_signin.dart';
 
 class EditAccount extends StatefulWidget {
@@ -121,12 +121,12 @@ class EditAccountState extends State<EditAccount> {
       child: new Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          CupertinoDateTextBox(
-            initialValue: _selectedDateTime,
-            onDateChange: onBirthdayChange,
-            hintText: DateFormat.yMd().format(_selectedDateTime),
-            fontSize: 20,
-          ),
+          // CupertinoDateTextBox(
+          //   initialValue: _selectedDateTime,
+          //   onDateChange: onBirthdayChange,
+          //   hintText: DateFormat.yMd().format(_selectedDateTime),
+          //   fontSize: 20,
+          // ),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class ListOfItemsWashing extends StatefulWidget {
@@ -12,8 +13,21 @@ class ListOfItemsWashingState extends State<ListOfItemsWashing> {
   String type, price;
   //int price;
   String uid;
+  int count = 0;
+  Map<String, dynamic> washing = Map();
   final firestore = Firestore.instance;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  _updateData() async {
+    await firestore
+        .collection("Laundry")
+        .document(firebaseAuth.currentUser.uid)
+        .collection("TypeOfService")
+        .document("typeofservice")
+        .collection("Washing")
+        .document(firebaseAuth.currentUser.uid)
+        .updateData({'Type': type, 'Price': price});
+  }
 
   Future<void> createData() async {
     final databaseReference = Firestore.instance;
@@ -120,8 +134,9 @@ class ListOfItemsWashingState extends State<ListOfItemsWashing> {
                         .collection("Washing")
                         .snapshots(),
                     builder: (context, snapshot) {
+                      if (snapshot.hasError) return Text('Some Error');
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        print('it can connect to firebase');
+                        print('can connect to firebase');
                         return CircularProgressIndicator();
                       } else {
                         return ListView.builder(
@@ -129,6 +144,8 @@ class ListOfItemsWashingState extends State<ListOfItemsWashing> {
                           itemBuilder: (context, index) {
                             DocumentSnapshot Washing =
                                 snapshot.data.documents[index];
+                            print('Washing ==>${Washing.data()}' +
+                                'Uid ==> ${Washing.documentID}');
                             return Stack(
                               children: [
                                 Container(
@@ -220,7 +237,20 @@ class ListOfItemsWashingState extends State<ListOfItemsWashing> {
                                               width: 70,
                                               child: RaisedButton(
                                                 elevation: 0,
-                                                onPressed: () {},
+                                                onPressed: () async {
+                                                  await Firestore.instance
+                                                      .collection("Laundry")
+                                                      .document(firebaseAuth
+                                                          .currentUser.uid)
+                                                      .collection(
+                                                          "TypeOfService")
+                                                      .document("typeofservice")
+                                                      .collection("Washing")
+                                                      .document(
+                                                          Washing.documentID)
+                                                      .delete();
+                                                  print('delete Done');
+                                                },
                                                 color: Colors.red,
                                                 shape: RoundedRectangleBorder(
                                                     borderRadius:
@@ -256,7 +286,9 @@ class ListOfItemsWashingState extends State<ListOfItemsWashing> {
                                               width: 70,
                                               child: RaisedButton(
                                                 elevation: 0,
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  showAlert();
+                                                },
                                                 color: Colors.green[800],
                                                 shape: RoundedRectangleBorder(
                                                     borderRadius:
@@ -402,6 +434,8 @@ class ListOfItemsWashingState extends State<ListOfItemsWashing> {
                     RaisedButton(
                       onPressed: () {
                         createData();
+
+                        _updateData();
                       },
                       elevation: 0,
                       color: Colors.blue,

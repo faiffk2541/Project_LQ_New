@@ -1,14 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:newlaundry/navigationbar.dart';
 import 'package:newlaundry/userpage/detailservice/detailservicewashing.dart';
 import 'package:newlaundry/userpage/historypage.dart';
 
 class AddCartPage extends StatefulWidget {
+  final String laundryUID;
+  const AddCartPage({Key key, this.laundryUID}) : super(key: key);
   @override
   AddCartState createState() => AddCartState();
 }
 
 class AddCartState extends State<AddCartPage> {
+  List model;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
