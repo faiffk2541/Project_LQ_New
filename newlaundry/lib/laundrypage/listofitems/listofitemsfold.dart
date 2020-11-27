@@ -117,7 +117,10 @@ class ListOfItemsFoldState extends State<ListOfItemsFold> {
                         .collection("Fold")
                         .snapshots(),
                     builder: (context, snapshot) {
-                      if (snapshot.hasData) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        print('it can connect to firebase');
+                        return CircularProgressIndicator();
+                      } else {
                         return ListView.builder(
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) {
@@ -176,8 +179,7 @@ class ListOfItemsFoldState extends State<ListOfItemsFold> {
                                                 child: Row(
                                                   children: [
                                                     Text(
-                                                      Fold.data()[
-                                                          'Price'],
+                                                      Fold.data()['Price'],
                                                       style: TextStyle(
                                                           color:
                                                               Colors.blue[900],
