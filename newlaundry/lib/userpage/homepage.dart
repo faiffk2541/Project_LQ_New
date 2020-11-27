@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:newlaundry/userpage/menu/menudetail.dart';
-import 'package:newlaundry/widgets/searchpage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,8 +18,8 @@ class HomePageState extends State<HomePage> {
   getLaundry() async {
     Query q = firestore.collection("Laundry");
 
-    QuerySnapshot querySnapshot = await q.getDocuments();
-    laundry = querySnapshot.documents;
+    QuerySnapshot querySnapshot = await q.get();
+    laundry = querySnapshot.docs;
   }
 
   @override
@@ -38,30 +37,6 @@ class HomePageState extends State<HomePage> {
           Expanded(
             child: Column(
               children: [
-                // Padding(
-                //   padding: EdgeInsets.only(top: 15, left: 15),
-                //   child: Container(
-                //     child: TextField(
-                //       autofocus: true,
-                //       onChanged: (val) {
-                //         setState(() {
-                //           searchString = val.toLowerCase();
-                //         });
-                //       },
-                //       controller: SearchController,
-                //       decoration: InputDecoration(
-                //         border: InputBorder.none,
-                //         icon: Icon(Icons.search),
-                //         hintText: 'Search',
-                //         hintStyle: TextStyle(
-                //             color: Colors.grey,
-                //             fontFamily: 'Prompt',
-                //             fontSize: 18,
-                //             fontWeight: FontWeight.w300),
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 Container(
                   margin: EdgeInsets.only(top: 50, left: 15, right: 15),
                   height: 50,
