@@ -284,171 +284,6 @@ class ListOfItemsIronState extends State<ListOfItemsIron> {
                           },
                         );
                       }
-                      // if (snapshot.hasData) {
-                      //   return ListView.builder(
-                      //     itemCount: snapshot.data.documents.length,
-                      //     itemBuilder: (context, index) {
-                      //       DocumentSnapshot Iron =
-                      //           snapshot.data.documents[index];
-                      //       return Stack(
-                      //         children: [
-                      //           Container(
-                      //             margin: EdgeInsets.only(
-                      //                 left: 15, right: 15, top: 20),
-                      //             height: 150,
-                      //             width: double.infinity,
-                      //             decoration: BoxDecoration(
-                      //               color: Colors.white,
-                      //               borderRadius: BorderRadius.circular(20),
-                      //             ),
-                      //             child: Row(
-                      //               children: [
-                      //                 Column(
-                      //                   children: [
-                      //                     Padding(
-                      //                       padding: EdgeInsets.only(
-                      //                           top: 30, left: 15),
-                      //                       child: InkWell(
-                      //                         onTap: () {},
-                      //                         child: Image.asset(
-                      //                             'assets/laundry-basket.png',
-                      //                             height: 90,
-                      //                             width: 90),
-                      //                       ),
-                      //                     ),
-                      //                   ],
-                      //                 ),
-                      //                 Column(
-                      //                   crossAxisAlignment:
-                      //                       CrossAxisAlignment.start,
-                      //                   children: [
-                      //                     Padding(
-                      //                       padding: EdgeInsets.only(
-                      //                           top: 30, left: 20),
-                      //                       child: Text(
-                      //                         Iron.data()['Type'],
-                      //                         style: TextStyle(
-                      //                             color: Colors.blue[900],
-                      //                             fontFamily: 'Prompt',
-                      //                             fontSize: 18,
-                      //                             fontWeight: FontWeight.w400),
-                      //                       ),
-                      //                     ),
-                      //                     SizedBox(height: 20),
-                      //                     Row(
-                      //                       children: [
-                      //                         Padding(
-                      //                           padding:
-                      //                               EdgeInsets.only(left: 20),
-                      //                           child: Row(
-                      //                             children: [
-                      //                               Text(
-                      //                                 Iron.data()[
-                      //                                     'Price'],
-                      //                                 style: TextStyle(
-                      //                                     color:
-                      //                                         Colors.blue[900],
-                      //                                     fontFamily: 'Prompt',
-                      //                                     fontSize: 18,
-                      //                                     fontWeight:
-                      //                                         FontWeight.w400),
-                      //                               ),
-                      //                               Text(
-                      //                                 '  บาท',
-                      //                                 style: TextStyle(
-                      //                                     color:
-                      //                                         Colors.blue[900],
-                      //                                     fontFamily: 'Prompt',
-                      //                                     fontSize: 18,
-                      //                                     fontWeight:
-                      //                                         FontWeight.w400),
-                      //                               ),
-                      //                             ],
-                      //                           ),
-                      //                         ),
-                      //                       ],
-                      //                     )
-                      //                   ],
-                      //                 ),
-                      //                 Column(
-                      //                   mainAxisAlignment:
-                      //                       MainAxisAlignment.end,
-                      //                   children: [
-                      //                     Padding(
-                      //                       padding:
-                      //                           EdgeInsets.only(bottom: 10),
-                      //                       child: Container(
-                      //                         height: 30,
-                      //                         width: 70,
-                      //                         child: RaisedButton(
-                      //                           elevation: 0,
-                      //                           onPressed: () {},
-                      //                           color: Colors.red,
-                      //                           shape: RoundedRectangleBorder(
-                      //                               borderRadius:
-                      //                                   BorderRadius.all(
-                      //                                       Radius.circular(
-                      //                                           50))),
-                      //                           child: Center(
-                      //                             child: Text(
-                      //                               'ลบ',
-                      //                               style: TextStyle(
-                      //                                   color: Colors.white,
-                      //                                   fontFamily: 'Prompt',
-                      //                                   fontWeight:
-                      //                                       FontWeight.w400,
-                      //                                   fontSize: 16),
-                      //                             ),
-                      //                           ),
-                      //                         ),
-                      //                       ),
-                      //                     ),
-                      //                   ],
-                      //                 ),
-                      //                 SizedBox(width: 20),
-                      //                 Column(
-                      //                   mainAxisAlignment:
-                      //                       MainAxisAlignment.end,
-                      //                   children: [
-                      //                     Padding(
-                      //                       padding:
-                      //                           EdgeInsets.only(bottom: 10),
-                      //                       child: Container(
-                      //                         height: 30,
-                      //                         width: 70,
-                      //                         child: RaisedButton(
-                      //                           elevation: 0,
-                      //                           onPressed: () {},
-                      //                           color: Colors.green[800],
-                      //                           shape: RoundedRectangleBorder(
-                      //                               borderRadius:
-                      //                                   BorderRadius.all(
-                      //                                       Radius.circular(
-                      //                                           50))),
-                      //                           child: Center(
-                      //                             child: Text(
-                      //                               'แก้ไข',
-                      //                               style: TextStyle(
-                      //                                   color: Colors.white,
-                      //                                   fontFamily: 'Prompt',
-                      //                                   fontWeight:
-                      //                                       FontWeight.w400,
-                      //                                   fontSize: 16),
-                      //                             ),
-                      //                           ),
-                      //                         ),
-                      //                       ),
-                      //                     ),
-                      //                   ],
-                      //                 ),
-                      //               ],
-                      //             ),
-                      //           ),
-                      //         ],
-                      //       );
-                      //     },
-                      //   );
-                      // }
                     },
                   ),
                 ),
@@ -539,7 +374,9 @@ class ListOfItemsIronState extends State<ListOfItemsIron> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     RaisedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       elevation: 0,
                       color: Colors.red,
                       shape: RoundedRectangleBorder(
@@ -563,6 +400,7 @@ class ListOfItemsIronState extends State<ListOfItemsIron> {
                     SizedBox(width: 50),
                     RaisedButton(
                       onPressed: () {
+                        Navigator.pop(context, true);
                         createData();
                       },
                       elevation: 0,
