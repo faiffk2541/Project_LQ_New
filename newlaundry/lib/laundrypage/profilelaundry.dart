@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:newlaundry/laundrypage/datalaundry.dart';
 import 'package:newlaundry/laundrypage/historylaundry.dart';
-import 'package:newlaundry/laundrypage/informationlaundry.dart';
 import 'package:newlaundry/laundrypage/listofservice.dart';
 import 'package:newlaundry/laundrypage/todolistlaundry.dart';
 
 class ProfileLaundry extends StatefulWidget {
+  final String uid;
+  ProfileLaundry(this.uid);
   @override
   ProfileLaundryState createState() => ProfileLaundryState();
 }
@@ -56,7 +58,7 @@ class ProfileLaundryState extends State<ProfileLaundry> {
               onTap: () => {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => InformationLaundry()),
+                  MaterialPageRoute(builder: (context) => DataLaundry()),
                 ),
               },
               child: Card(
@@ -95,52 +97,6 @@ class ProfileLaundryState extends State<ProfileLaundry> {
               ),
             ),
           ),
-          // Container(
-          //   margin: EdgeInsets.only(left: 10, right: 10),
-          //   width: double.maxFinite,
-          //   child: InkWell(
-          //     onTap: () => {
-          //       Navigator.push(
-          //         context,
-          //         MaterialPageRoute(builder: (context) => ListOfItems()),
-          //       ),
-          //     },
-          //     child: Card(
-          //       child: Container(
-          //         height: 80,
-          //         padding: EdgeInsets.only(left: 20),
-          //         child: Row(
-          //           children: <Widget>[
-          //             Icon(
-          //               Icons.shopping_basket,
-          //               color: Colors.blue,
-          //               size: 25,
-          //             ),
-          //             Padding(
-          //               padding: EdgeInsets.only(right: 20),
-          //             ),
-          //             Text(
-          //               "รายการของร้าน",
-          //               style: TextStyle(
-          //                   color: Colors.black,
-          //                   fontFamily: 'Prompt',
-          //                   fontSize: 16,
-          //                   fontWeight: FontWeight.w300),
-          //             ),
-          //             Padding(
-          //               padding: EdgeInsets.only(right: 160),
-          //             ),
-          //             Icon(
-          //               Icons.arrow_forward_ios,
-          //               size: 25,
-          //               color: Colors.grey,
-          //             )
-          //           ],
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
           Container(
             margin: EdgeInsets.only(left: 10, right: 10),
             width: double.maxFinite,

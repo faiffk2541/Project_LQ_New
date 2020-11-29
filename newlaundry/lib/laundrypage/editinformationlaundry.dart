@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:newlaundry/laundrypage/datalaundry.dart';
 import 'dart:io';
 import 'dart:math';
 import 'dart:async';
@@ -9,18 +10,436 @@ import 'package:path/path.dart' as Path;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
-class InformationLaundry extends StatefulWidget {
+class EditInformationLaundry extends StatefulWidget {
+  String urlPic, name, phone, address, time;
+
+  EditInformationLaundry({
+    this.urlPic,
+    this.name,
+    this.phone,
+    this.address,
+    this.time,
+  });
   @override
-  InformationLaundryState createState() => InformationLaundryState();
+  EditInformationLaundryState createState() => EditInformationLaundryState();
 }
 
-class InformationLaundryState extends State<InformationLaundry> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  File imageFile, file;
+class EditInformationLaundryState extends State<EditInformationLaundry> {
+  GlobalKey<FormState> _key = GlobalKey<FormState>();
   String urlPic, name, time, address, phone;
+
+  File imageFile, file;
   var imageFiles = [];
 
+  List<DocumentSnapshot> laundry = [];
+
+  final firestore = Firestore.instance;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  TextEditingController _nameController;
+  TextEditingController _addressController;
+  TextEditingController _phoneController;
+  TextEditingController _timeController;
+  TextEditingController _urlPicController;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController(text: widget.name);
+    _addressController = TextEditingController(text: widget.address);
+    _phoneController = TextEditingController(text: widget.phone);
+    _timeController = TextEditingController(text: widget.time);
+    _urlPicController = TextEditingController(text: widget.urlPic);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.blue[100],
+      body: ListView(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(top: 15, left: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  color: Colors.white,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+          Container(
+            alignment: Alignment.topCenter,
+            child: Text(
+              'เพิ่มรายละเอียดร้าน',
+              style: TextStyle(
+                  color: Colors.blue[900],
+                  fontFamily: 'Prompt',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          SizedBox(height: 30, width: 30),
+          Container(
+            padding: EdgeInsets.only(left: 30),
+            alignment: Alignment.topLeft,
+            child: Row(
+              children: [
+                Row(
+                    children: imageFiles
+                        .map(
+                          (url) => new InkWell(
+                            child: Image.file(url, height: 100, width: 100),
+                            onTap: () {
+                              var index = imageFiles.indexOf(url);
+                              _settingModalBottomSheet(context, index);
+                            },
+                          ),
+                        )
+                        .toList()),
+                Column(
+                  children: [
+                    InkWell(
+                      child: Image.asset('assets/frame.png',
+                          height: 90, width: 90),
+                      onTap: () {
+                        if (imageFiles.length > 0) {
+                          print(imageFiles);
+                        } else {
+                          _showChoiceDialog(context);
+                        }
+                      },
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+          SizedBox(height: 30, width: 30),
+          Container(
+            padding: EdgeInsets.only(left: 15, right: 15),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      Text(
+                        'ชื่อร้าน',
+                        style: TextStyle(
+                            color: Colors.blue[900],
+                            fontFamily: 'Prompt',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                ),
+                TextFormField(
+                  controller: _nameController,
+                  onChanged: (String string) {
+                    print('insert name done');
+                    setState(() {
+                      name = string;
+                    });
+                  },
+                  style: TextStyle(
+                      fontFamily: 'Prompt',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'ชื่อร้าน',
+                    hintStyle: TextStyle(
+                        color: Colors.grey,
+                        fontFamily: 'Prompt',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                    prefixIcon: Icon(
+                      Icons.shopping_basket,
+                      color: Colors.blue[900],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 30, width: 30),
+          Container(
+            padding: EdgeInsets.only(left: 15, right: 15),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      Text(
+                        'เปิด - ปิด',
+                        style: TextStyle(
+                            color: Colors.blue[900],
+                            fontFamily: 'Prompt',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                ),
+                TextFormField(
+                  controller: _timeController,
+                  onChanged: (String string) {
+                    time = string.trim();
+                    print('insert time done');
+                  },
+                  maxLines: null,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'เวลา',
+                    hintStyle: TextStyle(
+                        color: Colors.grey,
+                        fontFamily: 'Prompt',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                    prefixIcon: Icon(
+                      Icons.access_time,
+                      color: Colors.blue[900],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 30, width: 30),
+          Container(
+            padding: EdgeInsets.only(left: 15, right: 15),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      Text(
+                        'ที่อยู่ร้าน',
+                        style: TextStyle(
+                            color: Colors.blue[900],
+                            fontFamily: 'Prompt',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                ),
+                TextFormField(
+                  controller: _addressController,
+                  onChanged: (String string) {
+                    address = string.trim();
+                    print('insert address done');
+                  },
+                  maxLines: null,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'ที่อยู่ร้าน',
+                    hintStyle: TextStyle(
+                        color: Colors.grey,
+                        fontFamily: 'Prompt',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                    prefixIcon: Icon(
+                      Icons.location_on,
+                      color: Colors.blue[900],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 30, width: 30),
+          Container(
+            padding: EdgeInsets.only(left: 15, right: 15),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      Text(
+                        'เบอร์โทร',
+                        style: TextStyle(
+                            color: Colors.blue[900],
+                            fontFamily: 'Prompt',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                ),
+                TextFormField(
+                  controller: _phoneController,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                  onChanged: (value) {
+                    phone = value.trim();
+                    print('insert phone done');
+                  },
+                  maxLines: null,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'เบอร์โทร',
+                    hintStyle: TextStyle(
+                        color: Colors.grey,
+                        fontFamily: 'Prompt',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                    prefixIcon: Icon(
+                      Icons.phone,
+                      color: Colors.blue[900],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 50),
+          Container(
+            padding: EdgeInsets.only(left: 30, right: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    Container(
+                      width: 120,
+                      height: 50,
+                      child: RaisedButton(
+                        onPressed: () async {
+                          if (phone == null) {
+                            print('insert phone done');
+                            showAlert('Wrong', 'please check Phone Number');
+                          } else if (phone.length < 10) {
+                            print('insert phone done');
+                            showAlert('Wrong', 'please check Phone Number');
+                          } else if (phone.length > 10) {
+                            print('insert phone done');
+                            showAlert('Wrong', 'please check Phone Number');
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DataLaundry()),
+                            );
+                            uploadPicToStorage();
+                          }
+                        },
+                        padding: EdgeInsets.all(10),
+                        color: Colors.white,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Text(
+                          "บันทึก",
+                          style: TextStyle(
+                              color: Colors.blue[900],
+                              fontFamily: 'Prompt',
+                              fontSize: 18,
+                              fontWeight: FontWeight.w300),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+          SizedBox(height: 50)
+        ],
+      ),
+    );
+  }
+
+  void _settingModalBottomSheet(context, index) {
+    print(index);
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(
+            child: new Wrap(
+              children: <Widget>[
+                new ListTile(
+                    leading: new Icon(Icons.remove_circle),
+                    title: new Text(
+                      'ลบ',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Prompt',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w300),
+                    ),
+                    onTap: () {
+                      setState(() {
+                        imageFiles.removeAt(index);
+                        Navigator.of(context).pop();
+                        deleteImage(urlPic);
+                      });
+                    }),
+              ],
+            ),
+          );
+        });
+  }
+
+  Future<void> deleteImage(String urlPic) async {
+    var fileUrl = Uri.decodeFull(Path.basename(urlPic))
+        .replaceAll(new RegExp(r'(\?alt).*'), '');
+
+    final StorageReference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child(fileUrl);
+    await firebaseStorageRef.delete();
+    print('Successfully deleted $urlPic from storage');
+  }
+
+  Future<void> uploadPicToStorage() async {
+    Random random = Random();
+    int i = random.nextInt(100000);
+
+    FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+    StorageReference storageReference =
+        firebaseStorage.ref().child('PicInformationelaundry/inforlaunry$i.jpg');
+    StorageUploadTask storageUploadTask = storageReference.putFile(imageFile);
+
+    urlPic = await (await storageUploadTask.onComplete).ref.getDownloadURL();
+    print('urlPic is = $urlPic');
+    insertinformation();
+  }
+
+  Future<void> showAlert(String title, String message) async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(title),
+            content: Text(message),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  'OK',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Prompt',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w300),
+                ),
+              )
+            ],
+          );
+        });
+  }
 
   _openGallary(BuildContext context) async {
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -90,421 +509,39 @@ class InformationLaundryState extends State<InformationLaundry> {
         });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      key: _formKey,
-      backgroundColor: Colors.blue[100],
-      body: ListView(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(top: 15, left: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
-                  color: Colors.white,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-          ),
-          Container(
-            alignment: Alignment.topCenter,
-            child: Text(
-              'เพิ่มรายละเอียดร้าน',
-              style: TextStyle(
-                  color: Colors.blue[900],
-                  fontFamily: 'Prompt',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          SizedBox(height: 30, width: 30),
-          Container(
-            // child: PickImage(),
-// this part PickImage
-            padding: EdgeInsets.only(left: 30),
-            alignment: Alignment.topLeft,
-            child: Row(
-              children: [
-                Row(
-                    children: imageFiles
-                        .map(
-                          (url) => new InkWell(
-                            child: Image.file(url, height: 100, width: 100),
-                            onTap: () {
-                              var index = imageFiles.indexOf(url);
-                              _settingModalBottomSheet(context, index);
-                            },
-                          ),
-                        )
-                        .toList()),
-                Column(
-                  children: [
-                    InkWell(
-                      child: Image.asset('assets/frame.png',
-                          height: 90, width: 90),
-                      onTap: () {
-                        if (imageFiles.length > 0) {
-                          print(imageFiles);
-                        } else {
-                          _showChoiceDialog(context);
-                        }
-                      },
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ), // finish PickImage part
-// this part input infor store
-          SizedBox(height: 30, width: 30),
-          Container(
-            padding: EdgeInsets.only(left: 15, right: 15),
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: Row(
-                    children: [
-                      Text(
-                        'ชื่อร้าน',
-                        style: TextStyle(
-                            color: Colors.blue[900],
-                            fontFamily: 'Prompt',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400),
-                      ),
-                      Text(
-                        ' **',
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontFamily: 'Prompt',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                ),
-                TextField(
-                  onChanged: (String string) {
-                    name = string.trim();
-                    print('insert name done');
-                  },
-                  maxLines: null,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'ชื่อร้าน',
-                    hintStyle: TextStyle(
-                        color: Colors.grey,
-                        fontFamily: 'Prompt',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400),
-                    prefixIcon: Icon(
-                      Icons.shopping_basket,
-                      color: Colors.blue[900],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 30, width: 30),
-          Container(
-            padding: EdgeInsets.only(left: 15, right: 15),
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: Row(
-                    children: [
-                      Text(
-                        'เปิด - ปิด',
-                        style: TextStyle(
-                            color: Colors.blue[900],
-                            fontFamily: 'Prompt',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400),
-                      ),
-                      Text(
-                        ' **',
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontFamily: 'Prompt',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                ),
-                TextField(
-                  onChanged: (String string) {
-                    time = string.trim();
-                    print('insert name done');
-                  },
-                  maxLines: null,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'เวลา',
-                    hintStyle: TextStyle(
-                        color: Colors.grey,
-                        fontFamily: 'Prompt',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400),
-                    prefixIcon: Icon(
-                      Icons.access_time,
-                      color: Colors.blue[900],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 30, width: 30),
-          Container(
-            padding: EdgeInsets.only(left: 15, right: 15),
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: Row(
-                    children: [
-                      Text(
-                        'ที่อยู่ร้าน',
-                        style: TextStyle(
-                            color: Colors.blue[900],
-                            fontFamily: 'Prompt',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400),
-                      ),
-                      Text(
-                        ' **',
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontFamily: 'Prompt',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                ),
-                TextField(
-                  onChanged: (String string) {
-                    address = string.trim();
-                    print('insert address done');
-                  },
-                  maxLines: null,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'ที่อยู่ร้าน',
-                    hintStyle: TextStyle(
-                        color: Colors.grey,
-                        fontFamily: 'Prompt',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400),
-                    prefixIcon: Icon(
-                      Icons.location_on,
-                      color: Colors.blue[900],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 30, width: 30),
-          Container(
-            padding: EdgeInsets.only(left: 15, right: 15),
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: Row(
-                    children: [
-                      Text(
-                        'เบอร์โทร',
-                        style: TextStyle(
-                            color: Colors.blue[900],
-                            fontFamily: 'Prompt',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400),
-                      ),
-                      Text(
-                        ' **',
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontFamily: 'Prompt',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                ),
-                TextField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                  onChanged: (value) {
-                    phone = value.trim();
-                    print('insert phone done');
-                  },
-                  maxLines: null,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'เบอร์โทร',
-                    hintStyle: TextStyle(
-                        color: Colors.grey,
-                        fontFamily: 'Prompt',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400),
-                    prefixIcon: Icon(
-                      Icons.phone,
-                      color: Colors.blue[900],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 50),
-          Container(
-            padding: EdgeInsets.only(left: 30, right: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  children: [
-                    Container(
-                      width: 120,
-                      height: 50,
-                      child: RaisedButton(
-                        onPressed: () {},
-                        padding: EdgeInsets.all(10),
-                        color: Colors.white,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Text(
-                          'ยกเลิก',
-                          style: TextStyle(
-                              color: Colors.blue[900],
-                              fontFamily: 'Prompt',
-                              fontSize: 18,
-                              fontWeight: FontWeight.w300),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(width: 30),
-                Column(
-                  children: [
-                    Container(
-                      width: 120,
-                      height: 50,
-                      child: RaisedButton(
-                        onPressed: () {
-                          if (phone == null) {
-                            print('insert phone done');
-                            showAlert('Wrong', 'please check Phone Number');
-                          } else if (phone.length < 10) {
-                            print('insert phone done');
-                            showAlert('Wrong', 'please check Phone Number');
-                          } else if (phone.length > 10) {
-                            print('insert phone done');
-                            showAlert('Wrong', 'please check Phone Number');
-                          } else {
-                            uploadPicToStorage();
-                          }
-                        },
-                        padding: EdgeInsets.all(10),
-                        color: Colors.white,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Text(
-                          'บันทึก',
-                          style: TextStyle(
-                              color: Colors.blue[900],
-                              fontFamily: 'Prompt',
-                              fontSize: 18,
-                              fontWeight: FontWeight.w300),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-          SizedBox(height: 50)
-        ],
-      ),
-    );
-  }
+  // _editData() {
+  //   List<String> splitList = name.split(" ");
+  //   List<String> indexList = [];
+  //   for (int i = 0; i < splitList.length; i++) {
+  //     for (int y = 1; y < splitList[i].length + 1; y++) {
+  //       indexList.add(splitList[i].substring(0, y).toLowerCase());
+  //     }
+  //   }
+  //   print(indexList);
+  //   Firestore.instance
+  //       .collection("Customer")
+  //       .doc(firebaseAuth.currentUser.uid)
+  //       .update({
+  //     "Name": _nameController.text,
+  //     "Time": _timeController.text,
+  //     "Email": firebaseAuth.currentUser.email,
+  //     "Phone": _phoneController.text,
+  //     "Address": _addressController.text,
+  //     "URLpic": urlPic
+  //   });
+  // }
 
-  void _settingModalBottomSheet(context, index) {
-    print(index);
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return Container(
-            child: new Wrap(
-              children: <Widget>[
-                new ListTile(
-                    leading: new Icon(Icons.remove_red_eye),
-                    title: new Text(
-                      'ดู',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Prompt',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w300),
-                    ),
-                    onTap: () => {}),
-                new ListTile(
-                    leading: new Icon(Icons.remove_circle),
-                    title: new Text(
-                      'ลบ',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Prompt',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w300),
-                    ),
-                    onTap: () {
-                      setState(() {
-                        imageFiles.removeAt(index);
-                        Navigator.of(context).pop();
-                        deleteImage(urlPic);
-                      });
-                    }),
-              ],
-            ),
-          );
-        });
-  }
-
-  Future<void> uploadPicToStorage() async {
-    Random random = Random();
-    int i = random.nextInt(100000);
-
-    FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-    StorageReference storageReference =
-        firebaseStorage.ref().child('PicInformationelaundry/inforlaunry$i.jpg');
-    StorageUploadTask storageUploadTask = storageReference.putFile(imageFile);
-
-    urlPic = await (await storageUploadTask.onComplete).ref.getDownloadURL();
-    print('urlPic is = $urlPic');
-    insertinformation();
-  }
-
-  final firestore = Firestore.instance;
   Future<void> insertinformation() async {
     final databaseReference = Firestore.instance;
 
+    List<String> splitList = name.split(" ");
+    List<String> indexList = [];
+    for (int i = 0; i < splitList.length; i++) {
+      for (int y = 1; y < splitList[i].length + 1; y++) {
+        indexList.add(splitList[i].substring(0, y).toLowerCase());
+      }
+    }
+    print(indexList);
     Map<String, dynamic> map = Map();
     map['Name'] = name;
     map['Time'] = time;
@@ -518,34 +555,5 @@ class InformationLaundryState extends State<InformationLaundry> {
         .then((value) {
       print('insert Successfully');
     });
-  }
-
-  Future<void> deleteImage(String urlPic) async {
-    var fileUrl = Uri.decodeFull(Path.basename(urlPic))
-        .replaceAll(new RegExp(r'(\?alt).*'), '');
-
-    final StorageReference firebaseStorageRef =
-        FirebaseStorage.instance.ref().child(fileUrl);
-    await firebaseStorageRef.delete();
-    print('Successfully deleted $urlPic from storage');
-  }
-
-  Future<void> showAlert(String title, String message) async {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(title),
-            content: Text(message),
-            actions: <Widget>[
-              FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('OK'),
-              )
-            ],
-          );
-        });
   }
 }
