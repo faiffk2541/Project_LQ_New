@@ -23,6 +23,7 @@ class EditAccount extends StatefulWidget {
 
 class EditAccountState extends State<EditAccount> {
   String urlPic, fname, lname, phone, address, email;
+
   File imageFile, file;
   var imageFiles = [];
 
@@ -33,7 +34,6 @@ class EditAccountState extends State<EditAccount> {
   TextEditingController _phoneController;
   TextEditingController _addressController;
 
-  Map map;
   @override
   void initState() {
     super.initState();
@@ -446,24 +446,6 @@ class EditAccountState extends State<EditAccount> {
       ),
     );
   }
-
-  // Future<void> _editData() async {
-  //   final databaseReference = Firestore.instance;
-
-  //   await databaseReference
-  //       .collection('Customer')
-  //       .document(firebaseAuth.currentUser.uid)
-  //       .update({
-  //     "Fname": fname,
-  //     "Lname": lname,
-  //     "Email": firebaseAuth.currentUser.email,
-  //     "Phone": phone,
-  //     "Address": address,
-  //     "URLpic": urlPic
-  //   }).then((value) {
-  //     print('update Successfully');
-  //   });
-  // }
 
   _editData() {
     Firestore.instance
