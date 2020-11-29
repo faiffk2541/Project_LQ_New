@@ -12,17 +12,6 @@ class CommentPage extends StatefulWidget {
 }
 
 class CommentPageState extends State<CommentPage> {
-  List<String> comment = new List();
-
-  getComment() async {
-    Firestore firestore = Firestore.instance;
-    Future<QuerySnapshot> documentReference = firestore
-        .collection("Laundry")
-        .doc(widget.uid)
-        .collection("Review")
-        .getDocuments();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,6 +62,7 @@ class CommentPageState extends State<CommentPage> {
                       return ListView.builder(
                         itemCount: snapshot.data.documents.length,
                         itemBuilder: (context, index) {
+                          final i = index + 1;
                           DocumentSnapshot Review =
                               snapshot.data.documents[index];
                           return Container(
@@ -88,10 +78,18 @@ class CommentPageState extends State<CommentPage> {
                                 Padding(
                                   padding: EdgeInsets.only(
                                       top: 10, left: 15, bottom: 10),
-                                  child: Column(
+                                  child: Row(
                                     children: [
                                       Text(
-                                        'ความคิดเห็นที่',
+                                        'ความคิดเห็นที่  ',
+                                        style: TextStyle(
+                                            color: Colors.blue[900],
+                                            fontFamily: 'Prompt',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      Text(
+                                        '$i',
                                         style: TextStyle(
                                             color: Colors.blue[900],
                                             fontFamily: 'Prompt',
