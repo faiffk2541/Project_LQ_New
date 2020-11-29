@@ -450,64 +450,32 @@ class EditAccountState extends State<EditAccount> {
   // Future<void> _editData() async {
   //   final databaseReference = Firestore.instance;
 
-  //   Map<String, dynamic> map = Map();
-  //   map['Email'] = firebaseAuth.currentUser.email;
-  //   map['URLpic'] = widget.urlPic;
-  //   map['Fname'] = widget.fname;
-  //   map['Lname'] = widget.lname;
-  //   map['Phone'] = widget.phone;
-  //   map['Address'] = widget.address;
-
   //   await databaseReference
   //       .collection('Customer')
   //       .document(firebaseAuth.currentUser.uid)
-  //       .setData(map)
-  //       .then((value) {
+  //       .update({
+  //     "Fname": fname,
+  //     "Lname": lname,
+  //     "Email": firebaseAuth.currentUser.email,
+  //     "Phone": phone,
+  //     "Address": address,
+  //     "URLpic": urlPic
+  //   }).then((value) {
   //     print('update Successfully');
   //   });
   // }
 
-  // void _editData() {
-  //   Firestore.instance.runTransaction((Transaction transaction) async {
-  //     DocumentSnapshot snapshot = await transaction.get();
-  //     await transaction.update(snapshot.reference, {
-  //       "Fname": fname,
-  //       "Lname": lname,
-  //       "Phone": phone,
-  //       "Address": address,
-  //     });
-  //   });
-  //   Navigator.pop(context);
-  // }
-  Future<void> _editData() async {
-    final databaseReference = Firestore.instance;
-
-    await databaseReference
-        .collection('Customer')
-        .document(firebaseAuth.currentUser.uid)
-        .setData({
-      "Fname": fname,
-      "Lname": lname,
+  _editData() {
+    Firestore.instance
+        .collection("Customer")
+        .doc(firebaseAuth.currentUser.uid)
+        .update({
+      "Fname": _fnameController.text,
+      "Lname": _lnameController.text,
       "Email": firebaseAuth.currentUser.email,
-      "Phone": phone,
-      "Address": address,
+      "Phone": _phoneController.text,
+      "Address": _addressController.text,
       "URLpic": urlPic
-    }).then((value) {
-      print('update Successfully');
     });
   }
-
-  //   Future<void> uploadPicToStorage() async {
-  //   Random random = Random();
-  //   int i = random.nextInt(100000);
-
-  //   FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-  //   StorageReference storageReference =
-  //       firebaseStorage.ref().child('PicInformationelaundry/inforlaunry$i.jpg');
-  //   StorageUploadTask storageUploadTask = storageReference.putFile(imageFile);
-
-  //   urlPic = await (await storageUploadTask.onComplete).ref.getDownloadURL();
-  //   print('urlPic is = $urlPic');
-  //   insertinformation();
-  // }
 }
