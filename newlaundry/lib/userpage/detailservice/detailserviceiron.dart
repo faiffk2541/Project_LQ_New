@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:newlaundry/userpage/cart/addcart.dart';
-import 'package:newlaundry/userpage/menu/menuservice.dart';
 
 import '../../navigationbar.dart';
 
@@ -21,7 +20,6 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
   List amout = [];
   Map<String, dynamic> test = Map();
   String type;
-
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   int count = 0, price = 0, total = 0, count2 = 0;
 
@@ -68,7 +66,7 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
               Container(
                 alignment: Alignment.topCenter,
                 child: Text(
-                  'รายการรีด',
+                  'รายการซักพับ',
                   style: TextStyle(
                       color: Colors.blue[900],
                       fontFamily: 'Prompt',
@@ -89,71 +87,63 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) return Text('Some Error');{
-                    
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         print('it can connect to firebase of service');
                         return CircularProgressIndicator();
-                      } else {
-                        return ListView.builder(
-                            itemCount: snapshot.data.documents.length,
-                            itemBuilder: (context, index) {
-                              DocumentSnapshot TypeOfService =
-                                  snapshot.data.documents[index];
+                      }else{                      
+                      return ListView.builder(
+                          itemCount: snapshot.data.documents.length,
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot TypeOfService =
+                                snapshot.data.documents[index];
                               print(TypeOfService.documentID);
 
-                              return Stack(
-                                children: [
-                                  Container(
-                                    // decoration: BoxDecoration(
-                                    //   color: Colors.white,
-                                    //   borderRadius: BorderRadius.circular(20),
-                                    // ),
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          margin: EdgeInsets.only(left: 15),
-                                          height: 120,
-                                          width: 120,
-                                          decoration: BoxDecoration(
-                                            //color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                          ),
-                                          child: Container(
-                                            margin: EdgeInsets.all(5),
-                                            child: Image.asset(
-                                                'assets/laundry-basket.png'),
-                                          ),
+                            return Stack(
+                              children: [
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(left: 15),
+                                        height: 120,
+                                        width: 120,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
-                                        Container(
-                                          margin: EdgeInsets.only(left: 40),
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                TypeOfService.data()['Type'],
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontFamily: 'Prompt',
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.w300),
-                                              ),
-                                              SizedBox(height: 10),
-                                              Text(
-                                                TypeOfService.data()['Price'],
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontFamily: 'Prompt',
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.w300),
-                                              ),
-                                              SizedBox(height: 10),
-                                              Row(
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () {
-                                                      if (count != 0) {
+                                        child: Container(
+                                          margin: EdgeInsets.all(5),
+                                          child: Image.asset(
+                                              'assets/laundry-basket.png'),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 40),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              TypeOfService.data()['Type'],
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontFamily: 'Prompt',
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w300),
+                                            ),
+                                            SizedBox(height: 10),
+                                            Text(
+                                              TypeOfService.data()['Price'],
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontFamily: 'Prompt',
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w300),
+                                            ),
+                                            SizedBox(height: 10),
+                                            Row(
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    if (count != 0) {
                                                         setState(() {
                                                           if (!test.containsKey(
                                                               TypeOfService
@@ -206,30 +196,30 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                                                               'total ==> $total');
                                                         });
                                                       }
-                                                    },
-                                                    child: Image.asset(
-                                                        'assets/minus.png',
-                                                        width: 30,
-                                                        height: 30),
-                                                  ),
-                                                  SizedBox(width: 20),
-                                                  Text(
-                                                    test[TypeOfService
+                                                  },
+                                                  child: Image.asset(
+                                                      'assets/minus.png',
+                                                      width: 30,
+                                                      height: 30),
+                                                ),
+                                                SizedBox(width: 20),
+                                                Text(
+                                                  test[TypeOfService
                                                                 .documentID] !=
                                                             null
                                                         ? "${test[TypeOfService.documentID]}"
                                                         : 0.toString(),
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontFamily: 'Prompt',
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w300),
-                                                  ),
-                                                  SizedBox(width: 20),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      setState(() {
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontFamily: 'Prompt',
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.w300),
+                                                ),
+                                                SizedBox(width: 20),
+                                                InkWell(
+                                                  onTap: () {
+                                                    setState(() {
                                                         if (!test.containsKey(
                                                             TypeOfService
                                                                 .documentID)) {
@@ -283,23 +273,23 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                                                         print(
                                                             'total ==> $total');
                                                       });
-                                                    },
-                                                    child: Image.asset(
-                                                        'assets/add.png',
-                                                        width: 30,
-                                                        height: 30),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                                  },
+                                                  child: Image.asset(
+                                                      'assets/add.png',
+                                                      width: 30,
+                                                      height: 30),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                ],
-                              );
-                            });
+                                ),
+                              ],
+                            );
+                          });
                       }
                     }
                   },
@@ -349,6 +339,7 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                         ),
                         onPressed: () {
                           showAlertDialog(context);
+
                           // Navigator.push(
                           //   context,
                           //   MaterialPageRoute(
@@ -370,7 +361,6 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
       ),
     );
   }
-
   void showAlertDialog(BuildContext context) {
     AlertDialog dialog = new AlertDialog(
       title: Center(
