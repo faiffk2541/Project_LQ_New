@@ -84,7 +84,14 @@ class HomePageState extends State<HomePage> {
                       }
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
-                          return Text('Loading . .');
+                          return Text(
+                            'Loading . .',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'Prompt',
+                                fontSize: 18,
+                                fontWeight: FontWeight.w300),
+                          );
                         case ConnectionState.none:
                           return Text('Oops! No data present');
                         case ConnectionState.done:
