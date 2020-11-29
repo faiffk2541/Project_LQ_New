@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 //import 'package:newlaundry/model/orderModel.dart';
 
@@ -10,6 +11,8 @@ class DoScreen extends StatefulWidget {
 }
 
 class DoScreenState extends State<DoScreen> {
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
   final firestoreInstance = FirebaseFirestore.instance;
   // void _getData() {
   //   firestoreInstance.collection("Order").get().then((querySnapshot) {
@@ -26,7 +29,14 @@ class DoScreenState extends State<DoScreen> {
       home: Scaffold(
           backgroundColor: Colors.blue[100],
           body: new StreamBuilder(
-              stream: firestoreInstance.collection("Order").snapshots(),
+              stream: firestoreInstance
+                  .collection("Order")
+                  .document(firebaseAuth.currentUser.uid)
+                  .collection("TypeOfService")
+                  .document("typeofservice")
+                  .collection("wash")
+                 
+                  .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) return Text('Some Error');
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -42,7 +52,6 @@ class DoScreenState extends State<DoScreen> {
                               DocumentSnapshot order =
                                   snapshot.data.documents[indext];
                               print(order.data());
-
                               return Card(
                                 margin: EdgeInsets.all(5),
                                 child: Padding(
@@ -54,7 +63,8 @@ class DoScreenState extends State<DoScreen> {
                                             MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Text(
-                                            order.data()['Laundry'].toString(),
+
+                                            order.data()['order'].toString(),
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontFamily: 'Prompt',
@@ -62,7 +72,7 @@ class DoScreenState extends State<DoScreen> {
                                                 fontWeight: FontWeight.w300),
                                           ),
                                           Text(
-                                            order.data()['qua'].toString(),
+                                            order.data()['Count'].toString(),
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontFamily: 'Prompt',
