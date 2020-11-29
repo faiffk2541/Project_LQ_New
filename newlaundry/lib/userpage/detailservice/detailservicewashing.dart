@@ -484,7 +484,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
         .document(firebaseAuth.currentUser.uid)
         .collection("TypeOfService")
         .document("typeofservice")
-        .collection("wash")
+        .collection("Washing")
         .document()
         .setData(service)
         .then((value) {
