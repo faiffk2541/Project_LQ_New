@@ -26,7 +26,6 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
   List amout = [];
 
   Map<String, dynamic> test = Map();
- 
 
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   String type;
@@ -176,8 +175,9 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                         if (!test.containsKey(
                                                             TypeOfService
                                                                 .documentID)) {
-                                                          count = test[TypeOfService
-                                                              .documentID] = 1;
+                                                          count = test[
+                                                              TypeOfService
+                                                                  .documentID] = 1;
                                                         } else {
                                                           count = test[TypeOfService
                                                               .documentID] -= 1;
@@ -197,7 +197,6 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                               TypeOfService
                                                                   .documentID],
                                                         });
-                                                        
 
                                                         sum.remove(int.parse(
                                                             TypeOfService
@@ -208,8 +207,6 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                             (value, element) =>
                                                                 value +
                                                                 element);
-                                                        
-                                                        
 
                                                         print(
                                                             'object ==> $totalproduct');
@@ -252,8 +249,9 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                       if (!test.containsKey(
                                                           TypeOfService
                                                               .documentID)) {
-                                                        count = test[TypeOfService
-                                                            .documentID] = 1;
+                                                        count = test[
+                                                            TypeOfService
+                                                                .documentID] = 1;
                                                       } else {
                                                         count = test[TypeOfService
                                                             .documentID] += 1;
@@ -272,10 +270,8 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                         "Count": test[
                                                             TypeOfService
                                                                 .documentID],
-                                                        
                                                       });
-                                                      
-                                                      
+
                                                       print('map ==> $test');
                                                       sum.add(int.parse(
                                                           TypeOfService.data()[
@@ -481,7 +477,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
     });
     Map<String, dynamic> service = Map();
 
-    service['order'] = test;
+    service['order'] = totalproduct;
     // service['Type'] = type;
     // service['Count'] = count;
 
