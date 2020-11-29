@@ -1,34 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:newlaundry/laundrypage/profilelaundry.dart';
 import 'package:newlaundry/signinpage/signinpage.dart';
 import 'package:newlaundry/userpage/profileuser/accountpage.dart';
 
 class ProfilePage extends StatefulWidget {
+  final String uid;
+  ProfilePage(this.uid);
   @override
   ProfilePageState createState() => ProfilePageState();
 }
 
 class ProfilePageState extends State<ProfilePage> {
   String login;
-
-  @override
-  void initState() {
-    super.initState();
-    findDisplay();
-  }
-
-
-  Future<void> findDisplay() async {
-    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    if (firebaseAuth.currentUser != null) {
-      setState(() {
-        login = firebaseAuth.currentUser.email;
-      });
-      print(firebaseAuth.currentUser.email);
-    }
-  }
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +50,7 @@ class ProfilePageState extends State<ProfilePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ProfileLaundry()),
+                            builder: (context) => ProfileLaundry(widget.uid)),
                       );
                     },
                   ),
@@ -94,6 +79,10 @@ class ProfilePageState extends State<ProfilePage> {
                             'assets/boy.png',
                             fit: BoxFit.fill,
                           ),
+                          // child: Image.asset(
+                          //   imageUrl,
+                          //   fit: BoxFit.fill,
+                          // ),
                         ),
                       ),
                     ),
@@ -105,7 +94,7 @@ class ProfilePageState extends State<ProfilePage> {
                   Container(
                     padding: EdgeInsets.only(left: 10),
                     child: Text(
-                      '$login',
+                      firebaseAuth.currentUser.email,
                       style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'Prompt',
