@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:newlaundry/navigationbar.dart';
@@ -5,17 +6,32 @@ import 'package:newlaundry/userpage/detailservice/detailservicewashing.dart';
 import 'package:newlaundry/userpage/historypage.dart';
 
 class AddCartPage extends StatefulWidget {
-  final String laundryUID;
-  const AddCartPage({Key key, this.laundryUID}) : super(key: key);
+  
+  // List<int> sum = [];
+  // List<String> productID = [];
+
+  // AddCartPage(this.sum, this.productID);
+
   @override
   AddCartState createState() => AddCartState();
 }
 
+// getAddcart() async {
+//     Firestore firestore = Firestore.instance;
+//     Future<QuerySnapshot> documentReference = firestore
+//         .collection("Laundry")
+//         .doc(widget.uid)
+//         .collection("Review")
+//         .getDocuments();
+//   }
+
 class AddCartState extends State<AddCartPage> {
-  List model;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
+    
+    // print(widget.sum);
+    // print(widget.productID);
     return Scaffold(
       backgroundColor: Colors.blue[100],
       body: SingleChildScrollView(
