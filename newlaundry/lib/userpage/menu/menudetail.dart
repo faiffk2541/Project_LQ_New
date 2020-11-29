@@ -1,12 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:ui';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:newlaundry/navigationbar.dart';
 import 'package:newlaundry/widgets/commentpage.dart';
-//import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:newlaundry/userpage/menu/menuservice.dart';
 import 'package:path/path.dart' as Path;
 
@@ -77,8 +73,6 @@ class MenuDetailState extends State<MenuDetailPage> {
               child: Container(
                 child: Column(
                   children: [
-                    //shopLocation(name: "พิกัด"),
-                    //SizedBox(height: 20),
                     Row(
                       children: [
                         Column(
@@ -92,26 +86,6 @@ class MenuDetailState extends State<MenuDetailPage> {
                                   fontSize: 20,
                                   fontWeight: FontWeight.w500),
                             ),
-                            SizedBox(height: 10),
-                            // Row(
-                            //   children: [
-                            //     SmoothStarRating(
-                            //       color: Colors.yellow[700],
-                            //       rating: 4,
-                            //       borderColor: Colors.yellow[700],
-                            //       size: 20,
-                            //     ),
-                            //     SizedBox(height: 10, width: 15),
-                            //     Text(
-                            //       '(20 รีวิว)',
-                            //       style: TextStyle(
-                            //           color: Colors.grey,
-                            //           fontFamily: 'Prompt',
-                            //           fontSize: 16,
-                            //           fontWeight: FontWeight.w300),
-                            //     )
-                            //   ],
-                            // ),
                           ],
                         ),
                       ],
