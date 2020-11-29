@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:newlaundry/userpage/cart/addcart.dart';
 import 'package:newlaundry/userpage/menu/menuservice.dart';
 
+import '../../navigationbar.dart';
+
 class DetailServiceIronPage extends StatefulWidget {
   final String laundryUID;
 
@@ -13,25 +15,32 @@ class DetailServiceIronPage extends StatefulWidget {
 }
 
 class DetailServiceIronState extends State<DetailServiceIronPage> {
+  List<int> sum = [];
+  List<String> productID = [];
+  List totalproduct = [];
+  List amout = [];
+  Map<String, dynamic> test = Map();
+  String type;
+
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  int count = 0;
+  int count = 0, price = 0, total = 0, count2 = 0;
 
   @override
   void initState() {
     super.initState();
   }
 
-  void add() {
-    setState(() {
-      count++;
-    });
-  }
+  // void add() {
+  //   setState(() {
+  //     count++;
+  //   });
+  // }
 
-  void minus() {
-    setState(() {
-      if (count != 0) count--;
-    });
-  }
+  // void minus() {
+  //   setState(() {
+  //     if (count != 0) count--;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -79,100 +88,219 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                       .collection("Iron")
                       .snapshots(),
                   builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return ListView.builder(
-                          itemCount: snapshot.data.documents.length,
-                          itemBuilder: (context, index) {
-                            DocumentSnapshot TypeOfService =
-                                snapshot.data.documents[index];
-                            return Stack(
-                              children: [
-                                Container(
-                                  // decoration: BoxDecoration(
-                                  //   color: Colors.white,
-                                  //   borderRadius: BorderRadius.circular(20),
-                                  // ),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(left: 15),
-                                        height: 120,
-                                        width: 120,
-                                        decoration: BoxDecoration(
-                                          //color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(20),
+                    if (snapshot.hasError) return Text('Some Error');{
+                    
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        print('it can connect to firebase of service');
+                        return CircularProgressIndicator();
+                      } else {
+                        return ListView.builder(
+                            itemCount: snapshot.data.documents.length,
+                            itemBuilder: (context, index) {
+                              DocumentSnapshot TypeOfService =
+                                  snapshot.data.documents[index];
+                              print(TypeOfService.documentID);
+
+                              return Stack(
+                                children: [
+                                  Container(
+                                    // decoration: BoxDecoration(
+                                    //   color: Colors.white,
+                                    //   borderRadius: BorderRadius.circular(20),
+                                    // ),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(left: 15),
+                                          height: 120,
+                                          width: 120,
+                                          decoration: BoxDecoration(
+                                            //color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          child: Container(
+                                            margin: EdgeInsets.all(5),
+                                            child: Image.asset(
+                                                'assets/laundry-basket.png'),
+                                          ),
                                         ),
-                                        child: Container(
-                                          margin: EdgeInsets.all(5),
-                                          child: Image.asset(
-                                              'assets/laundry-basket.png'),
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 40),
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              TypeOfService.data()['Type'],
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontFamily: 'Prompt',
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w300),
-                                            ),
-                                            SizedBox(height: 10),
-                                            Text(
-                                              TypeOfService.data()['Price'],
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontFamily: 'Prompt',
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w300),
-                                            ),
-                                            SizedBox(height: 10),
-                                            Row(
-                                              children: [
-                                                InkWell(
-                                                  onTap: () {
-                                                    minus();
-                                                  },
-                                                  child: Image.asset(
-                                                      'assets/minus.png',
-                                                      width: 30,
-                                                      height: 30),
-                                                ),
-                                                SizedBox(width: 20),
-                                                Text(
-                                                  '$count',
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontFamily: 'Prompt',
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.w300),
-                                                ),
-                                                SizedBox(width: 20),
-                                                InkWell(
-                                                  onTap: () {
-                                                    add();
-                                                  },
-                                                  child: Image.asset(
-                                                      'assets/add.png',
-                                                      width: 30,
-                                                      height: 30),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
+                                        Container(
+                                          margin: EdgeInsets.only(left: 40),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                TypeOfService.data()['Type'],
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontFamily: 'Prompt',
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.w300),
+                                              ),
+                                              SizedBox(height: 10),
+                                              Text(
+                                                TypeOfService.data()['Price'],
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontFamily: 'Prompt',
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.w300),
+                                              ),
+                                              SizedBox(height: 10),
+                                              Row(
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      if (count != 0) {
+                                                        setState(() {
+                                                          if (!test.containsKey(
+                                                              TypeOfService
+                                                                  .documentID)) {
+                                                            count = test[
+                                                                TypeOfService
+                                                                    .documentID] = 1;
+                                                          } else {
+                                                            count = test[
+                                                                TypeOfService
+                                                                    .documentID] -= 1;
+                                                          }
+                                                          print(
+                                                              'test2 ==>${test[TypeOfService.documentID]}');
+                                                          productID.remove(
+                                                              TypeOfService
+                                                                  .documentID);
+
+                                                          totalproduct.remove({
+                                                            "Type": TypeOfService
+                                                                        .data()[
+                                                                    'Type']
+                                                                .toString(),
+                                                            "Count": test[
+                                                                TypeOfService
+                                                                    .documentID],
+                                                          });
+
+                                                          sum.remove(int.parse(
+                                                              TypeOfService
+                                                                      .data()[
+                                                                  'Price']));
+
+                                                          total = sum.reduce(
+                                                              (value, element) =>
+                                                                  value +
+                                                                  element);
+
+                                                          print(
+                                                              'object ==> $totalproduct');
+                                                          print(
+                                                              'uid  ==> $productID');
+                                                          print(sum);
+                                                          print(
+                                                              'price ==> ${TypeOfService.data()['Price']}');
+                                                          print('sum ==> $sum');
+                                                          print(
+                                                              'count ==> $count');
+                                                          print(
+                                                              'total ==> $total');
+                                                        });
+                                                      }
+                                                    },
+                                                    child: Image.asset(
+                                                        'assets/minus.png',
+                                                        width: 30,
+                                                        height: 30),
+                                                  ),
+                                                  SizedBox(width: 20),
+                                                  Text(
+                                                    test[TypeOfService
+                                                                .documentID] !=
+                                                            null
+                                                        ? "${test[TypeOfService.documentID]}"
+                                                        : 0.toString(),
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontFamily: 'Prompt',
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w300),
+                                                  ),
+                                                  SizedBox(width: 20),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        if (!test.containsKey(
+                                                            TypeOfService
+                                                                .documentID)) {
+                                                          count = test[
+                                                              TypeOfService
+                                                                  .documentID] = 1;
+                                                        } else {
+                                                          count = test[TypeOfService
+                                                              .documentID] += 1;
+                                                        }
+                                                        print(
+                                                            'test2 ==>${test[TypeOfService.documentID]}');
+
+                                                        productID.add(
+                                                            TypeOfService
+                                                                .documentID);
+
+                                                        totalproduct.add({
+                                                          "Type": TypeOfService
+                                                                      .data()[
+                                                                  'Type']
+                                                              .toString(),
+                                                          "Count": test[
+                                                              TypeOfService
+                                                                  .documentID],
+                                                        });
+
+                                                        print('map ==> $test');
+                                                        sum.add(int.parse(
+                                                            TypeOfService
+                                                                    .data()[
+                                                                'Price']));
+                                                        TypeOfService.data()[
+                                                            'Type'];
+                                                        total = sum.reduce(
+                                                            (value, element) =>
+                                                                value +
+                                                                element);
+                                                        print(
+                                                            'object ==> $totalproduct');
+
+                                                        print(
+                                                            'uid ==> $productID');
+                                                        print(sum);
+
+                                                        print(
+                                                            'price ==> ${TypeOfService.data()['Price']}');
+                                                        print('sum  ==> $sum');
+                                                        print(
+                                                            'count ==> $count');
+                                                        print(
+                                                            'total ==> $total');
+                                                      });
+                                                    },
+                                                    child: Image.asset(
+                                                        'assets/add.png',
+                                                        width: 30,
+                                                        height: 30),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
-                            );
-                          });
+                                ],
+                              );
+                            });
+                      }
                     }
                   },
                 ),
@@ -196,7 +324,7 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                               fontWeight: FontWeight.w300),
                         ),
                         Text(
-                          "$count บาท",
+                          "$total บาท",
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Prompt',
@@ -212,7 +340,7 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                       height: 50,
                       child: RaisedButton(
                         child: Text(
-                          "ใส่ตระกร้า",
+                          "ยืนยัน",
                           style: TextStyle(
                               color: Colors.blue[900],
                               fontFamily: 'Prompt',
@@ -220,11 +348,12 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                               fontWeight: FontWeight.w400),
                         ),
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddCartPage()),
-                          );
+                          showAlertDialog(context);
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => AddCartPage()),
+                          // );
                         },
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
@@ -240,5 +369,122 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
         ),
       ),
     );
+  }
+
+  void showAlertDialog(BuildContext context) {
+    AlertDialog dialog = new AlertDialog(
+      title: Center(
+        child: Text(
+          "ยืนยันการทำรายการ",
+          style: TextStyle(
+              color: Colors.red,
+              fontFamily: 'Prompt',
+              fontSize: 18,
+              fontWeight: FontWeight.w400),
+        ),
+      ),
+      content: new Container(
+        height: 50,
+        child: new Column(
+          children: <Widget>[
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RaisedButton(
+                    onPressed: () {},
+                    elevation: 0,
+                    color: Colors.red,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(50))),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'ยกเลิก',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Prompt',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 30),
+                  RaisedButton(
+                    onPressed: () {
+                      insertinformation();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NavigationBarPage()),
+                      );
+                    },
+                    elevation: 0,
+                    color: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(50))),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'ตกลง',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Prompt',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    showDialog(context: context, child: dialog);
+  }
+  Future<void> insertinformation() async {
+    final databaseReference = Firestore.instance;
+
+    Map<String, dynamic> map = Map();
+    map['CustomerID'] = firebaseAuth.currentUser.uid;
+    map['LuandryID'] = widget.laundryUID;
+    //map['Type'] = productID;
+    map['Total'] = total;
+    //map['Count'] = count;
+
+    await databaseReference
+        .collection('Order')
+        .document(firebaseAuth.currentUser.uid)
+        .setData(map)
+        .then((value) {
+      print('insert Successfully');
+    });
+    Map<String, dynamic> service = Map();
+
+    service['order'] = totalproduct;
+    // service['Type'] = type;
+    // service['Count'] = count;
+
+    await databaseReference
+        .collection("Order")
+        .document(firebaseAuth.currentUser.uid)
+        .collection("TypeOfService")
+        .document("typeofservice")
+        .collection("Iron")
+        .document()
+        .setData(service)
+        .then((value) {
+      print('insert service Successfully');
+    });
   }
 }

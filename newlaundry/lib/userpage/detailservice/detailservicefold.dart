@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:newlaundry/userpage/cart/addcart.dart';
 
+import '../../navigationbar.dart';
+
 class DetailServiceFoldPage extends StatefulWidget {
   final String laundryUID;
 
@@ -12,25 +14,31 @@ class DetailServiceFoldPage extends StatefulWidget {
 }
 
 class DetailServiceFoldState extends State<DetailServiceFoldPage> {
+  List<int> sum = [];
+  List<String> productID = [];
+  List totalproduct = [];
+  List amout = [];
+  Map<String, dynamic> test = Map();
+  String type;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  int count = 0;
+  int count = 0, price = 0, total = 0, count2 = 0;
 
   @override
   void initState() {
     super.initState();
   }
 
-  void add() {
-    setState(() {
-      count++;
-    });
-  }
+  // void add() {
+  //   setState(() {
+  //     count++;
+  //   });
+  // }
 
-  void minus() {
-    setState(() {
-      if (count != 0) count--;
-    });
-  }
+  // void minus() {
+  //   setState(() {
+  //     if (count != 0) count--;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -78,12 +86,18 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                       .collection("Fold")
                       .snapshots(),
                   builder: (context, snapshot) {
-                    if (snapshot.hasData) {
+                    if (snapshot.hasError) return Text('Some Error');{
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        print('it can connect to firebase of service');
+                        return CircularProgressIndicator();
+                      }else{                      
                       return ListView.builder(
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) {
                             DocumentSnapshot TypeOfService =
                                 snapshot.data.documents[index];
+                              print(TypeOfService.documentID);
+
                             return Stack(
                               children: [
                                 Container(
@@ -129,7 +143,59 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                                               children: [
                                                 InkWell(
                                                   onTap: () {
-                                                    minus();
+                                                    if (count != 0) {
+                                                        setState(() {
+                                                          if (!test.containsKey(
+                                                              TypeOfService
+                                                                  .documentID)) {
+                                                            count = test[
+                                                                TypeOfService
+                                                                    .documentID] = 1;
+                                                          } else {
+                                                            count = test[
+                                                                TypeOfService
+                                                                    .documentID] -= 1;
+                                                          }
+                                                          print(
+                                                              'test2 ==>${test[TypeOfService.documentID]}');
+                                                          productID.remove(
+                                                              TypeOfService
+                                                                  .documentID);
+
+                                                          totalproduct.remove({
+                                                            "Type": TypeOfService
+                                                                        .data()[
+                                                                    'Type']
+                                                                .toString(),
+                                                            "Count": test[
+                                                                TypeOfService
+                                                                    .documentID],
+                                                          });
+
+                                                          sum.remove(int.parse(
+                                                              TypeOfService
+                                                                      .data()[
+                                                                  'Price']));
+
+                                                          total = sum.reduce(
+                                                              (value, element) =>
+                                                                  value +
+                                                                  element);
+
+                                                          print(
+                                                              'object ==> $totalproduct');
+                                                          print(
+                                                              'uid  ==> $productID');
+                                                          print(sum);
+                                                          print(
+                                                              'price ==> ${TypeOfService.data()['Price']}');
+                                                          print('sum ==> $sum');
+                                                          print(
+                                                              'count ==> $count');
+                                                          print(
+                                                              'total ==> $total');
+                                                        });
+                                                      }
                                                   },
                                                   child: Image.asset(
                                                       'assets/minus.png',
@@ -138,7 +204,11 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                                                 ),
                                                 SizedBox(width: 20),
                                                 Text(
-                                                  '$count',
+                                                  test[TypeOfService
+                                                                .documentID] !=
+                                                            null
+                                                        ? "${test[TypeOfService.documentID]}"
+                                                        : 0.toString(),
                                                   style: TextStyle(
                                                       color: Colors.black,
                                                       fontFamily: 'Prompt',
@@ -149,7 +219,60 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                                                 SizedBox(width: 20),
                                                 InkWell(
                                                   onTap: () {
-                                                    add();
+                                                    setState(() {
+                                                        if (!test.containsKey(
+                                                            TypeOfService
+                                                                .documentID)) {
+                                                          count = test[
+                                                              TypeOfService
+                                                                  .documentID] = 1;
+                                                        } else {
+                                                          count = test[TypeOfService
+                                                              .documentID] += 1;
+                                                        }
+                                                        print(
+                                                            'test2 ==>${test[TypeOfService.documentID]}');
+
+                                                        productID.add(
+                                                            TypeOfService
+                                                                .documentID);
+
+                                                        totalproduct.add({
+                                                          "Type": TypeOfService
+                                                                      .data()[
+                                                                  'Type']
+                                                              .toString(),
+                                                          "Count": test[
+                                                              TypeOfService
+                                                                  .documentID],
+                                                        });
+
+                                                        print('map ==> $test');
+                                                        sum.add(int.parse(
+                                                            TypeOfService
+                                                                    .data()[
+                                                                'Price']));
+                                                        TypeOfService.data()[
+                                                            'Type'];
+                                                        total = sum.reduce(
+                                                            (value, element) =>
+                                                                value +
+                                                                element);
+                                                        print(
+                                                            'object ==> $totalproduct');
+
+                                                        print(
+                                                            'uid ==> $productID');
+                                                        print(sum);
+
+                                                        print(
+                                                            'price ==> ${TypeOfService.data()['Price']}');
+                                                        print('sum  ==> $sum');
+                                                        print(
+                                                            'count ==> $count');
+                                                        print(
+                                                            'total ==> $total');
+                                                      });
                                                   },
                                                   child: Image.asset(
                                                       'assets/add.png',
@@ -167,6 +290,7 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                               ],
                             );
                           });
+                      }
                     }
                   },
                 ),
@@ -190,7 +314,7 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                               fontWeight: FontWeight.w300),
                         ),
                         Text(
-                          "$count บาท",
+                          "$total บาท",
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Prompt',
@@ -206,7 +330,7 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                       height: 50,
                       child: RaisedButton(
                         child: Text(
-                          "ใส่ตระกร้า",
+                          "ยืนยัน",
                           style: TextStyle(
                               color: Colors.blue[900],
                               fontFamily: 'Prompt',
@@ -214,11 +338,13 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                               fontWeight: FontWeight.w400),
                         ),
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddCartPage()),
-                          );
+                          showAlertDialog(context);
+
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => AddCartPage()),
+                          // );
                         },
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
@@ -234,5 +360,121 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
         ),
       ),
     );
+  }
+  void showAlertDialog(BuildContext context) {
+    AlertDialog dialog = new AlertDialog(
+      title: Center(
+        child: Text(
+          "ยืนยันการทำรายการ",
+          style: TextStyle(
+              color: Colors.red,
+              fontFamily: 'Prompt',
+              fontSize: 18,
+              fontWeight: FontWeight.w400),
+        ),
+      ),
+      content: new Container(
+        height: 50,
+        child: new Column(
+          children: <Widget>[
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RaisedButton(
+                    onPressed: () {},
+                    elevation: 0,
+                    color: Colors.red,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(50))),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'ยกเลิก',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Prompt',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 30),
+                  RaisedButton(
+                    onPressed: () {
+                      insertinformation();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NavigationBarPage()),
+                      );
+                    },
+                    elevation: 0,
+                    color: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(50))),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'ตกลง',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Prompt',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    showDialog(context: context, child: dialog);
+  }
+  Future<void> insertinformation() async {
+    final databaseReference = Firestore.instance;
+
+    Map<String, dynamic> map = Map();
+    map['CustomerID'] = firebaseAuth.currentUser.uid;
+    map['LuandryID'] = widget.laundryUID;
+    //map['Type'] = productID;
+    map['Total'] = total;
+    //map['Count'] = count;
+
+    await databaseReference
+        .collection('Order')
+        .document(firebaseAuth.currentUser.uid)
+        .setData(map)
+        .then((value) {
+      print('insert Successfully');
+    });
+    Map<String, dynamic> service = Map();
+
+    service['order'] = totalproduct;
+    // service['Type'] = type;
+    // service['Count'] = count;
+
+    await databaseReference
+        .collection("Order")
+        .document(firebaseAuth.currentUser.uid)
+        .collection("TypeOfService")
+        .document("typeofservice")
+        .collection("Fold")
+        .document()
+        .setData(service)
+        .then((value) {
+      print('insert service Successfully');
+    });
   }
 }
