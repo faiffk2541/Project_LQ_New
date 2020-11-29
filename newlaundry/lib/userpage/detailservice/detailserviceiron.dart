@@ -66,7 +66,7 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
               Container(
                 alignment: Alignment.topCenter,
                 child: Text(
-                  'รายการซักพับ',
+                  'รายการรีด',
                   style: TextStyle(
                       color: Colors.blue[900],
                       fontFamily: 'Prompt',
