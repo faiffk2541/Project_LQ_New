@@ -34,6 +34,7 @@ class DataLaundryState extends State<DataLaundry> {
         print(snap.data()["Name"].toString());
         print(snap.data()["Phone"].toString());
         print(snap.data()["Time"].toString());
+        print(snap.data()["URLpic"].toString());
         await Firestore.instance
             .collection('Laundry')
             .doc(uid)
@@ -44,6 +45,7 @@ class DataLaundryState extends State<DataLaundry> {
             name = snap.data()["Name"].toString();
             phone = snap.data()["Phone"].toString();
             time = snap.data()["Time"].toString();
+            urlPic = snap.data()["URLpic"].toString();
           });
         });
       });
