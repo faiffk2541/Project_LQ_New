@@ -293,7 +293,7 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                           });
                       }
                     }
-                  },
+                  
                 ),
               ),
               SizedBox(height: 30),
