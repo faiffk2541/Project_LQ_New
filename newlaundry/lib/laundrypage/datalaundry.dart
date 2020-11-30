@@ -235,12 +235,13 @@ class DataLaundryState extends State<DataLaundry> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => EditInformationLaundry(
-                      name: name,
-                      time: time,
-                      address: address,
-                      phone: phone,
-                    )),
+              builder: (context) => EditInformationLaundry(
+                name: name,
+                time: time,
+                address: address,
+                phone: phone,
+              ),
+            ),
           ).then((value) => getData());
         },
         child: Icon(Icons.add),
