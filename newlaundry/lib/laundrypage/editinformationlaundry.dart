@@ -541,19 +541,19 @@ class EditInformationLaundryState extends State<EditInformationLaundry> {
         indexList.add(splitList[i].substring(0, y).toLowerCase());
       }
     }
+
     print(indexList);
-    Map<String, dynamic> map = Map();
-    map['Name'] = name;
-    map['Time'] = time;
-    map['Address'] = address;
-    map['Phone'] = phone;
-    map['URLpic'] = urlPic;
-    await databaseReference
-        .collection("Laundry")
-        .doc(firebaseAuth.currentUser.uid)
-        .setData(map)
-        .then((value) {
-      print('insert Successfully');
+    Firestore.instance
+        .collection('Laundry')
+        .document(firebaseAuth.currentUser.uid)
+        .setData({
+      'Name': name,
+      'Time': time,
+      'Address': address,
+      'Phone': phone,
+      'URLpic': urlPic,
+      'searchIndex': indexList
     });
+    print('insert Succesfully');
   }
 }
