@@ -256,48 +256,48 @@ class ListOfItemsIronState extends State<ListOfItemsIron> {
                                                     ),
                                                   ),
                                                 ),
-                                                SizedBox(width: 15),
-                                                RaisedButton(
-                                                  elevation: 0,
-                                                  onPressed: () {},
-                                                  // onPressed: () async {
-                                                  //   await Firestore.instance
-                                                  //       .collection("Laundry")
-                                                  //       .document(firebaseAuth
-                                                  //           .currentUser.uid)
-                                                  //       .collection(
-                                                  //           "TypeOfService")
-                                                  //       .document(
-                                                  //           "typeofservice")
-                                                  //       .collection("Iron")
-                                                  //       .document(
-                                                  //           Iron.documentID)
-                                                  //       .update({
-                                                  //     "Type": type,
-                                                  //     "Price": price
-                                                  //   });
-                                                  //   print('update Done');
-                                                  //   updateAlert(type, price);
-                                                  // },
-                                                  color: Colors.green[800],
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                      Radius.circular(50),
-                                                    ),
-                                                  ),
-                                                  child: Center(
-                                                    child: Text(
-                                                      'แก้ไข',
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontFamily: 'Prompt',
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          fontSize: 16),
-                                                    ),
-                                                  ),
-                                                ),
+                                                // SizedBox(width: 15),
+                                                // RaisedButton(
+                                                //   elevation: 0,
+                                                //   onPressed: () {},
+                                                //   // onPressed: () async {
+                                                //   //   await Firestore.instance
+                                                //   //       .collection("Laundry")
+                                                //   //       .document(firebaseAuth
+                                                //   //           .currentUser.uid)
+                                                //   //       .collection(
+                                                //   //           "TypeOfService")
+                                                //   //       .document(
+                                                //   //           "typeofservice")
+                                                //   //       .collection("Iron")
+                                                //   //       .document(
+                                                //   //           Iron.documentID)
+                                                //   //       .update({
+                                                //   //     "Type": type,
+                                                //   //     "Price": price
+                                                //   //   });
+                                                //   //   print('update Done');
+                                                //   //   updateAlert(type, price);
+                                                //   // },
+                                                //   color: Colors.green[800],
+                                                //   shape: RoundedRectangleBorder(
+                                                //     borderRadius:
+                                                //         BorderRadius.all(
+                                                //       Radius.circular(50),
+                                                //     ),
+                                                //   ),
+                                                //   child: Center(
+                                                //     child: Text(
+                                                //       'แก้ไข',
+                                                //       style: TextStyle(
+                                                //           color: Colors.white,
+                                                //           fontFamily: 'Prompt',
+                                                //           fontWeight:
+                                                //               FontWeight.w400,
+                                                //           fontSize: 16),
+                                                //     ),
+                                                //   ),
+                                                // ),
                                               ],
                                             ),
                                           ],
