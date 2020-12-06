@@ -178,7 +178,7 @@ class MenuDetailState extends State<MenuDetailPage> {
                                 fontWeight: FontWeight.w500),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 90),
+                            padding: const EdgeInsets.only(left: 50),
                             child: FlatButton(
                               onPressed: () {
                                 Navigator.push(
