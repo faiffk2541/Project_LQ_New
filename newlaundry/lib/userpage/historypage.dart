@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:newlaundry/tabbar/donescreen.dart';
 import 'package:newlaundry/tabbar/doningscreen.dart';
-import 'package:newlaundry/tabbar/doscreen.dart';
 
 class HistoryPage extends StatefulWidget {
   @override
@@ -16,7 +14,7 @@ class HistoryPageState extends State<HistoryPage> {
       debugShowCheckedModeBanner: false,
       color: Colors.white,
       home: DefaultTabController(
-        length: 3,
+        length: 2,
         child: Scaffold(
           appBar: AppBar(
             title: Center(
@@ -37,16 +35,6 @@ class HistoryPageState extends State<HistoryPage> {
             bottom: TabBar(
               indicatorColor: Colors.white,
               tabs: [
-                Tab(
-                  child: Text(
-                    'รอคิว',
-                    style: TextStyle(
-                        color: Colors.blue[900],
-                        fontFamily: 'Prompt',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ),
                 Tab(
                   child: Text(
                     'กำลังทำ',
@@ -71,7 +59,7 @@ class HistoryPageState extends State<HistoryPage> {
             ),
           ),
           body: TabBarView(
-            children: [DoScreen(), DoingScreen(), DoneScreen()],
+            children: [DoingScreen(), DoneScreen()],
           ),
         ),
       ),
