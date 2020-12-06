@@ -84,13 +84,13 @@ class ProfileLaundryState extends State<ProfileLaundry> {
                             fontWeight: FontWeight.w300),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(right: 200),
+                        padding: EdgeInsets.only(left: 125),
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 25,
+                          color: Colors.grey,
+                        ),
                       ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 25,
-                        color: Colors.grey,
-                      )
                     ],
                   ),
                 ),
@@ -130,13 +130,13 @@ class ProfileLaundryState extends State<ProfileLaundry> {
                             fontWeight: FontWeight.w300),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(right: 160),
+                        padding: EdgeInsets.only(left: 100),
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 25,
+                          color: Colors.grey,
+                        ),
                       ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 25,
-                        color: Colors.grey,
-                      )
                     ],
                   ),
                 ),
@@ -176,13 +176,13 @@ class ProfileLaundryState extends State<ProfileLaundry> {
                             fontWeight: FontWeight.w300),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(right: 190),
+                        padding: EdgeInsets.only(left: 125),
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 25,
+                          color: Colors.grey,
+                        ),
                       ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 25,
-                        color: Colors.grey,
-                      )
                     ],
                   ),
                 ),
@@ -222,13 +222,13 @@ class ProfileLaundryState extends State<ProfileLaundry> {
                             fontWeight: FontWeight.w300),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(right: 180),
+                        padding: EdgeInsets.only(left: 120),
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 25,
+                          color: Colors.grey,
+                        ),
                       ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 25,
-                        color: Colors.grey,
-                      )
                     ],
                   ),
                 ),
