@@ -76,7 +76,7 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
               ),
               SizedBox(height: 30),
               Container(
-                height: 550,
+                height: 500,
                 child: StreamBuilder(
                     stream: Firestore.instance
                         .collection("Laundry")

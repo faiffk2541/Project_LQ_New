@@ -28,18 +28,6 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
     super.initState();
   }
 
-  // void add() {
-  //   setState(() {
-  //     count++;
-  //   });
-  // }
-
-  // void minus() {
-  //   setState(() {
-  //     if (count != 0) count--;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,75 +64,76 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
               ),
               SizedBox(height: 30),
               Container(
-                height: 550,
+                height: 500,
                 child: StreamBuilder(
-                  stream: Firestore.instance
-                      .collection("Laundry")
-                      .document(widget.laundryUID)
-                      .collection("TypeOfService")
-                      .document("typeofservice")
-                      .collection("Fold")
-                      .snapshots(),
-                  builder: (context, snapshot) {
-
-                    if (snapshot.hasError) return Text('Some Error');
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      print('it can connect to firebase of service');
-                      return CircularProgressIndicator();
-                    } else {
-                      return ListView.builder(
-                          itemCount: snapshot.data.documents.length,
-                          itemBuilder: (context, index) {
-                            DocumentSnapshot TypeOfService =
-                                snapshot.data.documents[index];
+                    stream: Firestore.instance
+                        .collection("Laundry")
+                        .document(widget.laundryUID)
+                        .collection("TypeOfService")
+                        .document("typeofservice")
+                        .collection("Fold")
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) return Text('Some Error');
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        print('it can connect to firebase of service');
+                        return CircularProgressIndicator();
+                      } else {
+                        return ListView.builder(
+                            itemCount: snapshot.data.documents.length,
+                            itemBuilder: (context, index) {
+                              DocumentSnapshot TypeOfService =
+                                  snapshot.data.documents[index];
                               print(TypeOfService.documentID);
 
-                            return Stack(
-                              children: [
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(left: 15),
-                                        height: 120,
-                                        width: 120,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
+                              return Stack(
+                                children: [
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(left: 15),
+                                          height: 120,
+                                          width: 120,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          child: Container(
+                                            margin: EdgeInsets.all(5),
+                                            child: Image.asset(
+                                                'assets/laundry-basket.png'),
+                                          ),
                                         ),
-                                        child: Container(
-                                          margin: EdgeInsets.all(5),
-                                          child: Image.asset(
-                                              'assets/laundry-basket.png'),
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 40),
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              TypeOfService.data()['Type'],
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontFamily: 'Prompt',
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w300),
-                                            ),
-                                            SizedBox(height: 10),
-                                            Text(
-                                              TypeOfService.data()['Price'],
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontFamily: 'Prompt',
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w300),
-                                            ),
-                                            SizedBox(height: 10),
-                                            Row(
-                                              children: [
-                                                InkWell(
-                                                  onTap: () {
-                                                    if (count != 0) {
+                                        Container(
+                                          margin: EdgeInsets.only(left: 40),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                TypeOfService.data()['Type'],
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontFamily: 'Prompt',
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.w300),
+                                              ),
+                                              SizedBox(height: 10),
+                                              Text(
+                                                TypeOfService.data()['Price'],
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontFamily: 'Prompt',
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.w300),
+                                              ),
+                                              SizedBox(height: 10),
+                                              Row(
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      if (count != 0) {
                                                         setState(() {
                                                           if (!test.containsKey(
                                                               TypeOfService
@@ -197,30 +186,30 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                                                               'total ==> $total');
                                                         });
                                                       }
-                                                  },
-                                                  child: Image.asset(
-                                                      'assets/minus.png',
-                                                      width: 30,
-                                                      height: 30),
-                                                ),
-                                                SizedBox(width: 20),
-                                                Text(
-                                                  test[TypeOfService
+                                                    },
+                                                    child: Image.asset(
+                                                        'assets/minus.png',
+                                                        width: 30,
+                                                        height: 30),
+                                                  ),
+                                                  SizedBox(width: 20),
+                                                  Text(
+                                                    test[TypeOfService
                                                                 .documentID] !=
                                                             null
                                                         ? "${test[TypeOfService.documentID]}"
                                                         : 0.toString(),
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontFamily: 'Prompt',
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.w300),
-                                                ),
-                                                SizedBox(width: 20),
-                                                InkWell(
-                                                  onTap: () {
-                                                    setState(() {
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontFamily: 'Prompt',
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w300),
+                                                  ),
+                                                  SizedBox(width: 20),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      setState(() {
                                                         if (!test.containsKey(
                                                             TypeOfService
                                                                 .documentID)) {
@@ -274,27 +263,25 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                                                         print(
                                                             'total ==> $total');
                                                       });
-                                                  },
-                                                  child: Image.asset(
-                                                      'assets/add.png',
-                                                      width: 30,
-                                                      height: 30),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
+                                                    },
+                                                    child: Image.asset(
+                                                        'assets/add.png',
+                                                        width: 30,
+                                                        height: 30),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
-                            );
-                          });
+                                ],
+                              );
+                            });
                       }
-                    }
-                  
-                ),
+                    }),
               ),
               SizedBox(height: 30),
               Row(
@@ -362,6 +349,7 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
       ),
     );
   }
+
   void showAlertDialog(BuildContext context) {
     AlertDialog dialog = new AlertDialog(
       title: Center(
@@ -443,6 +431,7 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
     );
     showDialog(context: context, child: dialog);
   }
+
   Future<void> insertinformation() async {
     final databaseReference = Firestore.instance;
 
