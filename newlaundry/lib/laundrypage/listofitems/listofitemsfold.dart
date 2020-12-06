@@ -126,7 +126,7 @@ class ListOfItemsFoldState extends State<ListOfItemsFold> {
                 ),
               ),
               Container(
-                height: MediaQuery.of(context).size.height,
+                height: 550,
                 child: StreamBuilder(
                     stream: Firestore.instance
                         .collection("Laundry")
@@ -256,48 +256,6 @@ class ListOfItemsFoldState extends State<ListOfItemsFold> {
                                                     ),
                                                   ),
                                                 ),
-                                                // SizedBox(width: 15),
-                                                // RaisedButton(
-                                                //   elevation: 0,
-                                                //   onPressed: () {},
-                                                //   // onPressed: () async {
-                                                //   //   await Firestore.instance
-                                                //   //       .collection("Laundry")
-                                                //   //       .document(firebaseAuth
-                                                //   //           .currentUser.uid)
-                                                //   //       .collection(
-                                                //   //           "TypeOfService")
-                                                //   //       .document(
-                                                //   //           "typeofservice")
-                                                //   //       .collection("Fold")
-                                                //   //       .document(
-                                                //   //           Fold.documentID)
-                                                //   //       .update({
-                                                //   //     "Type": type,
-                                                //   //     "Price": price
-                                                //   //   });
-                                                //   //   print('update Done');
-                                                //   //   updateAlert(type, price);
-                                                //   // },
-                                                //   color: Colors.green[800],
-                                                //   shape: RoundedRectangleBorder(
-                                                //     borderRadius:
-                                                //         BorderRadius.all(
-                                                //       Radius.circular(50),
-                                                //     ),
-                                                //   ),
-                                                //   child: Center(
-                                                //     child: Text(
-                                                //       'แก้ไข',
-                                                //       style: TextStyle(
-                                                //           color: Colors.white,
-                                                //           fontFamily: 'Prompt',
-                                                //           fontWeight:
-                                                //               FontWeight.w400,
-                                                //           fontSize: 16),
-                                                //     ),
-                                                //   ),
-                                                // ),
                                               ],
                                             ),
                                           ],
@@ -447,7 +405,7 @@ class ListOfItemsFoldState extends State<ListOfItemsFold> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 50),
+                    SizedBox(width: 20),
                     RaisedButton(
                       onPressed: () async {
                         if (type == null && price == null) {
@@ -492,159 +450,4 @@ class ListOfItemsFoldState extends State<ListOfItemsFold> {
 
     showDialog(context: context, child: dialog);
   }
-
-  // void updateAlert(type, price) {
-  //   AlertDialog dialog = new AlertDialog(
-  //     content: new Container(
-  //       width: 300.0,
-  //       height: 300.0,
-  //       child: new Column(
-  //         crossAxisAlignment: CrossAxisAlignment.stretch,
-  //         children: <Widget>[
-  //           Expanded(
-  //             child: Row(
-  //               children: <Widget>[
-  //                 Container(
-  //                   decoration: BoxDecoration(
-  //                     color: Colors.white,
-  //                   ),
-  //                   child: Text(
-  //                     'รายการ',
-  //                     style: TextStyle(
-  //                       color: Colors.black,
-  //                       fontSize: 18.0,
-  //                       fontFamily: 'Prompt',
-  //                     ),
-  //                     textAlign: TextAlign.center,
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //           Expanded(
-  //             child: Container(
-  //               child: TextFormField(
-  //                 controller: _typeController,
-  //                 onChanged: (String string) {
-  //                   print('insert type done');
-  //                   setState(() {
-  //                     type = string;
-  //                   });
-  //                 },
-  //                 decoration: InputDecoration(
-  //                   filled: false,
-  //                   contentPadding: EdgeInsets.only(left: 10.0, top: 10.0),
-  //                   hintText: 'รายการ',
-  //                   hintStyle: TextStyle(
-  //                     color: Colors.grey.shade500,
-  //                     fontSize: 16,
-  //                     fontFamily: 'Prompt',
-  //                   ),
-  //                   icon: Icon(Icons.local_grocery_store,
-  //                       color: Colors.blue[900]),
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //           Expanded(
-  //             child: Container(
-  //               child: TextFormField(
-  //                 controller: _priceController,
-  //                 onChanged: (String string) {
-  //                   print('insert price done');
-  //                   setState(() {
-  //                     price = string;
-  //                   });
-  //                 },
-  //                 keyboardType: TextInputType.number,
-  //                 decoration: InputDecoration(
-  //                   filled: false,
-  //                   contentPadding: EdgeInsets.only(left: 10.0, top: 10.0),
-  //                   hintText: 'ราคา (บาท)',
-  //                   hintStyle: TextStyle(
-  //                     color: Colors.grey.shade500,
-  //                     fontSize: 16,
-  //                     fontFamily: 'Prompt',
-  //                   ),
-  //                   icon:
-  //                       Icon(Icons.monetization_on, color: Colors.yellow[800]),
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //           Expanded(
-  //             child: Container(
-  //               padding: EdgeInsets.all(16.0),
-  //               child: Row(
-  //                 mainAxisAlignment: MainAxisAlignment.center,
-  //                 children: [
-  //                   RaisedButton(
-  //                     onPressed: () {
-  //                       Navigator.pop(context);
-  //                     },
-  //                     elevation: 0,
-  //                     color: Colors.red,
-  //                     shape: RoundedRectangleBorder(
-  //                         borderRadius: BorderRadius.all(Radius.circular(50))),
-  //                     child: Center(
-  //                       child: Row(
-  //                         mainAxisAlignment: MainAxisAlignment.center,
-  //                         children: [
-  //                           Text(
-  //                             'ยกเลิก',
-  //                             style: TextStyle(
-  //                                 color: Colors.white,
-  //                                 fontFamily: 'Prompt',
-  //                                 fontWeight: FontWeight.w400,
-  //                                 fontSize: 16),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   SizedBox(width: 50),
-  //                   RaisedButton(
-  //                     onPressed: () async {
-  //                       if (type == null && price == null) {
-  //                         alert('Wrong', 'กรุณากรอกกรอกรายการ');
-  //                       } else if (type == null) {
-  //                         alert('Wrong', 'กรุณากรอกกรอกรายการ');
-  //                       } else if (price == null) {
-  //                         alert('Wrong', 'กรุณากรอกกรอกรายการ');
-  //                       } else if (type != null && price != null) {
-  //                         createData(type, price, uid);
-  //                         Navigator.pop(context);
-  //                       }
-  //                     },
-  //                     elevation: 0,
-  //                     color: Colors.blue,
-  //                     shape: RoundedRectangleBorder(
-  //                         borderRadius: BorderRadius.all(Radius.circular(50))),
-  //                     child: Center(
-  //                       child: Row(
-  //                         mainAxisAlignment: MainAxisAlignment.center,
-  //                         children: [
-  //                           Text(
-  //                             'บันทึก',
-  //                             style: TextStyle(
-  //                                 color: Colors.white,
-  //                                 fontFamily: 'Prompt',
-  //                                 fontWeight: FontWeight.w400,
-  //                                 fontSize: 16),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-
-  //   showDialog(context: context, child: dialog);
-  // }
 }
