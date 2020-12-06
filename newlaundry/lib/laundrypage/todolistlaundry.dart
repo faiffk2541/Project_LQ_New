@@ -56,7 +56,7 @@ class TodolistLaundryLaundryState extends State<TodolistLaundry> {
                             fontWeight: FontWeight.w300),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 120),
+                        padding: EdgeInsets.only(left: 90),
                         child: Image.asset(
                           'assets/sheet 1.png',
                           width: 70,
@@ -95,7 +95,7 @@ class TodolistLaundryLaundryState extends State<TodolistLaundry> {
                             fontWeight: FontWeight.w300),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 110),
+                        padding: EdgeInsets.only(left: 70),
                         child: Image.asset(
                           'assets/sheet 2.png',
                           width: 70,
@@ -134,7 +134,7 @@ class TodolistLaundryLaundryState extends State<TodolistLaundry> {
                             fontWeight: FontWeight.w300),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 170),
+                        padding: EdgeInsets.only(left: 120),
                         child: Image.asset(
                           'assets/sheet 3.png',
                           width: 70,
