@@ -17,8 +17,8 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
   List<int> sum = [];
   List<String> productID = [];
   List totalproduct = [];
-  List amout = [];
-  Map<String, dynamic> test = Map();
+  var choose = Map();
+  var order = Map();
   String type;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   int count = 0, price = 0, total = 0, count2 = 0;
@@ -147,19 +147,19 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                                                     onTap: () {
                                                       if (count != 0) {
                                                         setState(() {
-                                                          if (!test.containsKey(
+                                                          if (!choose.containsKey(
                                                               TypeOfService
                                                                   .documentID)) {
-                                                            count = test[
+                                                            count = choose[
                                                                 TypeOfService
                                                                     .documentID] = 1;
                                                           } else {
-                                                            count = test[
+                                                            count = choose[
                                                                 TypeOfService
                                                                     .documentID] -= 1;
                                                           }
                                                           print(
-                                                              'test2 ==>${test[TypeOfService.documentID]}');
+                                                              'test2 ==>${choose[TypeOfService.documentID]}');
                                                           productID.remove(
                                                               TypeOfService
                                                                   .documentID);
@@ -169,7 +169,7 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                                                                         .data()[
                                                                     'Type']
                                                                 .toString(),
-                                                            "Count": test[
+                                                            "Count": choose[
                                                                 TypeOfService
                                                                     .documentID],
                                                           });
@@ -206,10 +206,10 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                                                   ),
                                                   SizedBox(width: 20),
                                                   Text(
-                                                    test[TypeOfService
+                                                    choose[TypeOfService
                                                                 .documentID] !=
                                                             null
-                                                        ? "${test[TypeOfService.documentID]}"
+                                                        ? "${choose[TypeOfService.documentID]}"
                                                         : 0.toString(),
                                                     style: TextStyle(
                                                         color: Colors.black,
@@ -222,18 +222,18 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                                                   InkWell(
                                                     onTap: () {
                                                       setState(() {
-                                                        if (!test.containsKey(
+                                                        if (!choose.containsKey(
                                                             TypeOfService
                                                                 .documentID)) {
-                                                          count = test[
+                                                          count = choose[
                                                               TypeOfService
                                                                   .documentID] = 1;
                                                         } else {
-                                                          count = test[TypeOfService
+                                                          count = choose[TypeOfService
                                                               .documentID] += 1;
                                                         }
                                                         print(
-                                                            'test2 ==>${test[TypeOfService.documentID]}');
+                                                            'test2 ==>${choose[TypeOfService.documentID]}');
 
                                                         productID.add(
                                                             TypeOfService
@@ -244,12 +244,22 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                                                                       .data()[
                                                                   'Type']
                                                               .toString(),
-                                                          "Count": test[
+                                                          "Count": choose[
                                                               TypeOfService
                                                                   .documentID],
                                                         });
-
-                                                        print('map ==> $test');
+                                                        totalproduct.forEach((element) { 
+                                                          if (!order.containsKey(element)){                                                           
+                                                           order[TypeOfService
+                                                                      .data()['Type']] = count ;                                                                                                                                                                                                                                                   
+                                                        } else {
+                                                           order[TypeOfService
+                                                                      .data()['Type']] = count ;
+                                                        }                                                       
+                                                        });
+                                                     
+                                                        print('test2 ==> $order');
+                                                        print('map ==> $choose');
                                                         sum.add(int.parse(
                                                             TypeOfService
                                                                     .data()[
@@ -259,19 +269,7 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                                                         total = sum.reduce(
                                                             (value, element) =>
                                                                 value +
-                                                                element);
-                                                        print(
-                                                            'object ==> $totalproduct');
-
-                                                        print(
-                                                            'uid ==> $productID');
-                                                        print(sum);
-
-                                                        print(
-                                                            'price ==> ${TypeOfService.data()['Price']}');
-                                                        print('sum  ==> $sum');
-                                                        print(
-                                                            'count ==> $count');
+                                                                element);                                                                                                           
                                                         print(
                                                             'total ==> $total');
                                                       });
@@ -463,7 +461,7 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
     });
     Map<String, dynamic> service = Map();
 
-    service['order'] = totalproduct;
+    service['order'] = order;
     // service['Type'] = type;
     // service['Count'] = count;
 

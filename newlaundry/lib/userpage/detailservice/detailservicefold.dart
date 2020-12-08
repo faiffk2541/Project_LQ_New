@@ -17,11 +17,12 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
   List<int> sum = [];
   List<String> productID = [];
   List totalproduct = [];
-  List amout = [];
-  Map<String, dynamic> test = Map();
+  var choose = Map();
+  var order = Map();
+
   String type;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  int count = 0, price = 0, total = 0, count2 = 0;
+  int count = 0,total = 0;
 
   @override
   void initState() {
@@ -135,19 +136,19 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                                                     onTap: () {
                                                       if (count != 0) {
                                                         setState(() {
-                                                          if (!test.containsKey(
-                                                              TypeOfService
-                                                                  .documentID)) {
-                                                            count = test[
+                                                          if (!choose.containsKey(
+                                                              TypeOfService.data()['Type']))
+                                                                  {
+                                                            count = choose[
                                                                 TypeOfService
                                                                     .documentID] = 1;
                                                           } else {
-                                                            count = test[
+                                                            count = choose[
                                                                 TypeOfService
                                                                     .documentID] -= 1;
                                                           }
                                                           print(
-                                                              'test2 ==>${test[TypeOfService.documentID]}');
+                                                              'test2 ==>${choose[TypeOfService.documentID]}');
                                                           productID.remove(
                                                               TypeOfService
                                                                   .documentID);
@@ -157,7 +158,7 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                                                                         .data()[
                                                                     'Type']
                                                                 .toString(),
-                                                            "Count": test[
+                                                            "Count": choose[
                                                                 TypeOfService
                                                                     .documentID],
                                                           });
@@ -194,10 +195,10 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                                                   ),
                                                   SizedBox(width: 20),
                                                   Text(
-                                                    test[TypeOfService
+                                                    choose[TypeOfService
                                                                 .documentID] !=
                                                             null
-                                                        ? "${test[TypeOfService.documentID]}"
+                                                        ? "${choose[TypeOfService.documentID]}"
                                                         : 0.toString(),
                                                     style: TextStyle(
                                                         color: Colors.black,
@@ -210,34 +211,42 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                                                   InkWell(
                                                     onTap: () {
                                                       setState(() {
-                                                        if (!test.containsKey(
+                                                        if (!choose.containsKey(
                                                             TypeOfService
-                                                                .documentID)) {
-                                                          count = test[
+                                                                .documentID))                                                             
+                                                                {
+                                                          count = choose[
                                                               TypeOfService
                                                                   .documentID] = 1;
                                                         } else {
-                                                          count = test[TypeOfService
+                                                          count = choose[TypeOfService
                                                               .documentID] += 1;
                                                         }
                                                         print(
-                                                            'test2 ==>${test[TypeOfService.documentID]}');
-
+                                                            'test2 ==>${choose[TypeOfService.documentID]}');
                                                         productID.add(
                                                             TypeOfService
                                                                 .documentID);
 
                                                         totalproduct.add({
                                                           "Type": TypeOfService
-                                                                      .data()[
-                                                                  'Type']
-                                                              .toString(),
-                                                          "Count": test[
+                                                                      .data()['Type'].toString(),
+                                                                                                                                
+                                                          "Count": choose[
                                                               TypeOfService
                                                                   .documentID],
                                                         });
-
-                                                        print('map ==> $test');
+                                                        totalproduct.forEach((element) { 
+                                                          if (!order.containsKey(element)){                                                           
+                                                           order[TypeOfService
+                                                                      .data()['Type']] = count ;                                                                                                                                                                                                                                                   
+                                                        } else {
+                                                           order[TypeOfService
+                                                                      .data()['Type']] = count ;
+                                                        }                                                       
+                                                        });
+                                                        print('test ==> $choose');                                                        
+                                                        print('test2 ==> $order');
                                                         sum.add(int.parse(
                                                             TypeOfService
                                                                     .data()[
@@ -247,19 +256,7 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                                                         total = sum.reduce(
                                                             (value, element) =>
                                                                 value +
-                                                                element);
-                                                        print(
-                                                            'object ==> $totalproduct');
-
-                                                        print(
-                                                            'uid ==> $productID');
-                                                        print(sum);
-
-                                                        print(
-                                                            'price ==> ${TypeOfService.data()['Price']}');
-                                                        print('sum  ==> $sum');
-                                                        print(
-                                                            'count ==> $count');
+                                                                element);                                                                                                                                                                                                                                                                                     
                                                         print(
                                                             'total ==> $total');
                                                       });
@@ -327,7 +324,6 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                         ),
                         onPressed: () {
                           showAlertDialog(context);
-
                           // Navigator.push(
                           //   context,
                           //   MaterialPageRoute(
@@ -451,7 +447,7 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
     });
     Map<String, dynamic> service = Map();
 
-    service['order'] = totalproduct;
+    service['order'] = order;
     // service['Type'] = type;
     // service['Count'] = count;
 
