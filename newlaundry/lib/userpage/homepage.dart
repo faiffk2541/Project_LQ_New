@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:newlaundry/userpage/menu/menudetail.dart';
 
 class HomePage extends StatefulWidget {
+  
   @override
   HomePageState createState() => HomePageState();
 }

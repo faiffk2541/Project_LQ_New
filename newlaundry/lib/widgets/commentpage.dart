@@ -64,7 +64,7 @@ class CommentPageState extends State<CommentPage> {
                         itemBuilder: (context, index) {
                           final i = index + 1;
                           DocumentSnapshot Review =
-                              snapshot.data.documents[index];
+                              snapshot.data.documents[index];                          
                           return Container(
                             margin:
                                 EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -89,7 +89,7 @@ class CommentPageState extends State<CommentPage> {
                                             fontWeight: FontWeight.w400),
                                       ),
                                       Text(
-                                        '$i',
+                                        '$i',                                        
                                         style: TextStyle(
                                             color: Colors.blue[900],
                                             fontFamily: 'Prompt',
