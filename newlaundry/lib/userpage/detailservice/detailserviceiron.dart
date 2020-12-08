@@ -17,8 +17,8 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
   List<int> sum = [];
   List<String> productID = [];
   List totalproduct = [];
-  List amout = [];
-  Map<String, dynamic> test = Map();
+  var choose = Map();
+  var order = Map();
   String type;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   int count = 0, price = 0, total = 0, count2 = 0;
@@ -76,90 +76,90 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
               ),
               SizedBox(height: 30),
               Container(
-                height: 550,
+                height: 500,
                 child: StreamBuilder(
-                  stream: Firestore.instance
-                      .collection("Laundry")
-                      .document(widget.laundryUID)
-                      .collection("TypeOfService")
-                      .document("typeofservice")
-                      .collection("Iron")
-                      .snapshots(),
-                  builder: (context, snapshot) {
-
-                    if (snapshot.hasError) return Text('Some Error');
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      print('it can connect to firebase of service');
-                      return CircularProgressIndicator();
-                    } else {
-
-                      return ListView.builder(
-                          itemCount: snapshot.data.documents.length,
-                          itemBuilder: (context, index) {
-                            DocumentSnapshot TypeOfService =
-                                snapshot.data.documents[index];
+                    stream: Firestore.instance
+                        .collection("Laundry")
+                        .document(widget.laundryUID)
+                        .collection("TypeOfService")
+                        .document("typeofservice")
+                        .collection("Iron")
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) return Text('Some Error');
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        print('it can connect to firebase of service');
+                        return CircularProgressIndicator();
+                      } else {
+                        return ListView.builder(
+                            itemCount: snapshot.data.documents.length,
+                            itemBuilder: (context, index) {
+                              DocumentSnapshot TypeOfService =
+                                  snapshot.data.documents[index];
                               print(TypeOfService.documentID);
 
-                            return Stack(
-                              children: [
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(left: 15),
-                                        height: 120,
-                                        width: 120,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
+                              return Stack(
+                                children: [
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(left: 15),
+                                          height: 120,
+                                          width: 120,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          child: Container(
+                                            margin: EdgeInsets.all(5),
+                                            child: Image.asset(
+                                                'assets/laundry-basket.png'),
+                                          ),
                                         ),
-                                        child: Container(
-                                          margin: EdgeInsets.all(5),
-                                          child: Image.asset(
-                                              'assets/laundry-basket.png'),
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 40),
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              TypeOfService.data()['Type'],
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontFamily: 'Prompt',
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w300),
-                                            ),
-                                            SizedBox(height: 10),
-                                            Text(
-                                              TypeOfService.data()['Price'],
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontFamily: 'Prompt',
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w300),
-                                            ),
-                                            SizedBox(height: 10),
-                                            Row(
-                                              children: [
-                                                InkWell(
-                                                  onTap: () {
-                                                    if (count != 0) {
+                                        Container(
+                                          margin: EdgeInsets.only(left: 40),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                TypeOfService.data()['Type'],
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontFamily: 'Prompt',
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.w300),
+                                              ),
+                                              SizedBox(height: 10),
+                                              Text(
+                                                TypeOfService.data()['Price'],
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontFamily: 'Prompt',
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.w300),
+                                              ),
+                                              SizedBox(height: 10),
+                                              Row(
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      if (count != 0) {
                                                         setState(() {
-                                                          if (!test.containsKey(
+                                                          if (!choose.containsKey(
                                                               TypeOfService
                                                                   .documentID)) {
-                                                            count = test[
+                                                            count = choose[
                                                                 TypeOfService
                                                                     .documentID] = 1;
                                                           } else {
-                                                            count = test[
+                                                            count = choose[
                                                                 TypeOfService
                                                                     .documentID] -= 1;
                                                           }
                                                           print(
-                                                              'test2 ==>${test[TypeOfService.documentID]}');
+                                                              'test2 ==>${choose[TypeOfService.documentID]}');
                                                           productID.remove(
                                                               TypeOfService
                                                                   .documentID);
@@ -169,7 +169,7 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                                                                         .data()[
                                                                     'Type']
                                                                 .toString(),
-                                                            "Count": test[
+                                                            "Count": choose[
                                                                 TypeOfService
                                                                     .documentID],
                                                           });
@@ -198,42 +198,42 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                                                               'total ==> $total');
                                                         });
                                                       }
-                                                  },
-                                                  child: Image.asset(
-                                                      'assets/minus.png',
-                                                      width: 30,
-                                                      height: 30),
-                                                ),
-                                                SizedBox(width: 20),
-                                                Text(
-                                                  test[TypeOfService
+                                                    },
+                                                    child: Image.asset(
+                                                        'assets/minus.png',
+                                                        width: 30,
+                                                        height: 30),
+                                                  ),
+                                                  SizedBox(width: 20),
+                                                  Text(
+                                                    choose[TypeOfService
                                                                 .documentID] !=
                                                             null
-                                                        ? "${test[TypeOfService.documentID]}"
+                                                        ? "${choose[TypeOfService.documentID]}"
                                                         : 0.toString(),
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontFamily: 'Prompt',
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.w300),
-                                                ),
-                                                SizedBox(width: 20),
-                                                InkWell(
-                                                  onTap: () {
-                                                    setState(() {
-                                                        if (!test.containsKey(
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontFamily: 'Prompt',
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w300),
+                                                  ),
+                                                  SizedBox(width: 20),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        if (!choose.containsKey(
                                                             TypeOfService
                                                                 .documentID)) {
-                                                          count = test[
+                                                          count = choose[
                                                               TypeOfService
                                                                   .documentID] = 1;
                                                         } else {
-                                                          count = test[TypeOfService
+                                                          count = choose[TypeOfService
                                                               .documentID] += 1;
                                                         }
                                                         print(
-                                                            'test2 ==>${test[TypeOfService.documentID]}');
+                                                            'test2 ==>${choose[TypeOfService.documentID]}');
 
                                                         productID.add(
                                                             TypeOfService
@@ -244,12 +244,22 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                                                                       .data()[
                                                                   'Type']
                                                               .toString(),
-                                                          "Count": test[
+                                                          "Count": choose[
                                                               TypeOfService
                                                                   .documentID],
                                                         });
-
-                                                        print('map ==> $test');
+                                                        totalproduct.forEach((element) { 
+                                                          if (!order.containsKey(element)){                                                           
+                                                           order[TypeOfService
+                                                                      .data()['Type']] = count ;                                                                                                                                                                                                                                                   
+                                                        } else {
+                                                           order[TypeOfService
+                                                                      .data()['Type']] = count ;
+                                                        }                                                       
+                                                        });
+                                                     
+                                                        print('test2 ==> $order');
+                                                        print('map ==> $choose');
                                                         sum.add(int.parse(
                                                             TypeOfService
                                                                     .data()[
@@ -259,43 +269,29 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                                                         total = sum.reduce(
                                                             (value, element) =>
                                                                 value +
-                                                                element);
-                                                        print(
-                                                            'object ==> $totalproduct');
-
-                                                        print(
-                                                            'uid ==> $productID');
-                                                        print(sum);
-
-                                                        print(
-                                                            'price ==> ${TypeOfService.data()['Price']}');
-                                                        print('sum  ==> $sum');
-                                                        print(
-                                                            'count ==> $count');
+                                                                element);                                                                                                           
                                                         print(
                                                             'total ==> $total');
                                                       });
-                                                  },
-                                                  child: Image.asset(
-                                                      'assets/add.png',
-                                                      width: 30,
-                                                      height: 30),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
+                                                    },
+                                                    child: Image.asset(
+                                                        'assets/add.png',
+                                                        width: 30,
+                                                        height: 30),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
-                            );
-                          });
+                                ],
+                              );
+                            });
                       }
-                    }
-                  
-                ),
+                    }),
               ),
               SizedBox(height: 30),
               Row(
@@ -363,6 +359,7 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
       ),
     );
   }
+
   void showAlertDialog(BuildContext context) {
     AlertDialog dialog = new AlertDialog(
       title: Center(
@@ -444,6 +441,7 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
     );
     showDialog(context: context, child: dialog);
   }
+
   Future<void> insertinformation() async {
     final databaseReference = Firestore.instance;
 
@@ -463,7 +461,7 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
     });
     Map<String, dynamic> service = Map();
 
-    service['order'] = totalproduct;
+    service['order'] = order;
     // service['Type'] = type;
     // service['Count'] = count;
 
