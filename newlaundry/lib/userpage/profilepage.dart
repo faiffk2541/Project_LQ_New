@@ -140,13 +140,13 @@ class ProfilePageState extends State<ProfilePage> {
                             fontWeight: FontWeight.w300),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(90),
+                        padding: EdgeInsets.only(left: 80),
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 25,
+                          color: Colors.grey,
+                        ),
                       ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 25,
-                        color: Colors.grey,
-                      )
                     ],
                   ),
                 ),

@@ -1,7 +1,3 @@
-//import 'dart:html';
-
-import 'dart:collection';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +7,6 @@ import '../../navigationbar.dart';
 
 class DetailServiceWashingPage extends StatefulWidget {
   final String laundryUID;
-  //final String washingUID;
-
   DetailServiceWashingPage(this.laundryUID);
 
   @override
@@ -35,35 +29,6 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
   void initState() {
     super.initState();
   }
-
-  // void add() {
-  //   setState(() {
-  //     count++;
-  //   });
-  // }
-
-  // void minus() {
-  //   setState(() {
-  //     if (count != 0) count--;
-  //   });
-  // }
-
-  /*void total() {
-    setState(() {
-      if (count != 0) {
-        sum = price * count;
-      }
-    });
-  }*/
-
-  // DocumentReference laundtyID = Firestore.instance
-  //     .collection("Laundry")
-  //     .document('laundtyID.documentID')
-  //     .collection("TypeOfService")
-  //     .document();
-
-  // DocumentSnapshot docSnap = await laundtyID.get();
-  // var doc_id2 = docSnap.reference.documentID;
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +66,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
               ),
               SizedBox(height: 30),
               Container(
-                height: 550,
+                height: 500,
                 child: StreamBuilder<QuerySnapshot>(
                   stream: Firestore.instance
                       .collection("Laundry")
@@ -395,7 +360,9 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   RaisedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     elevation: 0,
                     color: Colors.red,
                     shape: RoundedRectangleBorder(
@@ -462,9 +429,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
     Map<String, dynamic> map = Map();
     map['CustomerID'] = firebaseAuth.currentUser.uid;
     map['LuandryID'] = widget.laundryUID;
-    //map['Type'] = productID;
     map['Total'] = total;
-    //map['Count'] = count;
 
     await databaseReference
         .collection('Order')
@@ -474,10 +439,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
       print('insert Successfully');
     });
     Map<String, dynamic> service = Map();
-
     service['order'] = totalproduct;
-    // service['Type'] = type;
-    // service['Count'] = count;
 
     await databaseReference
         .collection("Order")
