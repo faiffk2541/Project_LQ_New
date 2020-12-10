@@ -6,12 +6,14 @@ import 'package:newlaundry/navigationbar.dart';
 // ignore: must_be_immutable
 class AddCartFoldPage extends StatefulWidget {
   final String laundryUID;
+  final String name;
   List totalproduct = [];
   List<int> sum = [];
 
   int total;
 
-  AddCartFoldPage(this.laundryUID, this.totalproduct, this.sum, this.total);
+  AddCartFoldPage(
+      this.laundryUID, this.name, this.totalproduct, this.sum, this.total);
   @override
   AddCartFoldState createState() => AddCartFoldState();
 }
@@ -78,7 +80,7 @@ class AddCartFoldState extends State<AddCartFoldPage> {
                             ),
                             SizedBox(width: 10, height: 10),
                             Text(
-                              'ชื่อร้าน',
+                              widget.name,
                               style: TextStyle(
                                   height: 1.5,
                                   color: Colors.black,
@@ -318,7 +320,7 @@ class AddCartFoldState extends State<AddCartFoldPage> {
 
     Map<String, dynamic> map = Map();
     map['CustomerID'] = firebaseAuth.currentUser.uid;
-    map['LuandryID'] = widget.laundryUID;
+    map['Name'] = widget.name;
     map['Total'] = widget.total;
 
     await databaseReference

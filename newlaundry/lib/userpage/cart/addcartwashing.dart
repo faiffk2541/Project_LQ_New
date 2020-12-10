@@ -319,7 +319,7 @@ class AddCartWashingState extends State<AddCartWashingPage> {
 
     Map<String, dynamic> map = Map();
     map['CustomerID'] = firebaseAuth.currentUser.uid;
-    map['LuandryID'] = widget.laundryUID;
+    map['Name'] = widget.name;
     map['Total'] = widget.total;
 
     await databaseReference
