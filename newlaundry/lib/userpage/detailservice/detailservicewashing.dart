@@ -5,7 +5,9 @@ import 'package:newlaundry/userpage/cart/addcartwashing.dart';
 
 class DetailServiceWashingPage extends StatefulWidget {
   final String laundryUID;
-  DetailServiceWashingPage(this.laundryUID);
+  final String name;
+
+  DetailServiceWashingPage(this.laundryUID, this.name);
 
   @override
   DetailServiceWashingState createState() => DetailServiceWashingState();
@@ -62,6 +64,44 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                 ),
               ),
               SizedBox(height: 30),
+              Container(
+                child: Padding(
+                  padding: EdgeInsets.only(right: 40, left: 40),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          topRight: Radius.circular(15),
+                          bottomLeft: Radius.circular(15),
+                          bottomRight: Radius.circular(15)),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.store,
+                              color: Colors.red,
+                            ),
+                            SizedBox(width: 10, height: 10),
+                            Text(
+                              widget.name,
+                              style: TextStyle(
+                                  height: 1.5,
+                                  color: Colors.black,
+                                  fontFamily: 'Prompt',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w300),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
               Container(
                 height: 500,
                 child: StreamBuilder<QuerySnapshot>(
@@ -334,6 +374,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                             MaterialPageRoute(
                                 builder: (context) => AddCartWashingPage(
                                     widget.laundryUID,
+                                    widget.name,
                                     totalproduct,
                                     sum,
                                     total)),
