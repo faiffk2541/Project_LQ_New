@@ -218,7 +218,7 @@ class MenuDetailState extends State<MenuDetailPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => MenuServicePage(widget.uid)),
+                        builder: (context) => MenuServicePage(widget.uid,widget.name)),
                   );
                 },
                 padding: EdgeInsets.all(10),
