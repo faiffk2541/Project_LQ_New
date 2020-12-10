@@ -385,7 +385,11 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => AddCartFoldPage(
-                                  widget.laundryUID, totalproduct, sum, total),
+                                  widget.laundryUID,
+                                  widget.name,
+                                  totalproduct,
+                                  sum,
+                                  total),
                             ),
                           );
                         },
