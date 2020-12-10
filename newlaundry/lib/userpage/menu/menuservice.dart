@@ -5,8 +5,9 @@ import 'package:newlaundry/userpage/detailservice/detailservicewashing.dart';
 
 class MenuServicePage extends StatefulWidget {
   final String laundryUID;
+  final String name;
 
-  MenuServicePage(this.laundryUID);
+  MenuServicePage(this.laundryUID, this.name);
 
   @override
   MenuServiceState createState() => MenuServiceState();
@@ -77,10 +78,9 @@ class MenuServiceState extends State<MenuServicePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              DetailServiceWashingPage(widget.laundryUID)),
+                          builder: (context) => DetailServiceWashingPage(
+                              widget.laundryUID, widget.name)),
                     );
-                    // showAlert();
                   },
                 ),
               ),
@@ -106,12 +106,11 @@ class MenuServiceState extends State<MenuServicePage> {
                         fontSize: 18),
                   ),
                   onPressed: () {
-                    // showAlert();
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              DetailServiceFoldPage(widget.laundryUID)),
+                          builder: (context) => DetailServiceFoldPage(
+                              widget.laundryUID, widget.name)),
                     );
                   },
                 ),
@@ -141,10 +140,9 @@ class MenuServiceState extends State<MenuServicePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              DetailServiceIronPage(widget.laundryUID)),
+                          builder: (context) => DetailServiceIronPage(
+                              widget.laundryUID, widget.name)),
                     );
-                    // showAlert();
                   },
                 ),
               ),
@@ -154,83 +152,4 @@ class MenuServiceState extends State<MenuServicePage> {
       ),
     );
   }
-
-  // void showAlert() {
-  //   AlertDialog dialog = new AlertDialog(
-  //     content: new Container(
-  //       width: 250.0,
-  //       height: 250.0,
-  //       child: new Column(
-  //         crossAxisAlignment: CrossAxisAlignment.stretch,
-  //         children: <Widget>[
-  //           Expanded(
-  //             child: Container(
-  //               padding: EdgeInsets.all(16),
-  //               child: Column(
-  //                 mainAxisAlignment: MainAxisAlignment.center,
-  //                 children: [
-  //                   RaisedButton(
-  //                     onPressed: () {
-  //                       Navigator.push(
-  //                         context,
-  //                         MaterialPageRoute(
-  //                             builder: (context) => DetailServicePage()),
-  //                       );
-  //                     },
-  //                     elevation: 0,
-  //                     color: Colors.red,
-  //                     shape: RoundedRectangleBorder(
-  //                       borderRadius: BorderRadius.all(Radius.circular(50)),
-  //                     ),
-  //                     child: Center(
-  //                       child: Row(
-  //                         mainAxisAlignment: MainAxisAlignment.center,
-  //                         children: [
-  //                           Text(
-  //                             'รายวัน',
-  //                             style: TextStyle(
-  //                                 color: Colors.white,
-  //                                 fontFamily: 'Prompt',
-  //                                 fontWeight: FontWeight.w400,
-  //                                 fontSize: 20),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   SizedBox(height: 50),
-  //                   RaisedButton(
-  //                     onPressed: () {},
-  //                     elevation: 0,
-  //                     color: Colors.blue,
-  //                     shape: RoundedRectangleBorder(
-  //                       borderRadius: BorderRadius.all(Radius.circular(50)),
-  //                     ),
-  //                     child: Center(
-  //                       child: Row(
-  //                         mainAxisAlignment: MainAxisAlignment.center,
-  //                         children: [
-  //                           Text(
-  //                             'รายเดือน',
-  //                             style: TextStyle(
-  //                                 color: Colors.white,
-  //                                 fontFamily: 'Prompt',
-  //                                 fontWeight: FontWeight.w400,
-  //                                 fontSize: 20),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-
-  //   showDialog(context: context, child: dialog);
-  // }
 }
