@@ -4,21 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:newlaundry/navigationbar.dart';
 
 // ignore: must_be_immutable
-class AddCartWashingPage extends StatefulWidget {
+class AddCartFoldPage extends StatefulWidget {
   final String laundryUID;
-  final String name;
   List totalproduct = [];
   List<int> sum = [];
 
   int total;
 
-  AddCartWashingPage(
-      this.laundryUID, this.name, this.totalproduct, this.sum, this.total);
+  AddCartFoldPage(this.laundryUID, this.totalproduct, this.sum, this.total);
   @override
-  AddCartWashingState createState() => AddCartWashingState();
+  AddCartFoldState createState() => AddCartFoldState();
 }
 
-class AddCartWashingState extends State<AddCartWashingPage> {
+class AddCartFoldState extends State<AddCartFoldPage> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   @override
@@ -61,6 +59,7 @@ class AddCartWashingState extends State<AddCartWashingPage> {
                   padding: EdgeInsets.only(right: 30, left: 30),
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                    width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
@@ -74,12 +73,12 @@ class AddCartWashingState extends State<AddCartWashingPage> {
                         Row(
                           children: [
                             Icon(
-                              Icons.store,
+                              Icons.location_on,
                               color: Colors.red,
                             ),
                             SizedBox(width: 10, height: 10),
                             Text(
-                              widget.name,
+                              'ชื่อร้าน',
                               style: TextStyle(
                                   height: 1.5,
                                   color: Colors.black,
@@ -337,7 +336,7 @@ class AddCartWashingState extends State<AddCartWashingPage> {
         .document(firebaseAuth.currentUser.uid)
         .collection("TypeOfService")
         .document("typeofservice")
-        .collection("Washing")
+        .collection("Fold")
         .document()
         .setData(service)
         .then((value) {
