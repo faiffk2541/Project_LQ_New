@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:newlaundry/navigationbar.dart';
 
 class AddCartWashingPage extends StatefulWidget {
   final String laundryUID;
@@ -250,11 +249,11 @@ class AddCartWashingState extends State<AddCartWashingPage> {
                   RaisedButton(
                     onPressed: () {
                       insertinformation();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => NavigationBarPage()),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => NavigationBarPage()),
+                      // );
                     },
                     elevation: 0,
                     color: Colors.blue,

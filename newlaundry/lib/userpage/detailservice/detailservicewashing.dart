@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:newlaundry/userpage/cart/addcart.dart';
-
-import '../../navigationbar.dart';
+import 'package:newlaundry/userpage/cart/addcartwashing.dart';
 
 class DetailServiceWashingPage extends StatefulWidget {
   final String laundryUID;
@@ -15,14 +13,13 @@ class DetailServiceWashingPage extends StatefulWidget {
 
 class DetailServiceWashingState extends State<DetailServiceWashingPage> {
   List<int> sum = [];
-  List<String> productID = [];
+  List productID = [];
   List totalproduct = [];
-  List amout = [];
-
-  Map<String, dynamic> test = Map();
+  var choose = Map();
+  var order = Map();
+  String type;
 
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  String type;
   int count = 0, price = 0, total = 0, count2 = 0;
 
   @override
@@ -111,8 +108,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                         child: Column(
                                           children: <Widget>[
                                             Text(
-                                              type =
-                                                  TypeOfService.data()['Type'],
+                                              TypeOfService.data()['Type'],
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontFamily: 'Prompt',
@@ -135,31 +131,51 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                   onTap: () {
                                                     if (count != 0) {
                                                       setState(() {
-                                                        if (!test.containsKey(
+                                                        if (!choose.containsKey(
                                                             TypeOfService
                                                                 .documentID)) {
-                                                          count = test[
+                                                          count = choose[
                                                               TypeOfService
                                                                   .documentID] = 1;
                                                         } else {
-                                                          count = test[TypeOfService
-                                                              .documentID] -= 1;
+                                                          count = choose[
+                                                              TypeOfService
+                                                                  .documentID] -= 1;
                                                         }
                                                         print(
-                                                            'test2 ==>${test[TypeOfService.documentID]}');
+                                                            'test2 ==>${choose[TypeOfService.documentID]}');
                                                         productID.remove(
                                                             TypeOfService
                                                                 .documentID);
-
                                                         totalproduct.remove({
                                                           "Type": TypeOfService
                                                                       .data()[
                                                                   'Type']
                                                               .toString(),
-                                                          "Count": test[
+                                                          "Count": choose[
                                                               TypeOfService
                                                                   .documentID],
                                                         });
+                                                        totalproduct
+                                                            .forEach((element) {
+                                                          if (!order
+                                                              .containsKey(
+                                                                  element)) {
+                                                            order[TypeOfService
+                                                                        .data()[
+                                                                    'Type']] =
+                                                                count;
+                                                          } else {
+                                                            order[TypeOfService
+                                                                        .data()[
+                                                                    'Type']] =
+                                                                count;
+                                                          }
+                                                        });
+                                                        print(
+                                                            'choose ==> $choose');
+                                                        print(
+                                                            'order ==> $order');
 
                                                         sum.remove(int.parse(
                                                             TypeOfService
@@ -171,16 +187,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                                 value +
                                                                 element);
 
-                                                        print(
-                                                            'object ==> $totalproduct');
-                                                        print(
-                                                            'uid  ==> $productID');
-                                                        print(sum);
-                                                        print(
-                                                            'price ==> ${TypeOfService.data()['Price']}');
                                                         print('sum ==> $sum');
-                                                        print(
-                                                            'count ==> $count');
                                                         print(
                                                             'total ==> $total');
                                                       });
@@ -193,10 +200,10 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                 ),
                                                 SizedBox(width: 20),
                                                 Text(
-                                                  test[TypeOfService
+                                                  choose[TypeOfService
                                                               .documentID] !=
                                                           null
-                                                      ? "${test[TypeOfService.documentID]}"
+                                                      ? "${choose[TypeOfService.documentID]}"
                                                       : 0.toString(),
                                                   style: TextStyle(
                                                       color: Colors.black,
@@ -209,19 +216,17 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                 InkWell(
                                                   onTap: () {
                                                     setState(() {
-                                                      if (!test.containsKey(
+                                                      if (!choose.containsKey(
                                                           TypeOfService
                                                               .documentID)) {
-                                                        count = test[
+                                                        count = choose[
                                                             TypeOfService
                                                                 .documentID] = 1;
                                                       } else {
-                                                        count = test[TypeOfService
-                                                            .documentID] += 1;
+                                                        count = choose[
+                                                            TypeOfService
+                                                                .documentID] += 1;
                                                       }
-                                                      print(
-                                                          'test2 ==>${test[TypeOfService.documentID]}');
-
                                                       productID.add(
                                                           TypeOfService
                                                               .documentID);
@@ -230,12 +235,25 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                         "Type": TypeOfService
                                                                 .data()['Type']
                                                             .toString(),
-                                                        "Count": test[
+                                                        "Count": choose[
                                                             TypeOfService
                                                                 .documentID],
                                                       });
-
-                                                      print('map ==> $test');
+                                                      totalproduct
+                                                          .forEach((element) {
+                                                        if (!order.containsKey(
+                                                            element)) {
+                                                          order[TypeOfService
+                                                                  .data()[
+                                                              'Type']] = count;
+                                                        } else {
+                                                          order[TypeOfService
+                                                                  .data()[
+                                                              'Type']] = count;
+                                                        }
+                                                      });
+                                                      print('test2 ==> $order');
+                                                      print('map ==> $choose');
                                                       sum.add(int.parse(
                                                           TypeOfService.data()[
                                                               'Price']));
@@ -244,17 +262,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                       total = sum.reduce(
                                                           (value, element) =>
                                                               value + element);
-                                                      print(
-                                                          'object ==> $totalproduct');
-
-                                                      print(
-                                                          'uid ==> $productID');
-                                                      print(sum);
-
-                                                      print(
-                                                          'price ==> ${TypeOfService.data()['Price']}');
-                                                      print('sum  ==> $sum');
-                                                      print('count ==> $count');
+                                                      print('sum ==> $sum');
                                                       print('total ==> $total');
                                                     });
                                                   },
@@ -321,7 +329,15 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                               fontWeight: FontWeight.w400),
                         ),
                         onPressed: () {
-                          showAlertDialog(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AddCartWashingPage(
+                                    widget.laundryUID,
+                                    totalproduct,
+                                    sum,
+                                    total)),
+                          );
                         },
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
@@ -337,120 +353,5 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
         ),
       ),
     );
-  }
-
-  void showAlertDialog(BuildContext context) {
-    AlertDialog dialog = new AlertDialog(
-      title: Center(
-        child: Text(
-          "ยืนยันการทำรายการ",
-          style: TextStyle(
-              color: Colors.red,
-              fontFamily: 'Prompt',
-              fontSize: 18,
-              fontWeight: FontWeight.w400),
-        ),
-      ),
-      content: new Container(
-        height: 50,
-        child: new Column(
-          children: <Widget>[
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  RaisedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    elevation: 0,
-                    color: Colors.red,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(50))),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'ยกเลิก',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Prompt',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 30),
-                  RaisedButton(
-                    onPressed: () {
-                      insertinformation();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => NavigationBarPage()),
-                      );
-                    },
-                    elevation: 0,
-                    color: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(50))),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'ตกลง',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Prompt',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-    showDialog(context: context, child: dialog);
-  }
-
-  Future<void> insertinformation() async {
-    final databaseReference = Firestore.instance;
-
-    Map<String, dynamic> map = Map();
-    map['CustomerID'] = firebaseAuth.currentUser.uid;
-    map['LuandryID'] = widget.laundryUID;
-    map['Total'] = total;
-
-    await databaseReference
-        .collection('Order')
-        .document(firebaseAuth.currentUser.uid)
-        .setData(map)
-        .then((value) {
-      print('insert Successfully');
-    });
-    Map<String, dynamic> service = Map();
-    service['order'] = totalproduct;
-
-    await databaseReference
-        .collection("Order")
-        .document(firebaseAuth.currentUser.uid)
-        .collection("TypeOfService")
-        .document("typeofservice")
-        .collection("Washing")
-        .document()
-        .setData(service)
-        .then((value) {
-      print('insert service Successfully');
-    });
   }
 }
