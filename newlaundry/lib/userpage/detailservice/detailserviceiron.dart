@@ -173,6 +173,17 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                                                                 TypeOfService
                                                                     .documentID],
                                                           });
+                                                          totalproduct.forEach((element) { 
+                                                          if (!order.containsKey(element)){                                                           
+                                                           order[TypeOfService
+                                                                      .data()['Type']] = count ;                                                                                                                                                                                                                                                   
+                                                        } else {
+                                                           order[TypeOfService
+                                                                      .data()['Type']] = count ;
+                                                        }                                                       
+                                                        });
+                                                        print('choose ==> $choose');                                                        
+                                                        print('order ==> $order');
 
                                                           sum.remove(int.parse(
                                                               TypeOfService
@@ -182,20 +193,10 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                                                           total = sum.reduce(
                                                               (value, element) =>
                                                                   value +
-                                                                  element);
-
-                                                          print(
-                                                              'object ==> $totalproduct');
-                                                          print(
-                                                              'uid  ==> $productID');
-                                                          print(sum);
-                                                          print(
-                                                              'price ==> ${TypeOfService.data()['Price']}');
-                                                          print('sum ==> $sum');
-                                                          print(
-                                                              'count ==> $count');
-                                                          print(
-                                                              'total ==> $total');
+                                                                  element);                                                                                                                   
+                                                          print('sum ==> $sum');                                                          
+                                                          print('total ==> $total');
+                                                              
                                                         });
                                                       }
                                                     },
@@ -269,9 +270,9 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                                                         total = sum.reduce(
                                                             (value, element) =>
                                                                 value +
-                                                                element);                                                                                                           
-                                                        print(
-                                                            'total ==> $total');
+                                                                element);  
+                                                        print('sum ==> $sum');                                                                                                          
+                                                        print('total ==> $total');                                                           
                                                       });
                                                     },
                                                     child: Image.asset(

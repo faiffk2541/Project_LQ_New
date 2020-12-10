@@ -162,7 +162,17 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                                                                 TypeOfService
                                                                     .documentID],
                                                           });
-
+                                                          totalproduct.forEach((element) { 
+                                                          if (!order.containsKey(element)){                                                           
+                                                           order[TypeOfService
+                                                                      .data()['Type']] = count ;                                                                                                                                                                                                                                                   
+                                                        } else {
+                                                           order[TypeOfService
+                                                                      .data()['Type']] = count ;
+                                                        }                                                       
+                                                        });
+                                                        print('choose ==> $choose');                                                        
+                                                        print('order ==> $order');
                                                           sum.remove(int.parse(
                                                               TypeOfService
                                                                       .data()[
@@ -171,18 +181,8 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                                                           total = sum.reduce(
                                                               (value, element) =>
                                                                   value +
-                                                                  element);
-
-                                                          print(
-                                                              'object ==> $totalproduct');
-                                                          print(
-                                                              'uid  ==> $productID');
-                                                          print(sum);
-                                                          print(
-                                                              'price ==> ${TypeOfService.data()['Price']}');
-                                                          print('sum ==> $sum');
-                                                          print(
-                                                              'count ==> $count');
+                                                                  element);                                                          
+                                                          print('sum ==> $sum');                                                        
                                                           print(
                                                               'total ==> $total');
                                                         });
@@ -256,9 +256,9 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                                                         total = sum.reduce(
                                                             (value, element) =>
                                                                 value +
-                                                                element);                                                                                                                                                                                                                                                                                     
-                                                        print(
-                                                            'total ==> $total');
+                                                                element);
+                                                        print('sum ==> $sum');                                                                                                                                                                                                                                                                                      
+                                                        print('total ==> $total');                                                            
                                                       });
                                                     },
                                                     child: Image.asset(
