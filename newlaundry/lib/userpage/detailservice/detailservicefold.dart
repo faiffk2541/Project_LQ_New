@@ -6,8 +6,9 @@ import 'package:newlaundry/userpage/cart/addcartfold.dart';
 class DetailServiceFoldPage extends StatefulWidget {
   final String laundryUID;
   final String name;
+  final String customerFname;
 
-  DetailServiceFoldPage(this.laundryUID, this.name);
+  DetailServiceFoldPage(this.laundryUID, this.name, this.customerFname);
   @override
   DetailServiceFoldState createState() => DetailServiceFoldState();
 }
@@ -81,7 +82,7 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                         Row(
                           children: [
                             Icon(
-                              Icons.store,
+                              Icons.location_on,
                               color: Colors.red,
                             ),
                             SizedBox(width: 10, height: 10),
@@ -96,6 +97,7 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                             )
                           ],
                         ),
+                        SizedBox(height: 5),
                       ],
                     ),
                   ),
@@ -269,8 +271,6 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                                                               TypeOfService
                                                                   .documentID] += 1;
                                                         }
-                                                        print(
-                                                            'test2 ==>${choose[TypeOfService.documentID]}');
                                                         productID.add(
                                                             TypeOfService
                                                                 .documentID);
@@ -387,6 +387,7 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                               builder: (context) => AddCartFoldPage(
                                   widget.laundryUID,
                                   widget.name,
+                                  widget.customerFname,
                                   totalproduct,
                                   sum,
                                   total),
@@ -402,6 +403,7 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                   )
                 ],
               ),
+              SizedBox(height: 10)
             ],
           ),
         ),

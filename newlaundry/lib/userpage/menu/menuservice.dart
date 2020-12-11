@@ -6,8 +6,9 @@ import 'package:newlaundry/userpage/detailservice/detailservicewashing.dart';
 class MenuServicePage extends StatefulWidget {
   final String laundryUID;
   final String name;
+  final String customerFname;
 
-  MenuServicePage(this.laundryUID, this.name);
+  MenuServicePage(this.laundryUID, this.name, this.customerFname);
 
   @override
   MenuServiceState createState() => MenuServiceState();
@@ -79,7 +80,9 @@ class MenuServiceState extends State<MenuServicePage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => DetailServiceWashingPage(
-                              widget.laundryUID, widget.name)),
+                              widget.laundryUID,
+                              widget.name,
+                              widget.customerFname)),
                     );
                   },
                 ),
@@ -110,7 +113,10 @@ class MenuServiceState extends State<MenuServicePage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => DetailServiceFoldPage(
-                              widget.laundryUID, widget.name)),
+                            
+                              widget.laundryUID,
+                              widget.name,
+                              widget.customerFname)),
                     );
                   },
                 ),
@@ -141,7 +147,9 @@ class MenuServiceState extends State<MenuServicePage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => DetailServiceIronPage(
-                              widget.laundryUID, widget.name)),
+                              widget.laundryUID,
+                              widget.name,
+                              widget.customerFname)),
                     );
                   },
                 ),

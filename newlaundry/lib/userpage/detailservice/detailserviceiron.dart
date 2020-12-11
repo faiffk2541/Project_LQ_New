@@ -6,8 +6,9 @@ import '../../navigationbar.dart';
 class DetailServiceIronPage extends StatefulWidget {
   final String laundryUID;
   final String name;
+  final String customerFname;
 
-  DetailServiceIronPage(this.laundryUID, this.name);
+  DetailServiceIronPage(this.laundryUID, this.name, this.customerFname);
   @override
   DetailServiceIronState createState() => DetailServiceIronState();
 }

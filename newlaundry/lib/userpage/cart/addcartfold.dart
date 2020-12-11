@@ -7,13 +7,14 @@ import 'package:newlaundry/navigationbar.dart';
 class AddCartFoldPage extends StatefulWidget {
   final String laundryUID;
   final String name;
+  final String customerFname;
   List totalproduct = [];
   List<int> sum = [];
 
   int total;
 
-  AddCartFoldPage(
-      this.laundryUID, this.name, this.totalproduct, this.sum, this.total);
+  AddCartFoldPage(this.laundryUID, this.name, this.customerFname,
+      this.totalproduct, this.sum, this.total);
   @override
   AddCartFoldState createState() => AddCartFoldState();
 }

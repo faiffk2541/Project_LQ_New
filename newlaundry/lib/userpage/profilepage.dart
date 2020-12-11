@@ -73,16 +73,10 @@ class ProfilePageState extends State<ProfilePage> {
                       backgroundColor: Colors.white,
                       child: ClipOval(
                         child: SizedBox(
-                          // width: 100,
-                          // height: 100,
                           child: Image.asset(
                             'assets/boy.png',
                             fit: BoxFit.fill,
                           ),
-                          // child: Image.asset(
-                          //   imageUrl,
-                          //   fit: BoxFit.fill,
-                          // ),
                         ),
                       ),
                     ),

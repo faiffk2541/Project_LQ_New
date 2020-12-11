@@ -1,37 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:newlaundry/navigationbar.dart';
-import 'package:newlaundry/userpage/detailservice/detailservicewashing.dart';
-import 'package:newlaundry/userpage/historypage.dart';
 
 class AddCartPage extends StatefulWidget {
-  
-  // List<int> sum = [];
-  // List<String> productID = [];
-
-  // AddCartPage(this.sum, this.productID);
-
   @override
   AddCartState createState() => AddCartState();
 }
-
-// getAddcart() async {
-//     Firestore firestore = Firestore.instance;
-//     Future<QuerySnapshot> documentReference = firestore
-//         .collection("Laundry")
-//         .doc(widget.uid)
-//         .collection("Review")
-//         .getDocuments();
-//   }
 
 class AddCartState extends State<AddCartPage> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
-    
-    // print(widget.sum);
-    // print(widget.productID);
     return Scaffold(
       backgroundColor: Colors.blue[100],
       body: SingleChildScrollView(
@@ -391,3 +370,82 @@ void showAlertDialog(BuildContext context) {
   );
   showDialog(context: context, child: dialog);
 }
+
+  // Container(
+              //   height: 450,
+              //   child: StreamBuilder(
+              //       stream: Firestore.instance
+              //           .collection("Order")
+              //           .doc(firebaseAuth.currentUser.uid)
+              //           .collection("TypeOfService")
+              //           .doc("typeofservice")
+              //           .collection("Washing")
+              //           .snapshots(),
+              //       builder: (context, snapshot) {
+              //         if (snapshot.connectionState == ConnectionState.waiting) {
+              //           print('it can connect to firebase');
+              //           return CircularProgressIndicator();
+              //         } else {
+              //           print(
+              //               snapshot.data.documents[0].data()['order'].length);
+              //           return ListView.builder(
+              //               itemCount: snapshot.data.documents[0]
+              //                   .data()['order']
+              //                   .length,
+              //               itemBuilder: (context, index) {
+              //                 return Container(
+              //                   margin: EdgeInsets.only(
+              //                       left: 15, right: 15, top: 15),
+              //                   decoration: BoxDecoration(
+              //                     color: Colors.white,
+              //                     borderRadius: BorderRadius.circular(20),
+              //                   ),
+              //                   child: Column(
+              //                     crossAxisAlignment: CrossAxisAlignment.start,
+              //                     children: [
+              //                       Padding(
+              //                         padding: EdgeInsets.only(
+              //                             top: 10, left: 15, bottom: 10),
+              //                         child: Column(
+              //                           children: [
+              //                             Text(
+              //                               'รายการ : ' +
+              //                                   snapshot.data.documents[0]
+              //                                           .data()['order'][index]
+              //                                       ['Type'],
+              //                               style: TextStyle(
+              //                                   color: Colors.blue[900],
+              //                                   fontFamily: 'Prompt',
+              //                                   fontSize: 16,
+              //                                   fontWeight: FontWeight.w400),
+              //                             ),
+              //                           ],
+              //                         ),
+              //                       ),
+              //                       Padding(
+              //                         padding:
+              //                             EdgeInsets.only(left: 15, bottom: 10),
+              //                         child: Column(
+              //                           children: [
+              //                             Text(
+              //                               'จำนวน  : ' +
+              //                                   snapshot.data.documents[0]
+              //                                       .data()['order'][index]
+              //                                           ['Count']
+              //                                       .toString(),
+              //                               style: TextStyle(
+              //                                   color: Colors.blue[900],
+              //                                   fontFamily: 'Prompt',
+              //                                   fontSize: 16,
+              //                                   fontWeight: FontWeight.w400),
+              //                             ),
+              //                           ],
+              //                         ),
+              //                       ),
+              //                     ],
+              //                   ),
+              //                 );
+              //               });
+              //         }
+              //       }),
+              // ),

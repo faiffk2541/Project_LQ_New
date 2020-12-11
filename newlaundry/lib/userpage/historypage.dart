@@ -3,6 +3,8 @@ import 'package:newlaundry/tabbar/donescreen.dart';
 import 'package:newlaundry/tabbar/doningscreen.dart';
 
 class HistoryPage extends StatefulWidget {
+  final String uid;
+  HistoryPage(this.uid);
   @override
   HistoryPageState createState() => HistoryPageState();
 }
@@ -10,6 +12,7 @@ class HistoryPage extends StatefulWidget {
 class HistoryPageState extends State<HistoryPage> {
   @override
   Widget build(BuildContext context) {
+    print(widget.uid);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       color: Colors.white,
@@ -37,7 +40,7 @@ class HistoryPageState extends State<HistoryPage> {
               tabs: [
                 Tab(
                   child: Text(
-                    'กำลังทำ',
+                    'รอดำเนินการ',
                     style: TextStyle(
                         color: Colors.blue[900],
                         fontFamily: 'Prompt',
@@ -59,7 +62,7 @@ class HistoryPageState extends State<HistoryPage> {
             ),
           ),
           body: TabBarView(
-            children: [DoingScreen(), DoneScreen()],
+            children: [DoingScreen(widget.uid), DoneScreen(widget.uid)],
           ),
         ),
       ),

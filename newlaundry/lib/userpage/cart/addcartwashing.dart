@@ -7,19 +7,22 @@ import 'package:newlaundry/navigationbar.dart';
 class AddCartWashingPage extends StatefulWidget {
   final String laundryUID;
   final String name;
+  final String customerFname;
+
   List totalproduct = [];
   List<int> sum = [];
 
   int total;
 
-  AddCartWashingPage(
-      this.laundryUID, this.name, this.totalproduct, this.sum, this.total);
+  AddCartWashingPage(this.laundryUID, this.name, this.customerFname,
+      this.totalproduct, this.sum, this.total);
   @override
   AddCartWashingState createState() => AddCartWashingState();
 }
 
 class AddCartWashingState extends State<AddCartWashingPage> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  String washing = "ซักรีด";
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +63,7 @@ class AddCartWashingState extends State<AddCartWashingPage> {
                 child: Padding(
                   padding: EdgeInsets.only(right: 30, left: 30),
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
@@ -74,12 +77,46 @@ class AddCartWashingState extends State<AddCartWashingPage> {
                         Row(
                           children: [
                             Icon(
-                              Icons.store,
+                              Icons.location_on,
                               color: Colors.red,
                             ),
                             SizedBox(width: 10, height: 10),
                             Text(
                               widget.name,
+                              style: TextStyle(
+                                  height: 1.5,
+                                  color: Colors.black,
+                                  fontFamily: 'Prompt',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w300),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.person,
+                              color: Colors.blue,
+                            ),
+                            SizedBox(width: 10, height: 10),
+                            Text(
+                              widget.customerFname,
+                              style: TextStyle(
+                                  height: 1.5,
+                                  color: Colors.black,
+                                  fontFamily: 'Prompt',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w300),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          children: [
+                            SizedBox(width: 34, height: 10),
+                            Text(
+                              washing,
                               style: TextStyle(
                                   height: 1.5,
                                   color: Colors.black,
@@ -318,30 +355,50 @@ class AddCartWashingState extends State<AddCartWashingPage> {
     final databaseReference = Firestore.instance;
 
     Map<String, dynamic> map = Map();
-    map['CustomerID'] = firebaseAuth.currentUser.uid;
-    map['Name'] = widget.name;
+    map['CustomerName'] = widget.customerFname;
+    map['LaundryName'] = widget.name;
     map['Total'] = widget.total;
-
+    map['Service'] = washing;
+    map['Status'] = 'รอดำเนินการ';
     await databaseReference
-        .collection('Order')
+        .collection('OrderCustomer')
+        .doc("ordercustomer")
+        .collection(firebaseAuth.currentUser.uid)
         .document(firebaseAuth.currentUser.uid)
         .setData(map)
         .then((value) {
       print('insert Successfully');
     });
-    Map<String, dynamic> service = Map();
-    service['order'] = widget.totalproduct;
 
+    Map<String, dynamic> service = Map();
+    service['Order'] = widget.totalproduct;
     await databaseReference
-        .collection("Order")
+        .collection("OrderCustomer")
+        .doc("ordercustomer")
+        .collection(firebaseAuth.currentUser.uid)
         .document(firebaseAuth.currentUser.uid)
-        .collection("TypeOfService")
-        .document("typeofservice")
-        .collection("Washing")
-        .document()
+        .collection("Bill")
+        .doc()
         .setData(service)
         .then((value) {
       print('insert service Successfully');
+    });
+
+    Map<String, dynamic> laundry = Map();
+    laundry['CustomerName'] = widget.customerFname;
+    laundry['LaundryName'] = widget.name;
+    laundry['Total'] = widget.total;
+    laundry['Service'] = washing;
+    laundry['Status'] = 'รอออเดอร์';
+    laundry['order'] = widget.totalproduct;
+    await databaseReference
+        .collection("OrderLaundry")
+        .doc(widget.laundryUID)
+        .collection("Confirmation")
+        .doc(firebaseAuth.currentUser.uid)
+        .setData(laundry)
+        .then((value) {
+      print('insert laundry Successfully');
     });
   }
 }

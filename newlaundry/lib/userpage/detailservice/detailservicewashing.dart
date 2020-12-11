@@ -6,8 +6,9 @@ import 'package:newlaundry/userpage/cart/addcartwashing.dart';
 class DetailServiceWashingPage extends StatefulWidget {
   final String laundryUID;
   final String name;
+  final String customerFname;
 
-  DetailServiceWashingPage(this.laundryUID, this.name);
+  DetailServiceWashingPage(this.laundryUID, this.name, this.customerFname);
 
   @override
   DetailServiceWashingState createState() => DetailServiceWashingState();
@@ -375,6 +376,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                 builder: (context) => AddCartWashingPage(
                                     widget.laundryUID,
                                     widget.name,
+                                    widget.customerFname,
                                     totalproduct,
                                     sum,
                                     total)),
@@ -389,6 +391,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                   )
                 ],
               ),
+              SizedBox(height: 10),
             ],
           ),
         ),

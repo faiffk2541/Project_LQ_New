@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:newlaundry/userpage/menu/menudetail.dart';
 
 class HomePage extends StatefulWidget {
-  
+  final String customerFname;
+  HomePage(this.customerFname);
   @override
   HomePageState createState() => HomePageState();
 }
@@ -119,8 +120,8 @@ class HomePageState extends State<HomePage> {
                                                       laundry.data()['Name'],
                                                       laundry.data()['Phone'],
                                                       laundry.data()['Time'],
-                                                      laundry
-                                                          .data()['URLpic'])),
+                                                      laundry.data()['URLpic'],
+                                                      widget.customerFname)),
                                         ),
                                       },
                                       child: Card(
