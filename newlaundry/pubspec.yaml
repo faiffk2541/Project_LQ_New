@@ -23,6 +23,7 @@ dependencies:
   flutter_auth_buttons: ^0.10.0
   provider: ^4.0.5
   uuid: ^2.0.4
+  flutter_slidable: ^0.5.7
   
 dev_dependencies:
   flutter_test:
@@ -45,10 +46,6 @@ flutter:
   - assets/frame.png
   - assets/boy.png
   - assets/clock.png
-  - assets/dress.png
-  - assets/pants.png
-  - assets/polo-shirt.png
-  - assets/shorts.png
   - assets/minus.png
   - assets/add.png
   - assets/laundry-basket.png
@@ -56,6 +53,7 @@ flutter:
   - assets/towels.png
   - assets/washing.png
   - assets/phone-call.png
+  - assets/checked.png
 
 
 
