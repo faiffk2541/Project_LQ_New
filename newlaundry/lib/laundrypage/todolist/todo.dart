@@ -245,7 +245,6 @@ class TodoState extends State<Todo> {
                                         laundry['Status'] = 'รอรับสินค้า';
                                         laundry['order'] =
                                             Confirmation.data()['order'];
-
                                         await Firestore.instance
                                             .collection("OrderLaundry")
                                             .doc(firebaseAuth.currentUser.uid)

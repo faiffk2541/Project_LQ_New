@@ -260,7 +260,6 @@ class ConfirmationState extends State<Confirmation> {
                                       laundry['Status'] = 'กำลังดำเนินการ';
                                       laundry['order'] =
                                           Confirmation.data()['order'];
-
                                       await Firestore.instance
                                           .collection("OrderLaundry")
                                           .doc(firebaseAuth.currentUser.uid)

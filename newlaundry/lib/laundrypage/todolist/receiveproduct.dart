@@ -53,8 +53,7 @@ class ReceiveProductState extends State<ReceiveProduct> {
                         .collection("Receiveproduct")
                         .snapshots(),
                     builder: (context, snapshot) {
-                      if (snapshot.connectionState ==
-                          ConnectionState.waiting) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
                         print('it can connect to firebase');
                         return CircularProgressIndicator();
                       } else {
@@ -235,12 +234,10 @@ class ReceiveProductState extends State<ReceiveProduct> {
                                         print('delete Done');
 
                                         Map<String, dynamic> laundry = Map();
-                                        laundry['CustomerName'] =
-                                            Receiveproduct.data()[
-                                                'CustomerName'];
-                                        laundry['LaundryName'] =
-                                            Receiveproduct.data()[
-                                                'LaundryName'];
+                                        laundry['CustomerName'] = Receiveproduct
+                                            .data()['CustomerName'];
+                                        laundry['LaundryName'] = Receiveproduct
+                                            .data()['LaundryName'];
                                         laundry['Total'] =
                                             Receiveproduct.data()['Total'];
                                         laundry['Service'] =
@@ -248,7 +245,6 @@ class ReceiveProductState extends State<ReceiveProduct> {
                                         laundry['Status'] = 'เสร็จสิ้น';
                                         laundry['order'] =
                                             Receiveproduct.data()['order'];
-
                                         await Firestore.instance
                                             .collection("Laundry")
                                             .doc(firebaseAuth.currentUser.uid)
@@ -277,36 +273,6 @@ class ReceiveProductState extends State<ReceiveProduct> {
           ),
         ),
       ),
-      // body: ListView(
-      //   children: <Widget>[
-      //     Padding(
-      //       padding: EdgeInsets.only(top: 15, left: 15),
-      //       child: Row(
-      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //         children: <Widget>[
-      //           IconButton(
-      //             icon: Icon(Icons.arrow_back_ios),
-      //             color: Colors.white,
-      //             onPressed: () {
-      //               Navigator.pop(context);
-      //             },
-      //           ),
-      //         ],
-      //       ),
-      //     ),
-      //     Container(
-      //       alignment: Alignment.topCenter,
-      //       child: Text(
-      //         'รับสินค้า',
-      //         style: TextStyle(
-      //             color: Colors.blue[900],
-      //             fontFamily: 'Prompt',
-      //             fontSize: 20,
-      //             fontWeight: FontWeight.bold),
-      //       ),
-      //     )
-      //   ],
-      // ),
     );
   }
 }
