@@ -16,19 +16,20 @@ Future<void> insertinformation(String email) async {
   final databaseReference = Firestore.instance;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-  Map<String, dynamic> map = Map();
-  map['Email'] = email;
-  map['URLpic'] = imageUrl;
-  map['Fname'] = name;
-  map['Lname'] = "";
-  map['Phone'] = "";
-  map['Address'] = "";
+  Map<String, dynamic> customer = Map();
+  customer['CustomerID'] = firebaseAuth.currentUser.uid;
+  customer['Email'] = email;
+  customer['URLpic'] = imageUrl;
+  customer['Fname'] = name;
+  customer['Lname'] = "";
+  customer['Phone'] = "";
+  customer['Address'] = "";
 
   try {
     await databaseReference
         .collection('Customer')
         .document(firebaseAuth.currentUser.uid)
-        .setData(map)
+        .setData(customer)
         .then((value) {
       print('insert email Successfully');
     });
