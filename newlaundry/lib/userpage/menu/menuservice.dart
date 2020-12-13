@@ -113,7 +113,6 @@ class MenuServiceState extends State<MenuServicePage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => DetailServiceFoldPage(
-                            
                               widget.laundryUID,
                               widget.name,
                               widget.customerFname)),

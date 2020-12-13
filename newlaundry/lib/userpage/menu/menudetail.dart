@@ -7,10 +7,11 @@ import 'package:newlaundry/userpage/menu/menuservice.dart';
 import 'package:path/path.dart' as Path;
 
 class MenuDetailPage extends StatefulWidget {
-  final String uid, address, name, phone, time, urlPic, customerFname;
+  final String laundryID, address, name, phone, time, urlPic;
+  final String customerFname, customerID;
 
-  MenuDetailPage(this.uid, this.address, this.name, this.phone, this.time,
-      this.urlPic, this.customerFname);
+  MenuDetailPage(this.laundryID, this.address, this.name, this.phone, this.time,
+      this.urlPic, this.customerFname, this.customerID);
 
   @override
   MenuDetailState createState() => MenuDetailState();
@@ -184,7 +185,7 @@ class MenuDetailState extends State<MenuDetailPage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          CommentPage(widget.uid)),
+                                          CommentPage(widget.laundryID)),
                                 );
                               },
                               child: new Text(
@@ -217,8 +218,8 @@ class MenuDetailState extends State<MenuDetailPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => MenuServicePage(
-                            widget.uid, widget.name, widget.customerFname)),
+                        builder: (context) => MenuServicePage(widget.laundryID,
+                            widget.name, widget.customerFname)),
                   );
                 },
                 padding: EdgeInsets.all(10),
