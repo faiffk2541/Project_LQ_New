@@ -360,28 +360,15 @@ class AddCartWashingState extends State<AddCartWashingPage> {
     map['Total'] = widget.total;
     map['Service'] = washing;
     map['Status'] = 'รอดำเนินการ';
+    map['order'] = widget.totalproduct;
     await databaseReference
         .collection('OrderCustomer')
         .doc("ordercustomer")
         .collection(firebaseAuth.currentUser.uid)
-        .document(firebaseAuth.currentUser.uid)
+        .doc(firebaseAuth.currentUser.uid)
         .setData(map)
         .then((value) {
       print('insert Successfully');
-    });
-
-    Map<String, dynamic> service = Map();
-    service['Order'] = widget.totalproduct;
-    await databaseReference
-        .collection("OrderCustomer")
-        .doc("ordercustomer")
-        .collection(firebaseAuth.currentUser.uid)
-        .document(firebaseAuth.currentUser.uid)
-        .collection("Bill")
-        .doc()
-        .setData(service)
-        .then((value) {
-      print('insert service Successfully');
     });
 
     Map<String, dynamic> laundry = Map();

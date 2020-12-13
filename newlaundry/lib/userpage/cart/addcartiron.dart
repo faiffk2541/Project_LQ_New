@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:newlaundry/navigationbar.dart';
 
 // ignore: must_be_immutable
-class AddCartFoldPage extends StatefulWidget {
+class AddCartIronPage extends StatefulWidget {
   final String laundryUID;
   final String name;
   final String customerFname;
@@ -14,15 +14,15 @@ class AddCartFoldPage extends StatefulWidget {
 
   int total;
 
-  AddCartFoldPage(this.laundryUID, this.name, this.customerFname,
+  AddCartIronPage(this.laundryUID, this.name, this.customerFname,
       this.totalproduct, this.sum, this.total);
   @override
-  AddCartFoldState createState() => AddCartFoldState();
+  AddCartIronState createState() => AddCartIronState();
 }
 
-class AddCartFoldState extends State<AddCartFoldPage> {
+class AddCartIronState extends State<AddCartIronPage> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  String fold = "ซักพับ";
+  String iron = "รีด";
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +116,7 @@ class AddCartFoldState extends State<AddCartFoldPage> {
                           children: [
                             SizedBox(width: 34, height: 10),
                             Text(
-                              fold,
+                              iron,
                               style: TextStyle(
                                   height: 1.5,
                                   color: Colors.black,
@@ -358,7 +358,7 @@ class AddCartFoldState extends State<AddCartFoldPage> {
     map['CustomerName'] = widget.customerFname;
     map['LaundryName'] = widget.name;
     map['Total'] = widget.total;
-    map['Service'] = fold;
+    map['Service'] = iron;
     map['Status'] = 'รอดำเนินการ';
     map['order'] = widget.totalproduct;
     await databaseReference
@@ -375,7 +375,7 @@ class AddCartFoldState extends State<AddCartFoldPage> {
     laundry['CustomerName'] = widget.customerFname;
     laundry['LaundryName'] = widget.name;
     laundry['Total'] = widget.total;
-    laundry['Service'] = fold;
+    laundry['Service'] = iron;
     laundry['Status'] = 'รอออเดอร์';
     laundry['order'] = widget.totalproduct;
     await databaseReference
