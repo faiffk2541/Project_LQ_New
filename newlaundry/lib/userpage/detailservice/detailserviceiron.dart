@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../../navigationbar.dart';
+import 'package:newlaundry/userpage/cart/addcartiron.dart';
 
 class DetailServiceIronPage extends StatefulWidget {
   final String laundryUID;
@@ -9,6 +9,7 @@ class DetailServiceIronPage extends StatefulWidget {
   final String customerFname;
 
   DetailServiceIronPage(this.laundryUID, this.name, this.customerFname);
+
   @override
   DetailServiceIronState createState() => DetailServiceIronState();
 }
@@ -20,6 +21,7 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
   var choose = Map();
   var order = Map();
   String type;
+
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   int count = 0, price = 0, total = 0, count2 = 0;
 
@@ -37,7 +39,7 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 35, left: 15),
+                padding: EdgeInsets.only(top: 45, left: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -81,7 +83,7 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                         Row(
                           children: [
                             Icon(
-                              Icons.store,
+                              Icons.location_on,
                               color: Colors.red,
                             ),
                             SizedBox(width: 10, height: 10),
@@ -188,7 +190,6 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                                                           productID.remove(
                                                               TypeOfService
                                                                   .documentID);
-
                                                           totalproduct.remove({
                                                             "Type": TypeOfService
                                                                         .data()[
@@ -268,8 +269,6 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                                                               TypeOfService
                                                                   .documentID] += 1;
                                                         }
-                                                        print(
-                                                            'test2 ==>${choose[TypeOfService.documentID]}');
 
                                                         productID.add(
                                                             TypeOfService
@@ -382,13 +381,18 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                               fontWeight: FontWeight.w400),
                         ),
                         onPressed: () {
-                          showAlertDialog(context);
-
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => AddCartPage()),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddCartIronPage(
+                                  widget.laundryUID,
+                                  widget.name,
+                                  widget.customerFname,
+                                  totalproduct,
+                                  sum,
+                                  total),
+                            ),
+                          );
                         },
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
@@ -399,125 +403,11 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                   )
                 ],
               ),
+              SizedBox(height: 10)
             ],
           ),
         ),
       ),
     );
-  }
-
-  void showAlertDialog(BuildContext context) {
-    AlertDialog dialog = new AlertDialog(
-      title: Center(
-        child: Text(
-          "ยืนยันการทำรายการ",
-          style: TextStyle(
-              color: Colors.red,
-              fontFamily: 'Prompt',
-              fontSize: 18,
-              fontWeight: FontWeight.w400),
-        ),
-      ),
-      content: new Container(
-        height: 50,
-        child: new Column(
-          children: <Widget>[
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  RaisedButton(
-                    onPressed: () {},
-                    elevation: 0,
-                    color: Colors.red,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(50))),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'ยกเลิก',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Prompt',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 30),
-                  RaisedButton(
-                    onPressed: () {
-                      insertinformation();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => NavigationBarPage()),
-                      );
-                    },
-                    elevation: 0,
-                    color: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(50))),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'ตกลง',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Prompt',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-    showDialog(context: context, child: dialog);
-  }
-
-  Future<void> insertinformation() async {
-    final databaseReference = Firestore.instance;
-
-    Map<String, dynamic> map = Map();
-    map['CustomerID'] = firebaseAuth.currentUser.uid;
-    map['LuandryID'] = widget.laundryUID;
-    //map['Type'] = productID;
-    map['Total'] = total;
-    //map['Count'] = count;
-
-    await databaseReference
-        .collection('Order')
-        .document(firebaseAuth.currentUser.uid)
-        .setData(map)
-        .then((value) {
-      print('insert Successfully');
-    });
-    Map<String, dynamic> service = Map();
-
-    service['order'] = order;
-    await databaseReference
-        .collection("Order")
-        .document(firebaseAuth.currentUser.uid)
-        .collection("TypeOfService")
-        .document("typeofservice")
-        .collection("Iron")
-        .document()
-        .setData(service)
-        .then((value) {
-      print('insert service Successfully');
-    });
   }
 }

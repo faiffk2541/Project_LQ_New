@@ -9,6 +9,7 @@ class DetailServiceFoldPage extends StatefulWidget {
   final String customerFname;
 
   DetailServiceFoldPage(this.laundryUID, this.name, this.customerFname);
+
   @override
   DetailServiceFoldState createState() => DetailServiceFoldState();
 }
@@ -19,8 +20,8 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
   List totalproduct = [];
   var choose = Map();
   var order = Map();
-
   String type;
+
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   int count = 0, price = 0, total = 0, count2 = 0;
 
@@ -125,7 +126,6 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                               DocumentSnapshot TypeOfService =
                                   snapshot.data.documents[index];
                               print(TypeOfService.documentID);
-
                               return Stack(
                                 children: [
                                   Container(

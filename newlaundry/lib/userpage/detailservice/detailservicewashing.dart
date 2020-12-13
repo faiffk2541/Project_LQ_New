@@ -83,7 +83,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                         Row(
                           children: [
                             Icon(
-                              Icons.store,
+                              Icons.location_on,
                               color: Colors.red,
                             ),
                             SizedBox(width: 10, height: 10),
@@ -126,10 +126,10 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                 snapshot.data.documents[index];
                             print(TypeOfService.documentID);
                             return Stack(
-                              children: <Widget>[
+                              children: [
                                 Container(
                                   child: Row(
-                                    children: <Widget>[
+                                    children: [
                                       Container(
                                         margin: EdgeInsets.only(left: 15),
                                         height: 120,
@@ -147,7 +147,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                       Container(
                                         margin: EdgeInsets.only(left: 40),
                                         child: Column(
-                                          children: <Widget>[
+                                          children: [
                                             Text(
                                               TypeOfService.data()['Type'],
                                               style: TextStyle(
@@ -167,7 +167,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                             ),
                                             SizedBox(height: 10),
                                             Row(
-                                              children: <Widget>[
+                                              children: [
                                                 InkWell(
                                                   onTap: () {
                                                     if (count != 0) {
