@@ -14,16 +14,6 @@ class LoginPageState extends State<LoginPage> {
   String email;
   String password;
 
-  // checkAuthentification() async {
-  //   // ignore: deprecated_member_use
-  //   _auth.onAuthStateChanged.listen((user) {
-  //     if (user != null) {
-  //       Navigator.push(context,
-  //           MaterialPageRoute(builder: (context) => NavigationBarPage()));
-  //     }
-  //   });
-  // }
-
   Future<void> checkAuthen() async {
     await Firebase.initializeApp();
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -43,30 +33,6 @@ class LoginPageState extends State<LoginPage> {
       myAlert(title, message);
     });
   }
-
-  // bool validateAndSave() {
-  //   final from = formKey.currentState;
-  //   if (from.validate()) {
-  //     from.save();
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
-  // void validateAndSubmit() async {
-  //   // ignore: deprecated_member_use
-  //   FirebaseUser user;
-  //   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  //   if (validateAndSave()) {
-  //     try {
-  //       await firebaseAuth.signInWithEmailAndPassword(
-  //           email: emailString, password: passwordString);
-  //       print('Signed in: ${user.uid}');
-  //     } catch (e) {
-  //       print('Error: $e');
-  //     }
-  //   }
-  // }
 
   Widget showTitle(String title) {
     return ListTile(

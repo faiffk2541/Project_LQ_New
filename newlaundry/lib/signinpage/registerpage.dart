@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:newlaundry/navigationbar.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -12,6 +11,7 @@ class RegisterPage extends StatefulWidget {
 
 class RegisterPageState extends State<RegisterPage> {
   final formKey = GlobalKey<FormState>();
+  String customerID;
   String fname;
   String lname;
   String email;
@@ -23,19 +23,20 @@ class RegisterPageState extends State<RegisterPage> {
     final databaseReference = Firestore.instance;
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-    Map<String, dynamic> map = Map();
-    map['Email'] = email;
-    map['URLpic'] = "";
-    map['Fname'] = name;
-    map['Lname'] = lname;
-    map['Phone'] = "";
-    map['Address'] = "";
+    Map<String, dynamic> customer = Map();
+    customer['CustomerID'] = firebaseAuth.currentUser.uid;
+    customer['Email'] = email;
+    customer['URLpic'] = "";
+    customer['Fname'] = name;
+    customer['Lname'] = lname;
+    customer['Phone'] = "";
+    customer['Address'] = "";
 
     try {
       await databaseReference
           .collection("Customer")
           .document(firebaseAuth.currentUser.uid)
-          .setData(map)
+          .setData(customer)
           .then((value) {
         print('insert email Successfully');
       });

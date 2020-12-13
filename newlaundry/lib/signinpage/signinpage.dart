@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:newlaundry/navigationbar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:newlaundry/signinpage/loginpage.dart';
 import 'package:newlaundry/signinpage/registerpage.dart';
 
@@ -11,21 +9,6 @@ class SignInPage extends StatefulWidget {
 
 class SignInPageState extends State<SignInPage> {
   @override
-  //   void initState() {
-  //   super.initState();
-  //   checkStatus();
-  // }
-  // //check login logout
-  // Future<void> checkStatus() async {
-  //   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  //   FirebaseUser firebaseUser = await firebaseAuth.currentUser();
-  //   if (firebaseUser != null) {
-  //     MaterialPageRoute materialPageRoute = MaterialPageRoute(
-  //         builder: (BuildContext context) => NavigationBarPage());
-  //         Navigator.of(context).pushAndRemoveUntil(materialPageRoute, (Route<dynamic>) => false);
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
