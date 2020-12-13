@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:newlaundry/userpage/profileuser/accountpage.dart';
 
 class EditAccount extends StatefulWidget {
-  String urlPic, fname, lname, phone, address, email;
+  final String urlPic, fname, lname, phone, address, email;
 
   EditAccount({
     this.urlPic,
