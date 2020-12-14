@@ -359,12 +359,12 @@ class AddCartFoldState extends State<AddCartFoldPage> {
     customer['LaundryName'] = widget.name;
     customer['Total'] = widget.total;
     customer['Service'] = fold;
-    customer['Status'] = 'รอดำเนินการ';
+    customer['Status'] = 'นำผ้าไปส่ง';
     customer['order'] = widget.totalproduct;
     await databaseReference
-        .collection('OrderCustomer')
-        .doc("ordercustomer")
-        .collection(firebaseAuth.currentUser.uid)
+        .collection('Customer')
+        .doc(firebaseAuth.currentUser.uid)
+        .collection("Confirmation")
         .doc(firebaseAuth.currentUser.uid)
         .setData(customer)
         .then((value) {
