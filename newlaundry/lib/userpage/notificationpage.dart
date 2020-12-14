@@ -11,6 +11,7 @@ class NotificationPageState extends State<NotificationPage> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   String comment;
+  String laundryID;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class NotificationPageState extends State<NotificationPage> {
           children: [
             SizedBox(height: 20),
             Container(
-              height: 620,
+              height: 570,
               child: StreamBuilder(
                   stream: Firestore.instance
                       .collection("Customer")
@@ -56,6 +57,7 @@ class NotificationPageState extends State<NotificationPage> {
                           itemBuilder: (context, index) {
                             DocumentSnapshot History =
                                 snapshot.data.documents[index];
+                            laundryID = History.data()['LaundryID'];
                             return Card(
                               child: ListTile(
                                 title: Container(
@@ -283,8 +285,8 @@ class NotificationPageState extends State<NotificationPage> {
 
     await databaseReference
         .collection("Laundry")
-        .document(firebaseAuth.currentUser.uid)
-        .collection("Comment")
+        .document(laundryID)
+        .collection("Review")
         .document()
         .setData({"Comment": comment}).then((value) {
       print('insert Successfully');
@@ -374,7 +376,7 @@ class NotificationPageState extends State<NotificationPage> {
                     RaisedButton(
                       onPressed: () async {
                         if (comment == null) {
-                          alert('Wrong', 'กรุณากรอกกรอกรายการ');
+                          alert('Wrong', 'กรุณาแสดงความคิดเห็น');
                         } else {
                           createData(comment);
                           Navigator.pop(context);
