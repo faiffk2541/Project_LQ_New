@@ -354,19 +354,19 @@ class AddCartIronState extends State<AddCartIronPage> {
   Future<void> insertinformation() async {
     final databaseReference = Firestore.instance;
 
-    Map<String, dynamic> map = Map();
-    map['CustomerName'] = widget.customerFname;
-    map['LaundryName'] = widget.name;
-    map['Total'] = widget.total;
-    map['Service'] = iron;
-    map['Status'] = 'รอดำเนินการ';
-    map['order'] = widget.totalproduct;
+    Map<String, dynamic> customer = Map();
+    customer['CustomerName'] = widget.customerFname;
+    customer['LaundryName'] = widget.name;
+    customer['Total'] = widget.total;
+    customer['Service'] = iron;
+    customer['Status'] = 'รอดำเนินการ';
+    customer['order'] = widget.totalproduct;
     await databaseReference
         .collection('OrderCustomer')
         .doc("ordercustomer")
         .collection(firebaseAuth.currentUser.uid)
         .doc(firebaseAuth.currentUser.uid)
-        .setData(map)
+        .setData(customer)
         .then((value) {
       print('insert Successfully');
     });

@@ -354,19 +354,19 @@ class AddCartFoldState extends State<AddCartFoldPage> {
   Future<void> insertinformation() async {
     final databaseReference = Firestore.instance;
 
-    Map<String, dynamic> map = Map();
-    map['CustomerName'] = widget.customerFname;
-    map['LaundryName'] = widget.name;
-    map['Total'] = widget.total;
-    map['Service'] = fold;
-    map['Status'] = 'รอดำเนินการ';
-    map['order'] = widget.totalproduct;
+    Map<String, dynamic> customer = Map();
+    customer['CustomerName'] = widget.customerFname;
+    customer['LaundryName'] = widget.name;
+    customer['Total'] = widget.total;
+    customer['Service'] = fold;
+    customer['Status'] = 'รอดำเนินการ';
+    customer['order'] = widget.totalproduct;
     await databaseReference
         .collection('OrderCustomer')
         .doc("ordercustomer")
         .collection(firebaseAuth.currentUser.uid)
         .doc(firebaseAuth.currentUser.uid)
-        .setData(map)
+        .setData(customer)
         .then((value) {
       print('insert Successfully');
     });
