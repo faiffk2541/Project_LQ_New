@@ -15,7 +15,7 @@ class NavigationBarPage extends StatefulWidget {
 
 class NavigationBarPageState extends State<NavigationBarPage> {
   int _currentIndex = 0;
-  String customerFname;
+  String customerFname, customerID;
 
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
@@ -28,20 +28,22 @@ class NavigationBarPageState extends State<NavigationBarPage> {
   Future<Null> getData() async {
     await Firebase.initializeApp().then((value) async {
       await FirebaseAuth.instance.authStateChanges().listen((event) async {
-        String uid = event.uid;
-        print("uid of user   ===> $uid");
+        String customerUID = event.uid;
 
         DocumentReference querySnapshot =
-            await Firestore.instance.collection("Customer").doc(uid);
-        DocumentSnapshot snap =
-            await Firestore.instance.collection("Customer").doc(uid).get();
+            await Firestore.instance.collection("Customer").doc(customerUID);
+        DocumentSnapshot snap = await Firestore.instance
+            .collection("Customer")
+            .doc(customerUID)
+            .get();
         await Firestore.instance
             .collection('Customer')
-            .doc(uid)
+            .doc(customerUID)
             .snapshots()
             .listen((event) {
           setState(() {
             customerFname = snap.data()["Fname"].toString();
+            customerID = snap.data()["CustomerID"].toString();
           });
         });
       });
@@ -51,7 +53,7 @@ class NavigationBarPageState extends State<NavigationBarPage> {
   @override
   Widget build(BuildContext context) {
     final _pageActive = [
-      HomePage(customerFname),
+      HomePage(customerFname, firebaseAuth.currentUser.uid),
       HistoryPage(firebaseAuth.currentUser.uid),
       NotificationPage(),
       ProfilePage(firebaseAuth.currentUser.uid),
