@@ -234,6 +234,8 @@ class TodoState extends State<Todo> {
                                             Todo.data()['CustomerName'];
                                         laundry['LaundryName'] =
                                             Todo.data()['LaundryName'];
+                                        laundry['LaundryID'] =
+                                            Todo.data()['LaundryID'];
                                         laundry['Total'] = Todo.data()['Total'];
                                         laundry['Service'] =
                                             Todo.data()['Service'];
@@ -260,6 +262,8 @@ class TodoState extends State<Todo> {
                                             Todo.data()['CustomerName'];
                                         customer['LaundryName'] =
                                             Todo.data()['LaundryName'];
+                                        customer['LaundryID'] =
+                                            Todo.data()['LaundryID'];
                                         customer['Total'] =
                                             Todo.data()['Total'];
                                         customer['Service'] =

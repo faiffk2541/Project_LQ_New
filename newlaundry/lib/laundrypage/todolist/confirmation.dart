@@ -253,6 +253,8 @@ class ConfirmationState extends State<Confirmation> {
                                           Confirmation.data()['CustomerName'];
                                       laundry['LaundryName'] =
                                           Confirmation.data()['LaundryName'];
+                                      laundry['LaundryID'] =
+                                          Confirmation.data()['LaundryID'];
                                       laundry['Total'] =
                                           Confirmation.data()['Total'];
                                       laundry['Service'] =
@@ -281,6 +283,8 @@ class ConfirmationState extends State<Confirmation> {
                                           Confirmation.data()['CustomerName'];
                                       customer['LaundryName'] =
                                           Confirmation.data()['LaundryName'];
+                                      customer['LaundryID'] =
+                                          Confirmation.data()['LaundryID'];
                                       customer['Total'] =
                                           Confirmation.data()['Total'];
                                       customer['Service'] =

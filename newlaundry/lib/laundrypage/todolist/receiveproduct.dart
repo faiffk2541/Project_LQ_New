@@ -238,6 +238,8 @@ class ReceiveProductState extends State<ReceiveProduct> {
                                             .data()['CustomerName'];
                                         laundry['LaundryName'] = Receiveproduct
                                             .data()['LaundryName'];
+                                        laundry['LaundryID'] =
+                                            Receiveproduct.data()['LaundryID'];
                                         laundry['Total'] =
                                             Receiveproduct.data()['Total'];
                                         laundry['Service'] =
@@ -267,6 +269,8 @@ class ReceiveProductState extends State<ReceiveProduct> {
                                                 'CustomerName'];
                                         customer['LaundryName'] = Receiveproduct
                                             .data()['LaundryName'];
+                                        customer['LaundryID'] =
+                                            Receiveproduct.data()['LaundryID'];
                                         customer['Total'] =
                                             Receiveproduct.data()['Total'];
                                         customer['Service'] =
