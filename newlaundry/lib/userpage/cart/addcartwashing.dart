@@ -357,6 +357,7 @@ class AddCartWashingState extends State<AddCartWashingPage> {
     Map<String, dynamic> customer = Map();
     customer['CustomerName'] = widget.customerFname;
     customer['LaundryName'] = widget.name;
+    customer['LaundryID'] = widget.laundryUID;
     customer['Total'] = widget.total;
     customer['Service'] = washing;
     customer['Status'] = 'นำผ้าไปส่ง';
@@ -374,6 +375,7 @@ class AddCartWashingState extends State<AddCartWashingPage> {
     Map<String, dynamic> laundry = Map();
     laundry['CustomerName'] = widget.customerFname;
     laundry['LaundryName'] = widget.name;
+    laundry['LaundryID'] = widget.laundryUID;
     laundry['Total'] = widget.total;
     laundry['Service'] = washing;
     laundry['Status'] = 'รอออเดอร์';
