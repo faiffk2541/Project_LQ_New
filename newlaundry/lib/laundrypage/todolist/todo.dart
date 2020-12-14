@@ -60,7 +60,7 @@ class TodoState extends State<Todo> {
                         return ListView.builder(
                             itemCount: snapshot.data.documents.length,
                             itemBuilder: (context, index) {
-                              DocumentSnapshot Confirmation =
+                              DocumentSnapshot Todo =
                                   snapshot.data.documents[index];
                               return Card(
                                 child: ListTile(
@@ -96,17 +96,18 @@ class TodoState extends State<Todo> {
                                                         overflow: TextOverflow
                                                             .ellipsis),
                                                     Text(
-                                                        Confirmation.data()[
+                                                        Todo.data()[
                                                             'CustomerName'],
-                                                        style: TextStyle(
-                                                            color: Colors
-                                                                .blue[900],
-                                                            fontFamily:
-                                                                'Prompt',
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w400),
+                                                        style:
+                                                            TextStyle(
+                                                                color: Colors
+                                                                    .blue[900],
+                                                                fontFamily:
+                                                                    'Prompt',
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
                                                         overflow: TextOverflow
                                                             .ellipsis),
                                                   ],
@@ -125,9 +126,7 @@ class TodoState extends State<Todo> {
                                                                     .w400),
                                                         overflow: TextOverflow
                                                             .ellipsis),
-                                                    Text(
-                                                        Confirmation.data()[
-                                                            'Service'],
+                                                    Text(Todo.data()['Service'],
                                                         style: TextStyle(
                                                             color: Colors
                                                                 .blue[900],
@@ -156,8 +155,7 @@ class TodoState extends State<Todo> {
                                                         overflow: TextOverflow
                                                             .ellipsis),
                                                     Text(
-                                                        Confirmation.data()[
-                                                                'Total']
+                                                        Todo.data()['Total']
                                                             .toString(),
                                                         style: TextStyle(
                                                             color: Colors
@@ -198,9 +196,7 @@ class TodoState extends State<Todo> {
                                                                     .w400),
                                                         overflow: TextOverflow
                                                             .ellipsis),
-                                                    Text(
-                                                        Confirmation.data()[
-                                                            'Status'],
+                                                    Text(Todo.data()['Status'],
                                                         style: TextStyle(
                                                             color: Colors.red,
                                                             fontFamily:
@@ -229,28 +225,54 @@ class TodoState extends State<Todo> {
                                             .collection("OrderLaundry")
                                             .doc(firebaseAuth.currentUser.uid)
                                             .collection("Todo")
-                                            .doc(Confirmation.documentID)
+                                            .doc(Todo.documentID)
                                             .delete();
                                         print('delete Done');
 
                                         Map<String, dynamic> laundry = Map();
                                         laundry['CustomerName'] =
-                                            Confirmation.data()['CustomerName'];
+                                            Todo.data()['CustomerName'];
                                         laundry['LaundryName'] =
-                                            Confirmation.data()['LaundryName'];
-                                        laundry['Total'] =
-                                            Confirmation.data()['Total'];
+                                            Todo.data()['LaundryName'];
+                                        laundry['Total'] = Todo.data()['Total'];
                                         laundry['Service'] =
-                                            Confirmation.data()['Service'];
+                                            Todo.data()['Service'];
                                         laundry['Status'] = 'รอรับสินค้า';
-                                        laundry['order'] =
-                                            Confirmation.data()['order'];
+                                        laundry['order'] = Todo.data()['order'];
                                         await Firestore.instance
                                             .collection("OrderLaundry")
                                             .doc(firebaseAuth.currentUser.uid)
                                             .collection("Receiveproduct")
-                                            .doc(Confirmation.documentID)
+                                            .doc(Todo.documentID)
                                             .setData(laundry)
+                                            .then((value) {});
+
+                                        await Firestore.instance
+                                            .collection("Customer")
+                                            .doc(Todo.documentID)
+                                            .collection("Todo")
+                                            .doc(Todo.documentID)
+                                            .delete();
+                                        print('delete Done');
+
+                                        Map<String, dynamic> customer = Map();
+                                        customer['CustomerName'] =
+                                            Todo.data()['CustomerName'];
+                                        customer['LaundryName'] =
+                                            Todo.data()['LaundryName'];
+                                        customer['Total'] =
+                                            Todo.data()['Total'];
+                                        customer['Service'] =
+                                            Todo.data()['Service'];
+                                        customer['Status'] = 'รับผ้า';
+                                        customer['order'] =
+                                            Todo.data()['order'];
+                                        await Firestore.instance
+                                            .collection("Customer")
+                                            .doc(Todo.documentID)
+                                            .collection("Receiveproduct")
+                                            .doc(Todo.documentID)
+                                            .setData(customer)
                                             .then((value) {});
                                       },
                                       backgroundColor: Colors.green,

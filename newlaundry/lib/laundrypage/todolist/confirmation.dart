@@ -267,6 +267,34 @@ class ConfirmationState extends State<Confirmation> {
                                           .doc(Confirmation.documentID)
                                           .setData(laundry)
                                           .then((value) {});
+
+                                      await Firestore.instance
+                                          .collection("Customer")
+                                          .doc(Confirmation.documentID)
+                                          .collection("Confirmation")
+                                          .doc(Confirmation.documentID)
+                                          .delete();
+                                      print('delete Done');
+
+                                      Map<String, dynamic> customer = Map();
+                                      customer['CustomerName'] =
+                                          Confirmation.data()['CustomerName'];
+                                      customer['LaundryName'] =
+                                          Confirmation.data()['LaundryName'];
+                                      customer['Total'] =
+                                          Confirmation.data()['Total'];
+                                      customer['Service'] =
+                                          Confirmation.data()['Service'];
+                                      customer['Status'] = 'กำลังดำเนินการ';
+                                      customer['order'] =
+                                          Confirmation.data()['order'];
+                                      await Firestore.instance
+                                          .collection("Customer")
+                                          .doc(Confirmation.documentID)
+                                          .collection("Todo")
+                                          .doc(Confirmation.documentID)
+                                          .setData(customer)
+                                          .then((value) {});
                                     },
                                     backgroundColor: Colors.green,
                                     child: Icon(

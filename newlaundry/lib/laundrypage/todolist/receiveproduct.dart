@@ -252,6 +252,35 @@ class ReceiveProductState extends State<ReceiveProduct> {
                                             .doc()
                                             .setData(laundry)
                                             .then((value) {});
+
+                                        await Firestore.instance
+                                            .collection("Customer")
+                                            .doc(Receiveproduct.documentID)
+                                            .collection("Receiveproduct")
+                                            .doc(Receiveproduct.documentID)
+                                            .delete();
+                                        print('delete Done');
+
+                                        Map<String, dynamic> customer = Map();
+                                        customer['CustomerName'] =
+                                            Receiveproduct.data()[
+                                                'CustomerName'];
+                                        customer['LaundryName'] = Receiveproduct
+                                            .data()['LaundryName'];
+                                        customer['Total'] =
+                                            Receiveproduct.data()['Total'];
+                                        customer['Service'] =
+                                            Receiveproduct.data()['Service'];
+                                        customer['Status'] = 'เสร็จสิ้น';
+                                        customer['order'] =
+                                            Receiveproduct.data()['order'];
+                                        await Firestore.instance
+                                            .collection("Customer")
+                                            .doc(Receiveproduct.documentID)
+                                            .collection("History")
+                                            .doc()
+                                            .setData(customer)
+                                            .then((value) {});
                                       },
                                       backgroundColor: Colors.green,
                                       child: Icon(
