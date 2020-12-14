@@ -14,16 +14,6 @@ class ListOfItemsFoldState extends State<ListOfItemsFold> {
   Map<String, dynamic> flod = Map();
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-  TextEditingController _typeController;
-  TextEditingController _priceController;
-
-  @override
-  void initState() {
-    super.initState();
-    _typeController = new TextEditingController(text: type);
-    _priceController = new TextEditingController(text: price);
-  }
-
   Future<void> createData(String type, String price, String uid) async {
     final databaseReference = Firestore.instance;
 
@@ -37,19 +27,6 @@ class ListOfItemsFoldState extends State<ListOfItemsFold> {
         .setData({"Type": type, "Price": price}).then((value) {
       print('insert Successfully');
     });
-  }
-
-  Future updateData(String type, String price, String uid) async {
-    final databaseReference = Firestore.instance;
-
-    return await databaseReference
-        .collection("Laundry")
-        .document(firebaseAuth.currentUser.uid)
-        .collection("TypeOfService")
-        .document("typeofservice")
-        .collection("Fold")
-        .document(uid)
-        .updateData({"Type": type, "Price": price});
   }
 
   @override
