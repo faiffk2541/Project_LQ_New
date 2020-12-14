@@ -68,7 +68,7 @@ class ConfirmationState extends State<Confirmation> {
                               return ListTile(
                                 title: Container(
                                   margin: EdgeInsets.only(
-                                      left: 0, right: 0, bottom: 0, top: 5),
+                                      left: 0, right: 0, bottom: 0, top: 0),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(0),
@@ -78,7 +78,7 @@ class ConfirmationState extends State<Confirmation> {
                                       Expanded(
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
-                                              horizontal: 5, vertical: 0),
+                                              horizontal: 10, vertical: 10),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
