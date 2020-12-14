@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:newlaundry/userpage/menu/menudetail.dart';
 
 class HomePage extends StatefulWidget {
-  final String customerFname;
-  HomePage(this.customerFname);
+  final String customerFname, customerID;
+  HomePage(this.customerFname, this.customerID);
   @override
   HomePageState createState() => HomePageState();
 }
@@ -16,19 +16,6 @@ class HomePageState extends State<HomePage> {
   String searchString;
   final firestore = Firestore.instance;
   List<DocumentSnapshot> laundry = [];
-
-  getLaundry() async {
-    Query q = firestore.collection("Laundry");
-
-    QuerySnapshot querySnapshot = await q.get();
-    laundry = querySnapshot.docs;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getLaundry();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,13 +73,16 @@ class HomePageState extends State<HomePage> {
                       }
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
-                          return Text(
-                            'Loading . .',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'Prompt',
-                                fontSize: 18,
-                                fontWeight: FontWeight.w300),
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              'Loading . .',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'Prompt',
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w300),
+                            ),
                           );
                         case ConnectionState.none:
                           return Text('Oops! No data present');
@@ -121,7 +111,8 @@ class HomePageState extends State<HomePage> {
                                                       laundry.data()['Phone'],
                                                       laundry.data()['Time'],
                                                       laundry.data()['URLpic'],
-                                                      widget.customerFname)),
+                                                      widget.customerFname,
+                                                      widget.customerID)),
                                         ),
                                       },
                                       child: Card(
