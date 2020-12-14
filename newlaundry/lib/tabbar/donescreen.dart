@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class DoneScreen extends StatefulWidget {
-  final String uid;
-  DoneScreen(this.uid);
+  final String customerID;
+  DoneScreen(this.customerID);
   @override
   DoneScreenState createState() => DoneScreenState();
 }
@@ -19,11 +19,10 @@ class DoneScreenState extends State<DoneScreen> {
       home: Scaffold(
         backgroundColor: Colors.blue[100],
         body: StreamBuilder(
-          // ignore: deprecated_member_use
           stream: Firestore.instance
-              .collection("OrderCustomer")
-              .doc("ordercustomer")
-              .collection(firebaseAuth.currentUser.uid)
+              .collection("Customer")
+              .doc(firebaseAuth.currentUser.uid)
+              .collection("Receiveproduct")
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -33,8 +32,7 @@ class DoneScreenState extends State<DoneScreen> {
               return ListView.builder(
                   itemCount: snapshot.data.documents.length,
                   itemBuilder: (context, index) {
-                    // ignore: non_constant_identifier_names
-                    DocumentSnapshot OrderCustomer =
+                    DocumentSnapshot Receiveproduct =
                         snapshot.data.documents[index];
                     return Container(
                       margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
@@ -51,7 +49,7 @@ class DoneScreenState extends State<DoneScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Image.asset('assets/checked.png',
+                                  Image.asset('assets/laundry-basket.png',
                                       height: 70, width: 70),
                                 ],
                               ),
@@ -60,31 +58,52 @@ class DoneScreenState extends State<DoneScreen> {
                           SizedBox(height: 10),
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 10),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(OrderCustomer.data()['LaundryName'],
-                                      style: TextStyle(
-                                          color: Colors.blue[900],
-                                          fontFamily: 'Prompt',
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400),
-                                      overflow: TextOverflow.ellipsis),
-                                  SizedBox(height: 10),
-                                  Text(OrderCustomer.data()['Service'],
-                                      style: TextStyle(
-                                          color: Colors.blue[900],
-                                          fontFamily: 'Prompt',
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400),
-                                      overflow: TextOverflow.ellipsis),
+                                  Row(
+                                    children: [
+                                      Text('ชื่อร้าน : ',
+                                          style: TextStyle(
+                                              color: Colors.blue[900],
+                                              fontFamily: 'Prompt',
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400),
+                                          overflow: TextOverflow.ellipsis),
+                                      Text(Receiveproduct.data()['LaundryName'],
+                                          style: TextStyle(
+                                              color: Colors.blue[900],
+                                              fontFamily: 'Prompt',
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400),
+                                          overflow: TextOverflow.ellipsis),
+                                    ],
+                                  ),
                                   SizedBox(height: 10),
                                   Row(
                                     children: [
-                                      Text(
-                                          OrderCustomer.data()['Total']
-                                              .toString(),
+                                      Text('บริการ : ',
+                                          style: TextStyle(
+                                              color: Colors.blue[900],
+                                              fontFamily: 'Prompt',
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400),
+                                          overflow: TextOverflow.ellipsis),
+                                      Text(Receiveproduct.data()['Service'],
+                                          style: TextStyle(
+                                              color: Colors.blue[900],
+                                              fontFamily: 'Prompt',
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400),
+                                          overflow: TextOverflow.ellipsis),
+                                    ],
+                                  ),
+                                  SizedBox(height: 10),
+                                  Row(
+                                    children: [
+                                      Text('ราคา : ',
                                           style: TextStyle(
                                               color: Colors.blue[900],
                                               fontFamily: 'Prompt',
@@ -92,15 +111,43 @@ class DoneScreenState extends State<DoneScreen> {
                                               fontWeight: FontWeight.w400),
                                           overflow: TextOverflow.ellipsis),
                                       Text(
+                                          Receiveproduct.data()['Total']
+                                              .toString(),
+                                          style: TextStyle(
+                                              color: Colors.blue[900],
+                                              fontFamily: 'Prompt',
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400),
+                                          overflow: TextOverflow.ellipsis),
+                                      Text(
                                         '  บาท',
                                         style: TextStyle(
                                             color: Colors.blue[900],
                                             fontFamily: 'Prompt',
-                                            fontSize: 16,
+                                            fontSize: 14,
                                             fontWeight: FontWeight.w400),
                                       ),
                                     ],
-                                  )
+                                  ),
+                                  SizedBox(height: 10),
+                                  Row(
+                                    children: [
+                                      Text('สถานะ : ',
+                                          style: TextStyle(
+                                              color: Colors.blue[900],
+                                              fontFamily: 'Prompt',
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400),
+                                          overflow: TextOverflow.ellipsis),
+                                      Text(Receiveproduct.data()['Status'],
+                                          style: TextStyle(
+                                              color: Colors.red,
+                                              fontFamily: 'Prompt',
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400),
+                                          overflow: TextOverflow.ellipsis),
+                                    ],
+                                  ),
                                 ],
                               ),
                             ),

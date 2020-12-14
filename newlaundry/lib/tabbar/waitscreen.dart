@@ -1,15 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:newlaundry/laundrypage/todolist/order/detailorder.dart';
 
-class DoingScreen extends StatefulWidget {
+class WaitScreen extends StatefulWidget {
   final String customerID;
-  DoingScreen(this.customerID);
+  WaitScreen(this.customerID);
   @override
-  DoingScreenState createState() => DoingScreenState();
+  WaitScreenState createState() => WaitScreenState();
 }
 
-class DoingScreenState extends State<DoingScreen> {
+class WaitScreenState extends State<WaitScreen> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   @override
@@ -22,7 +23,7 @@ class DoingScreenState extends State<DoingScreen> {
           stream: Firestore.instance
               .collection("Customer")
               .doc(firebaseAuth.currentUser.uid)
-              .collection("Todo")
+              .collection("Confirmation")
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -32,7 +33,8 @@ class DoingScreenState extends State<DoingScreen> {
               return ListView.builder(
                   itemCount: snapshot.data.documents.length,
                   itemBuilder: (context, index) {
-                    DocumentSnapshot Todo = snapshot.data.documents[index];
+                    DocumentSnapshot Confirmation =
+                        snapshot.data.documents[index];
                     return Container(
                       margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
                       decoration: BoxDecoration(
@@ -71,7 +73,7 @@ class DoingScreenState extends State<DoingScreen> {
                                               fontSize: 16,
                                               fontWeight: FontWeight.w400),
                                           overflow: TextOverflow.ellipsis),
-                                      Text(Todo.data()['LaundryName'],
+                                      Text(Confirmation.data()['LaundryName'],
                                           style: TextStyle(
                                               color: Colors.blue[900],
                                               fontFamily: 'Prompt',
@@ -90,7 +92,7 @@ class DoingScreenState extends State<DoingScreen> {
                                               fontSize: 16,
                                               fontWeight: FontWeight.w400),
                                           overflow: TextOverflow.ellipsis),
-                                      Text(Todo.data()['Service'],
+                                      Text(Confirmation.data()['Service'],
                                           style: TextStyle(
                                               color: Colors.blue[900],
                                               fontFamily: 'Prompt',
@@ -109,7 +111,9 @@ class DoingScreenState extends State<DoingScreen> {
                                               fontSize: 16,
                                               fontWeight: FontWeight.w400),
                                           overflow: TextOverflow.ellipsis),
-                                      Text(Todo.data()['Total'].toString(),
+                                      Text(
+                                          Confirmation.data()['Total']
+                                              .toString(),
                                           style: TextStyle(
                                               color: Colors.blue[900],
                                               fontFamily: 'Prompt',
@@ -136,7 +140,7 @@ class DoingScreenState extends State<DoingScreen> {
                                               fontSize: 16,
                                               fontWeight: FontWeight.w400),
                                           overflow: TextOverflow.ellipsis),
-                                      Text(Todo.data()['Status'],
+                                      Text(Confirmation.data()['Status'],
                                           style: TextStyle(
                                               color: Colors.red,
                                               fontFamily: 'Prompt',
@@ -145,6 +149,31 @@ class DoingScreenState extends State<DoingScreen> {
                                           overflow: TextOverflow.ellipsis),
                                     ],
                                   ),
+                                  Row(
+                                    children: [
+                                      Text('ออเดอร์ : ',
+                                          style: TextStyle(
+                                              color: Colors.blue[900],
+                                              fontFamily: 'Prompt',
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400),
+                                          overflow: TextOverflow.ellipsis),
+                                      IconButton(
+                                          icon: Icon(Icons.list_alt),
+                                          onPressed: () {
+                                            List orders =
+                                                Confirmation.data()['order'];
+                                            print(orders);
+                                            // Navigator.push(
+                                            //   context,
+                                            //   MaterialPageRoute(
+                                            //       builder: (context) =>
+                                            //           DetailOrder(
+                                            //               order: orders)),
+                                            // );
+                                          })
+                                    ],
+                                  )
                                 ],
                               ),
                             ),
