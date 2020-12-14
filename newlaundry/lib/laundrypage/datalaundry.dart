@@ -238,10 +238,10 @@ class DataLaundryState extends State<DataLaundry> {
             context,
             MaterialPageRoute(
               builder: (context) => EditInformationLaundry(
-                name: name,
-                time: time,
-                address: address,
-                phone: phone,
+                ename: name,
+                etime: time,
+                eaddress: address,
+                ephone: phone,
               ),
             ),
           ).then((value) => getData());
