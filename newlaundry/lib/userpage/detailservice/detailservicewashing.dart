@@ -18,9 +18,13 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
   List<int> sum = [];
   List productID = [];
   List totalproduct = [];
+  List totalproductList = [];
+  List sumtotal = [];
   var choose = Map();
   var order = Map();
   String type;
+  Set typeofproduct = new Set();
+  // Set sumtotal = new Set();
 
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   int count = 0, price = 0, total = 0, count2 = 0;
@@ -120,11 +124,10 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                       return CircularProgressIndicator();
                     } else {
                       return ListView.builder(
-                          itemCount: snapshot.data.documents.length,
+                          itemCount: snapshot.data.docs.length,
                           itemBuilder: (context, index) {
                             DocumentSnapshot TypeOfService =
-                                snapshot.data.documents[index];
-                            print(TypeOfService.documentID);
+                                snapshot.data.docs[index];
                             return Stack(
                               children: [
                                 Container(
@@ -197,26 +200,62 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                               TypeOfService
                                                                   .documentID],
                                                         });
-                                                        totalproduct
-                                                            .forEach((element) {
-                                                          if (!order
-                                                              .containsKey(
-                                                                  element)) {
-                                                            order[TypeOfService
+                                                        // add this code for delect order but it cannot work now
+                                                        typeofproduct.add(
+                                                            TypeOfService
                                                                         .data()[
-                                                                    'Type']] =
-                                                                count;
-                                                          } else {
-                                                            order[TypeOfService
-                                                                        .data()[
-                                                                    'Type']] =
-                                                                count;
+                                                                    'Type']
+                                                                .toString());
+
+                                                        print(typeofproduct
+                                                            .toList());
+                                                        Set totalproductList =
+                                                            new Set();
+                                                        List typeofproductList =
+                                                            typeofproduct
+                                                                .toList();
+                                                        for (var i = 0;
+                                                            i <
+                                                                typeofproductList
+                                                                    .length;
+                                                            i++) {
+                                                          List temp = [];
+                                                          for (var j = 0;
+                                                              j <
+                                                                  totalproduct
+                                                                      .length;
+                                                              j++) {
+                                                            if (totalproduct[j]
+                                                                    ["Type"] ==
+                                                                TypeOfService
+                                                                            .data()[
+                                                                        'Type']
+                                                                    .toString()) {
+                                                              temp.add(
+                                                                  totalproduct[
+                                                                          j][
+                                                                      "Count"]);
+                                                            }
                                                           }
-                                                        });
+                                                          totalproductList.add({
+                                                            "Type":
+                                                                typeofproductList[
+                                                                    i],
+                                                            "Count": temp
+                                                                .reduce((curr,
+                                                                        next) =>
+                                                                    curr < next
+                                                                        ? curr
+                                                                        : next)
+                                                          });
+
+                                                          print(
+                                                              'typeofproductList ==> $typeofproductList');
+                                                          print(
+                                                              'temp ==> $temp');
+                                                        }
                                                         print(
-                                                            'choose ==> $choose');
-                                                        print(
-                                                            'order ==> $order');
+                                                            'totalproductList ==>$totalproductList');
 
                                                         sum.remove(int.parse(
                                                             TypeOfService
@@ -271,7 +310,10 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                       productID.add(
                                                           TypeOfService
                                                               .documentID);
-
+                                                      typeofproduct.add(
+                                                          TypeOfService.data()[
+                                                                  'Type']
+                                                              .toString());
                                                       totalproduct.add({
                                                         "Type": TypeOfService
                                                                 .data()['Type']
@@ -279,22 +321,69 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                         "Count": choose[
                                                             TypeOfService
                                                                 .documentID],
+                                                        "Price": int.parse(
+                                                            TypeOfService
+                                                                    .data()[
+                                                                'Price'])
                                                       });
-                                                      totalproduct
-                                                          .forEach((element) {
-                                                        if (!order.containsKey(
-                                                            element)) {
-                                                          order[TypeOfService
-                                                                  .data()[
-                                                              'Type']] = count;
-                                                        } else {
-                                                          order[TypeOfService
-                                                                  .data()[
-                                                              'Type']] = count;
+                                                      print(typeofproduct
+                                                          .toList());
+                                                      List totalproductList =
+                                                          [];
+                                                      List typeofproductList =
+                                                          typeofproduct
+                                                              .toList();
+                                                      for (var i = 0;
+                                                          i <
+                                                              typeofproductList
+                                                                  .length;
+                                                          i++) {
+                                                        List temp = [];
+                                                        List price = [];
+                                                        for (var j = 0;
+                                                            j <
+                                                                totalproduct
+                                                                    .length;
+                                                            j++) {
+                                                          if (totalproduct[j]
+                                                                  ["Type"] ==
+                                                              typeofproductList[
+                                                                  i]) {
+                                                            temp.add(
+                                                                totalproduct[j]
+                                                                    ["Count"]);
+                                                            price.add(
+                                                                totalproduct[j]
+                                                                    ["Price"]);
+                                                          }
                                                         }
-                                                      });
-                                                      print('test2 ==> $order');
-                                                      print('map ==> $choose');
+                                                        totalproductList.add({
+                                                          "Type":
+                                                              typeofproductList[
+                                                                  i],
+                                                          "Count": temp.reduce(
+                                                              (curr, next) =>
+                                                                  curr > next
+                                                                      ? curr
+                                                                      : next),
+                                                          "Price": price.reduce(
+                                                              (value, element) =>
+                                                                  value +
+                                                                  element)
+                                                        });
+                                                      }
+                                                      sumtotal =
+                                                          totalproductList
+                                                              .toList();
+                                                      print(totalproductList);
+                                                      print(
+                                                          'totalproduct ==> $totalproduct');
+                                                      print(totalproduct[
+                                                          totalproduct.length -
+                                                              1]);
+                                                      print(
+                                                          'sumtotal ==> $sumtotal');
+
                                                       sum.add(int.parse(
                                                           TypeOfService.data()[
                                                               'Price']));
@@ -303,7 +392,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                       total = sum.reduce(
                                                           (value, element) =>
                                                               value + element);
-                                                      print('sum ==> $sum');
+
                                                       print('total ==> $total');
                                                     });
                                                   },
@@ -377,8 +466,8 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                     widget.laundryUID,
                                     widget.name,
                                     widget.customerFname,
-                                    totalproduct,
-                                    sum,
+                                    // totalproduct,
+                                    sumtotal,
                                     total)),
                           );
                         },
