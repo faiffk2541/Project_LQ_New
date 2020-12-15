@@ -16,6 +16,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
   List productID = [];
   List totalproduct = [];
   var choose = Map();
+  //List order = [];
   var order = Map();
   String type;
 
@@ -239,20 +240,24 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                             TypeOfService
                                                                 .documentID],
                                                       });
-                                                      totalproduct
-                                                          .forEach((element) {
-                                                        if (!order.containsKey(
-                                                            element)) {
-                                                          order[TypeOfService
-                                                                  .data()[
-                                                              'Type']] = count;
+                                                      totalproduct.forEach((element) {                                                       
+                                                                                                                            
+                                                        if (!order.containsKey(element)) {
+                                                        
+                                                        //order[TypeOfService.data()['Type']] = count;
+                                                        order.addAll(element);
+                                                                  
+                                                             
                                                         } else {
                                                           order[TypeOfService
                                                                   .data()[
                                                               'Type']] = count;
                                                         }
+                                                        print('element ==> $element');
                                                       });
-                                                      print('test2 ==> $order');
+                                                      
+                                                      print('totalproduct ==> $totalproduct');
+                                                      print('order ==> $order');
                                                       print('map ==> $choose');
                                                       sum.add(int.parse(
                                                           TypeOfService.data()[

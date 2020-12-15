@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class AddCartWashingPage extends StatefulWidget {
   final String laundryUID;
   List totalproduct = [];
+  //var order = Map();
   List<int> sum = [];
 
   int total;

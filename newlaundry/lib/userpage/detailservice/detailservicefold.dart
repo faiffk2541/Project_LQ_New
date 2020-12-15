@@ -17,6 +17,9 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
   List<int> sum = [];
   List<String> productID = [];
   List totalproduct = [];
+  List sumtotal = [];
+  List orderList = [];
+
   var choose = Map();
   var order = Map();
 
@@ -164,11 +167,11 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                                                           });
                                                           totalproduct.forEach((element) { 
                                                           if (!order.containsKey(element)){                                                           
-                                                           order[TypeOfService
-                                                                      .data()['Type']] = count ;                                                                                                                                                                                                                                                   
+                                                           order[TypeOfService.data()['Type']] = count ;
+                                                                                                                                                                                                                                                                                                                         
                                                         } else {
-                                                           order[TypeOfService
-                                                                      .data()['Type']] = count ;
+                                                           order[TypeOfService.data()['Type']] = count ;
+                                                                      
                                                         }                                                       
                                                         });
                                                         print('choose ==> $choose');                                                        
@@ -239,14 +242,23 @@ class DetailServiceFoldState extends State<DetailServiceFoldPage> {
                                                         totalproduct.forEach((element) { 
                                                           if (!order.containsKey(element)){                                                           
                                                            order[TypeOfService
-                                                                      .data()['Type']] = count ;                                                                                                                                                                                                                                                   
+                                                                      .data()['Type']] = count ; 
+                                                           print('element ==>$element'); 
+                                                           order.forEach((key, value) {
+                                                              sumtotal.add(order);
+                                                             print('order======> key:$key  ,  value:$value');   
+                                                           });
+                                                                                                                                                                                                                                                                                                    
                                                         } else {
                                                            order[TypeOfService
                                                                       .data()['Type']] = count ;
                                                         }                                                       
                                                         });
-                                                        print('test ==> $choose');                                                        
-                                                        print('test2 ==> $order');
+                                                       
+                                                        
+                                                        print('choose ==> $choose');                                                        
+                                                        print('order ==> $order');
+                                                        print('sumtotal ==> $order');
                                                         sum.add(int.parse(
                                                             TypeOfService
                                                                     .data()[
