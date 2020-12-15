@@ -9,13 +9,12 @@ class AddCartWashingPage extends StatefulWidget {
   final String name;
   final String customerFname;
 
-  List totalproduct = [];
-  List<int> sum = [];
+  List sumtotal = [];
 
   int total;
 
   AddCartWashingPage(this.laundryUID, this.name, this.customerFname,
-      this.totalproduct, this.sum, this.total);
+      this.sumtotal, this.total);
   @override
   AddCartWashingState createState() => AddCartWashingState();
 }
@@ -134,10 +133,9 @@ class AddCartWashingState extends State<AddCartWashingPage> {
               Container(
                 height: 420,
                 child: ListView.builder(
-                    itemCount: widget.totalproduct.length,
+                    itemCount: widget.sumtotal.length,
                     itemBuilder: (context, index) {
-                      final type = widget.totalproduct[index];
-                      final count = widget.sum[index];
+                      final type = widget.sumtotal[index];
                       return ListTile(
                         leading: Container(
                           height: 40,
@@ -167,7 +165,7 @@ class AddCartWashingState extends State<AddCartWashingPage> {
                               fontWeight: FontWeight.w400),
                         ),
                         trailing: Text(
-                          count.toString(),
+                          type['Price'].toString(),
                           style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'Prompt',
@@ -361,7 +359,7 @@ class AddCartWashingState extends State<AddCartWashingPage> {
     customer['Total'] = widget.total;
     customer['Service'] = washing;
     customer['Status'] = 'นำผ้าไปส่ง';
-    customer['order'] = widget.totalproduct;
+    customer['order'] = widget.sumtotal;
     await databaseReference
         .collection('Customer')
         .doc(firebaseAuth.currentUser.uid)
@@ -379,7 +377,7 @@ class AddCartWashingState extends State<AddCartWashingPage> {
     laundry['Total'] = widget.total;
     laundry['Service'] = washing;
     laundry['Status'] = 'รอออเดอร์';
-    laundry['order'] = widget.totalproduct;
+    laundry['order'] = widget.sumtotal;
     await databaseReference
         .collection("OrderLaundry")
         .doc(widget.laundryUID)
