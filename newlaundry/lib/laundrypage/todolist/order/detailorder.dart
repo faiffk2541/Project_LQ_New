@@ -76,6 +76,14 @@ class DetailOrderState extends State<DetailOrder> {
                             fontSize: 16,
                             fontWeight: FontWeight.w400),
                       ),
+                      trailing: Text(
+                        order['Price'].toString(),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Prompt',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                      ),
                     );
                   }),
             )
