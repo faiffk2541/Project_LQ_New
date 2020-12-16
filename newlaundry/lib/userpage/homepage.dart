@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:newlaundry/userpage/menu/menudetail.dart';
 
 class HomePage extends StatefulWidget {
-  
+  final String customerFname, customerID;
+  HomePage(this.customerFname, this.customerID);
   @override
   HomePageState createState() => HomePageState();
 }
@@ -16,19 +17,6 @@ class HomePageState extends State<HomePage> {
   final firestore = Firestore.instance;
   List<DocumentSnapshot> laundry = [];
 
-  getLaundry() async {
-    Query q = firestore.collection("Laundry");
-
-    QuerySnapshot querySnapshot = await q.get();
-    laundry = querySnapshot.docs;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getLaundry();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +27,7 @@ class HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 50, left: 15, right: 15),
+                  margin: EdgeInsets.only(top: 60, left: 15, right: 15),
                   height: 50,
                   padding: EdgeInsets.only(left: 15),
                   decoration: BoxDecoration(
@@ -85,18 +73,31 @@ class HomePageState extends State<HomePage> {
                       }
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
-                          return Text(
-                            'Loading . .',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'Prompt',
-                                fontSize: 18,
-                                fontWeight: FontWeight.w300),
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              'Loading . .',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'Prompt',
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w300),
+                            ),
                           );
                         case ConnectionState.none:
-                          return Text('Oops! No data present');
+                          return Text('Oops! No data present',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'Prompt',
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w300));
                         case ConnectionState.done:
-                          return Text('We are done');
+                          return Text('We are done',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'Prompt',
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w300));
                         default:
                           return new ListView(
                               children: snapshot.data.documents.map(
@@ -105,7 +106,7 @@ class HomePageState extends State<HomePage> {
                                 children: [
                                   Container(
                                     margin: EdgeInsets.only(
-                                        left: 40, right: 40, bottom: 10),
+                                        left: 60, right: 60, bottom: 10),
                                     width: double.maxFinite,
                                     child: InkWell(
                                       onTap: () => {
@@ -119,13 +120,14 @@ class HomePageState extends State<HomePage> {
                                                       laundry.data()['Name'],
                                                       laundry.data()['Phone'],
                                                       laundry.data()['Time'],
-                                                      laundry
-                                                          .data()['URLpic'])),
+                                                      laundry.data()['URLpic'],
+                                                      widget.customerFname,
+                                                      widget.customerID)),
                                         ),
                                       },
                                       child: Card(
                                         child: Container(
-                                          height: 210,
+                                          height: 190,
                                           child: Container(
                                             margin: EdgeInsets.only(top: 10),
                                             child: Column(
@@ -133,8 +135,8 @@ class HomePageState extends State<HomePage> {
                                                 Center(
                                                   child: Image.network(
                                                       laundry.data()['URLpic'],
-                                                      width: 90,
-                                                      height: 90),
+                                                      width: 100,
+                                                      height: 100),
                                                 ),
                                                 Container(
                                                   margin:
@@ -164,7 +166,7 @@ class HomePageState extends State<HomePage> {
                                                         width: 15,
                                                         height: 15,
                                                       ),
-                                                      SizedBox(width: 5),
+                                                      SizedBox(width: 10),
                                                       Text(
                                                         laundry.data()['Phone'],
                                                         style: TextStyle(
@@ -179,33 +181,33 @@ class HomePageState extends State<HomePage> {
                                                     ],
                                                   ),
                                                 ),
-                                                Container(
-                                                  margin:
-                                                      EdgeInsets.only(top: 5),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Image.asset(
-                                                        'assets/start.png',
-                                                        width: 15,
-                                                        height: 15,
-                                                      ),
-                                                      Text(
-                                                        ' 20 รีวิว',
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontFamily:
-                                                                'Prompt',
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w300),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
+                                                // Container(
+                                                //   margin:
+                                                //       EdgeInsets.only(top: 5),
+                                                //   child: Row(
+                                                //     mainAxisAlignment:
+                                                //         MainAxisAlignment
+                                                //             .center,
+                                                //     children: [
+                                                //       Image.asset(
+                                                //         'assets/start.png',
+                                                //         width: 15,
+                                                //         height: 15,
+                                                //       ),
+                                                //       Text(
+                                                //         laundry.data()['Time'],
+                                                //         style: TextStyle(
+                                                //             color: Colors.black,
+                                                //             fontFamily:
+                                                //                 'Prompt',
+                                                //             fontSize: 16,
+                                                //             fontWeight:
+                                                //                 FontWeight
+                                                //                     .w300),
+                                                //       ),
+                                                //     ],
+                                                //   ),
+                                                // ),
                                               ],
                                             ),
                                           ),

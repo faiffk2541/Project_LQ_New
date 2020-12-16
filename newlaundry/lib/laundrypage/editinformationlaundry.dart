@@ -11,22 +11,25 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditInformationLaundry extends StatefulWidget {
-  String urlPic, name, phone, address, time;
+  final String urlPic, ename, ephone, eaddress, etime;
 
   EditInformationLaundry({
     this.urlPic,
-    this.name,
-    this.phone,
-    this.address,
-    this.time,
+    this.ename,
+    this.ephone,
+    this.eaddress,
+    this.etime,
   });
   @override
   EditInformationLaundryState createState() => EditInformationLaundryState();
 }
 
 class EditInformationLaundryState extends State<EditInformationLaundry> {
-  GlobalKey<FormState> _key = GlobalKey<FormState>();
-  String urlPic, name, time, address, phone;
+  String urlPic = "";
+  String name = "";
+  String time = "";
+  String address = "";
+  String phone = "";
 
   File imageFile, file;
   var imageFiles = [];
@@ -40,16 +43,14 @@ class EditInformationLaundryState extends State<EditInformationLaundry> {
   TextEditingController _addressController;
   TextEditingController _phoneController;
   TextEditingController _timeController;
-  TextEditingController _urlPicController;
 
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: widget.name);
-    _addressController = TextEditingController(text: widget.address);
-    _phoneController = TextEditingController(text: widget.phone);
-    _timeController = TextEditingController(text: widget.time);
-    _urlPicController = TextEditingController(text: widget.urlPic);
+    _nameController = TextEditingController(text: widget.ename);
+    _addressController = TextEditingController(text: widget.eaddress);
+    _phoneController = TextEditingController(text: widget.ephone);
+    _timeController = TextEditingController(text: widget.etime);
   }
 
   @override
@@ -532,8 +533,6 @@ class EditInformationLaundryState extends State<EditInformationLaundry> {
   // }
 
   Future<void> insertinformation() async {
-    final databaseReference = Firestore.instance;
-
     List<String> splitList = name.split(" ");
     List<String> indexList = [];
     for (int i = 0; i < splitList.length; i++) {
@@ -547,10 +546,11 @@ class EditInformationLaundryState extends State<EditInformationLaundry> {
         .collection('Laundry')
         .document(firebaseAuth.currentUser.uid)
         .setData({
-      'Name': name,
-      'Time': time,
-      'Address': address,
-      'Phone': phone,
+      "Name": name,
+      // 'Name': _nameController.text,
+      'Time': _timeController.text,
+      'Address': _addressController.text,
+      'Phone': _phoneController.text,
       'URLpic': urlPic,
       'searchIndex': indexList
     });

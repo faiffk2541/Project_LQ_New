@@ -5,7 +5,10 @@ import 'package:newlaundry/userpage/cart/addcartwashing.dart';
 
 class DetailServiceWashingPage extends StatefulWidget {
   final String laundryUID;
-  DetailServiceWashingPage(this.laundryUID);
+  final String name;
+  final String customerFname;
+
+  DetailServiceWashingPage(this.laundryUID, this.name, this.customerFname);
 
   @override
   DetailServiceWashingState createState() => DetailServiceWashingState();
@@ -13,11 +16,18 @@ class DetailServiceWashingPage extends StatefulWidget {
 
 class DetailServiceWashingState extends State<DetailServiceWashingPage> {
   List<int> sum = [];
-  List productID = [];
+  List<String> productID = [];
+  //add this valuse
   List totalproduct = [];
+  List typeofproductList = [];
+  Set typeofproduct = new Set();
+  List<dynamic> totalproductList=[];
+  List<dynamic> sumtotal = [];
+
   var choose = Map();
-  //List order = [];
-  var order = Map();
+  var order = new Map();
+
+  
   String type;
 
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -64,6 +74,44 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
               ),
               SizedBox(height: 30),
               Container(
+                child: Padding(
+                  padding: EdgeInsets.only(right: 40, left: 40),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          topRight: Radius.circular(15),
+                          bottomLeft: Radius.circular(15),
+                          bottomRight: Radius.circular(15)),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_on,
+                              color: Colors.red,
+                            ),
+                            SizedBox(width: 10, height: 10),
+                            Text(
+                              widget.name,
+                              style: TextStyle(
+                                  height: 1.5,
+                                  color: Colors.black,
+                                  fontFamily: 'Prompt',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w300),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Container(
                 height: 500,
                 child: StreamBuilder<QuerySnapshot>(
                   stream: Firestore.instance
@@ -80,16 +128,15 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                       return CircularProgressIndicator();
                     } else {
                       return ListView.builder(
-                          itemCount: snapshot.data.documents.length,
+                          itemCount: snapshot.data.docs.length,
                           itemBuilder: (context, index) {
                             DocumentSnapshot TypeOfService =
-                                snapshot.data.documents[index];
-                            print(TypeOfService.documentID);
+                                snapshot.data.docs[index];
                             return Stack(
-                              children: <Widget>[
+                              children: [
                                 Container(
                                   child: Row(
-                                    children: <Widget>[
+                                    children: [
                                       Container(
                                         margin: EdgeInsets.only(left: 15),
                                         height: 120,
@@ -107,7 +154,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                       Container(
                                         margin: EdgeInsets.only(left: 40),
                                         child: Column(
-                                          children: <Widget>[
+                                          children: [
                                             Text(
                                               TypeOfService.data()['Type'],
                                               style: TextStyle(
@@ -127,7 +174,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                             ),
                                             SizedBox(height: 10),
                                             Row(
-                                              children: <Widget>[
+                                              children: [
                                                 InkWell(
                                                   onTap: () {
                                                     if (count != 0) {
@@ -145,48 +192,26 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                         }
                                                         print(
                                                             'test2 ==>${choose[TypeOfService.documentID]}');
-                                                        productID.remove(
-                                                            TypeOfService
-                                                                .documentID);
-                                                        totalproduct.remove({
-                                                          "Type": TypeOfService
-                                                                      .data()[
-                                                                  'Type']
-                                                              .toString(),
-                                                          "Count": choose[
-                                                              TypeOfService
-                                                                  .documentID],
-                                                        });
-                                                        totalproduct
-                                                            .forEach((element) {
-                                                          if (!order
-                                                              .containsKey(
-                                                                  element)) {
-                                                            order[TypeOfService
-                                                                        .data()[
-                                                                    'Type']] =
-                                                                count;
-                                                          } else {
-                                                            order[TypeOfService
-                                                                        .data()[
-                                                                    'Type']] =
-                                                                count;
-                                                          }
-                                                        });
-                                                        print(
-                                                            'choose ==> $choose');
-                                                        print(
-                                                            'order ==> $order');
+                                                         typeofproduct.add(TypeOfService.data()['Type'].toString());
+                                                          print(typeofproduct.toList());  
 
-                                                        sum.remove(int.parse(
-                                                            TypeOfService
-                                                                    .data()[
-                                                                'Price']));
-
-                                                        total = sum.reduce(
-                                                            (value, element) =>
-                                                                value +
-                                                                element);
+                                                          print('sumtotal ==> $sumtotal');
+                                                          sumtotal.removeLast(
+                                                            // TypeOfService.data()['Type']
+                                                            //  count, 
+                                                            //  int.parse(TypeOfService.data()['Price'])                                                                           
+                                                          );
+                                                          print('sumtotal ==> $sumtotal');
+                                                          print('typeofproductList ==> $typeofproductList');
+                                                           
+                                                          print('totalproduct ==> $totalproduct'); 
+                                                          print('totalproductList ==>$totalproductList');      
+                                                        
+                                                        // add this code for delect order but it cannot work now                                                          
+                                                          print('typeofproductList ==> $typeofproductList');
+                                                          print('totalproductList ==>$totalproductList');    
+                                                        sum.remove(int.parse(TypeOfService.data()['Price']));
+                                                        total = sum.reduce((value, element) => value +element);                                                                   
 
                                                         print('sum ==> $sum');
                                                         print(
@@ -228,46 +253,52 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                                                             TypeOfService
                                                                 .documentID] += 1;
                                                       }
-                                                      productID.add(
-                                                          TypeOfService
-                                                              .documentID);
-
-                                                      totalproduct.add({
-                                                        "Type": TypeOfService
-                                                                .data()['Type']
-                                                            .toString(),
-                                                        "Count": choose[
-                                                            TypeOfService
-                                                                .documentID],
-                                                      });
-                                                      totalproduct.forEach((element) {                                                       
-                                                                                                                            
-                                                        if (!order.containsKey(element)) {
-                                                        
-                                                        //order[TypeOfService.data()['Type']] = count;
-                                                        order.addAll(element);
-                                                                  
+                                                      
+                                                      typeofproduct.add(TypeOfService.data()['Type'].toString());
                                                              
-                                                        } else {
-                                                          order[TypeOfService
-                                                                  .data()[
-                                                              'Type']] = count;
-                                                        }
-                                                        print('element ==> $element');
+                                                      totalproduct.add({
+                                                        "Type": TypeOfService.data()['Type'] .toString(),
+                                                        "Count": choose[TypeOfService.documentID],        
+                                                        "Price": int.parse(TypeOfService.data()['Price'])   
+                                                                
                                                       });
                                                       
-                                                      print('totalproduct ==> $totalproduct');
-                                                      print('order ==> $order');
-                                                      print('map ==> $choose');
+                                                      List totalproductList =[];                                                          
+                                                      List typeofproductList = typeofproduct.toList();                                                         
+                                                             
+                                                      for (var i = 0; i < typeofproductList.length;i++) {
+                                                         
+                                                         List temp = [];
+                                                         List price = [];    
+                                                                  
+                                                         for (var j = 0; j < totalproduct.length; j++) {                                                        
+                                                            if (totalproduct[j]["Type"] == typeofproductList[i]) {                                                                     
+                                                                  temp.add(totalproduct[j]["Count"]);
+                                                                  price.add(totalproduct[j]["Price"]);                                                                 
+                                                              }
+                                                         
+                                                        }
+                                                        totalproductList.add({
+                                                          "Type":typeofproductList[i],
+                                                          "Count": temp.reduce((curr, next) => curr > next  ? curr : next), 
+                                                          "Price": price.reduce((value, element) =>value + element)    
+                                                                                                                               
+                                                        });
+                                                      }
+                                                      sumtotal =totalproductList.toList();
+                                                       print('sumtotal ==> $sumtotal');                                                         
+                                                       print(totalproductList);    
+                                                       print('totalproduct ==> $totalproduct');       
+                                                     
                                                       sum.add(int.parse(
                                                           TypeOfService.data()[
                                                               'Price']));
-                                                      TypeOfService.data()[
-                                                          'Type'];
+                                                      TypeOfService.data()['Type'];
+                                                          
                                                       total = sum.reduce(
                                                           (value, element) =>
                                                               value + element);
-                                                      print('sum ==> $sum');
+
                                                       print('total ==> $total');
                                                     });
                                                   },
@@ -339,8 +370,10 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                             MaterialPageRoute(
                                 builder: (context) => AddCartWashingPage(
                                     widget.laundryUID,
-                                    totalproduct,
-                                    sum,
+                                    widget.name,
+                                    widget.customerFname,
+                                    // totalproduct,
+                                    sumtotal,
                                     total)),
                           );
                         },
@@ -353,6 +386,7 @@ class DetailServiceWashingState extends State<DetailServiceWashingPage> {
                   )
                 ],
               ),
+              SizedBox(height: 10),
             ],
           ),
         ),

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:newlaundry/navigationbar.dart';
 
 // ignore: must_be_immutable
-class AddCartWashingPage extends StatefulWidget {
+class AddCartFoldPage extends StatefulWidget {
   final String laundryUID;
   final String name;
   final String customerFname;
@@ -13,15 +13,15 @@ class AddCartWashingPage extends StatefulWidget {
 
   int total;
 
-  AddCartWashingPage(this.laundryUID, this.name, this.customerFname,
+  AddCartFoldPage(this.laundryUID, this.name, this.customerFname,
       this.sumtotal, this.total);
   @override
-  AddCartWashingState createState() => AddCartWashingState();
+  AddCartFoldState createState() => AddCartFoldState();
 }
 
-class AddCartWashingState extends State<AddCartWashingPage> {
+class AddCartFoldState extends State<AddCartFoldPage> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  String washing = "ซักรีด";
+  String fold = "ซักพับ";
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +115,7 @@ class AddCartWashingState extends State<AddCartWashingPage> {
                           children: [
                             SizedBox(width: 34, height: 10),
                             Text(
-                              washing,
+                              fold,
                               style: TextStyle(
                                   height: 1.5,
                                   color: Colors.black,
@@ -135,7 +135,7 @@ class AddCartWashingState extends State<AddCartWashingPage> {
                 child: ListView.builder(
                     itemCount: widget.sumtotal.length,
                     itemBuilder: (context, index) {
-                      final type = widget.sumtotal[index];
+                      final type = widget.sumtotal[index];                      
                       return ListTile(
                         leading: Container(
                           height: 40,
@@ -357,7 +357,7 @@ class AddCartWashingState extends State<AddCartWashingPage> {
     customer['LaundryName'] = widget.name;
     customer['LaundryID'] = widget.laundryUID;
     customer['Total'] = widget.total;
-    customer['Service'] = washing;
+    customer['Service'] = fold;
     customer['Status'] = 'นำผ้าไปส่ง';
     customer['order'] = widget.sumtotal;
     await databaseReference
@@ -375,7 +375,7 @@ class AddCartWashingState extends State<AddCartWashingPage> {
     laundry['LaundryName'] = widget.name;
     laundry['LaundryID'] = widget.laundryUID;
     laundry['Total'] = widget.total;
-    laundry['Service'] = washing;
+    laundry['Service'] = fold;
     laundry['Status'] = 'รอออเดอร์';
     laundry['order'] = widget.sumtotal;
     await databaseReference
@@ -385,7 +385,7 @@ class AddCartWashingState extends State<AddCartWashingPage> {
         .doc(firebaseAuth.currentUser.uid)
         .setData(laundry)
         .then((value) {
-      print('insert laundry Successfully');
+      print('insert service Successfully');
     });
   }
 }

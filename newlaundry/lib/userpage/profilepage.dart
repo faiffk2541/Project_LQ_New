@@ -5,8 +5,8 @@ import 'package:newlaundry/signinpage/signinpage.dart';
 import 'package:newlaundry/userpage/profileuser/accountpage.dart';
 
 class ProfilePage extends StatefulWidget {
-  final String uid;
-  ProfilePage(this.uid);
+  final String laundryUID;
+  ProfilePage(this.laundryUID);
   @override
   ProfilePageState createState() => ProfilePageState();
 }
@@ -50,7 +50,8 @@ class ProfilePageState extends State<ProfilePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ProfileLaundry(widget.uid)),
+                            builder: (context) =>
+                                ProfileLaundry(widget.laundryUID)),
                       );
                     },
                   ),
@@ -73,16 +74,10 @@ class ProfilePageState extends State<ProfilePage> {
                       backgroundColor: Colors.white,
                       child: ClipOval(
                         child: SizedBox(
-                          // width: 100,
-                          // height: 100,
                           child: Image.asset(
                             'assets/boy.png',
                             fit: BoxFit.fill,
                           ),
-                          // child: Image.asset(
-                          //   imageUrl,
-                          //   fit: BoxFit.fill,
-                          // ),
                         ),
                       ),
                     ),

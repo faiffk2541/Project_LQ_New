@@ -1,21 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:newlaundry/userpage/cart/addcart.dart';
-import 'dart:math';
-
-import '../../navigationbar.dart';
+import 'package:newlaundry/userpage/cart/addcartiron.dart';
 
 class DetailServiceIronPage extends StatefulWidget {
   final String laundryUID;
+  final String name;
+  final String customerFname;
 
-  DetailServiceIronPage(this.laundryUID);
+  DetailServiceIronPage(this.laundryUID, this.name, this.customerFname);
+
   @override
   DetailServiceIronState createState() => DetailServiceIronState();
 }
 
 class DetailServiceIronState extends State<DetailServiceIronPage> {
-  List<int> sum = [];
+ List<int> sum = [];
   List<String> productID = [];
   //add this valuse
   List totalproduct = [];
@@ -29,6 +29,7 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
 
   
   String type;
+
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   int count = 0, price = 0, total = 0, count2 = 0;
 
@@ -46,7 +47,7 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 35, left: 15),
+                padding: EdgeInsets.only(top: 45, left: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -73,6 +74,44 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
               ),
               SizedBox(height: 30),
               Container(
+                child: Padding(
+                  padding: EdgeInsets.only(right: 40, left: 40),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          topRight: Radius.circular(15),
+                          bottomLeft: Radius.circular(15),
+                          bottomRight: Radius.circular(15)),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_on,
+                              color: Colors.red,
+                            ),
+                            SizedBox(width: 10, height: 10),
+                            Text(
+                              widget.name,
+                              style: TextStyle(
+                                  height: 1.5,
+                                  color: Colors.black,
+                                  fontFamily: 'Prompt',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w300),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Container(
                 height: 500,
                 child: StreamBuilder(
                     stream: Firestore.instance
@@ -94,7 +133,6 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                               DocumentSnapshot TypeOfService =
                                   snapshot.data.documents[index];
                               print(TypeOfService.documentID);
-
                               return Stack(
                                 children: [
                                   Container(
@@ -342,13 +380,19 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                               fontWeight: FontWeight.w400),
                         ),
                         onPressed: () {
-                          showAlertDialog(context);
-
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => AddCartPage()),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddCartIronPage(
+                                  widget.laundryUID,
+                                    widget.name,
+                                    widget.customerFname,
+                                    // totalproduct,
+                                    sumtotal,
+                                    total)),
+                                 
+                            
+                          );
                         },
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
@@ -359,129 +403,11 @@ class DetailServiceIronState extends State<DetailServiceIronPage> {
                   )
                 ],
               ),
+              SizedBox(height: 10)
             ],
           ),
         ),
       ),
     );
-  }
-
-  void showAlertDialog(BuildContext context) {
-    AlertDialog dialog = new AlertDialog(
-      title: Center(
-        child: Text(
-          "ยืนยันการทำรายการ",
-          style: TextStyle(
-              color: Colors.red,
-              fontFamily: 'Prompt',
-              fontSize: 18,
-              fontWeight: FontWeight.w400),
-        ),
-      ),
-      content: new Container(
-        height: 50,
-        child: new Column(
-          children: <Widget>[
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  RaisedButton(
-                    onPressed: () {},
-                    elevation: 0,
-                    color: Colors.red,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(50))),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'ยกเลิก',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Prompt',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 30),
-                  RaisedButton(
-                    onPressed: () {
-                      insertinformation();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => NavigationBarPage()),
-                      );
-                    },
-                    elevation: 0,
-                    color: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(50))),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'ตกลง',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Prompt',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-    showDialog(context: context, child: dialog);
-  }
-
-  Future<void> insertinformation() async {
-    final databaseReference = Firestore.instance;
-
-    Map<String, dynamic> map = Map();
-    map['CustomerID'] = firebaseAuth.currentUser.uid;
-    map['LuandryID'] = widget.laundryUID;
-    //map['Type'] = productID;
-    map['Total'] = total;
-    //map['Count'] = count;
-
-    await databaseReference
-        .collection('Order')
-        .document(firebaseAuth.currentUser.uid)
-        .setData(map)
-        .then((value) {
-      print('insert Successfully');
-    });
-    Map<String, dynamic> service = Map();
-
-    service['order'] = sumtotal;
-    // service['Type'] = type;
-    // service['Count'] = count;
-
-    await databaseReference
-        .collection("Order")
-        .document(firebaseAuth.currentUser.uid)
-        .collection("TypeOfService")
-        .document("typeofservice")
-        .collection("Iron")
-        .document()
-        .setData(service)
-        .then((value) {
-      print('sumtotal == $sumtotal');
-      print('insert service Successfully');
-    });
   }
 }

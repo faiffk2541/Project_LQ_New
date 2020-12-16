@@ -7,10 +7,11 @@ import 'package:newlaundry/userpage/menu/menuservice.dart';
 import 'package:path/path.dart' as Path;
 
 class MenuDetailPage extends StatefulWidget {
-  final String uid, address, name, phone, time, urlPic;
+  final String laundryID, address, name, phone, time, urlPic;
+  final String customerFname, customerID;
 
-  MenuDetailPage(
-      this.uid, this.address, this.name, this.phone, this.time, this.urlPic);
+  MenuDetailPage(this.laundryID, this.address, this.name, this.phone, this.time,
+      this.urlPic, this.customerFname, this.customerID);
 
   @override
   MenuDetailState createState() => MenuDetailState();
@@ -44,7 +45,6 @@ class MenuDetailState extends State<MenuDetailPage> {
             margin: EdgeInsets.only(top: 15, right: 10, left: 10, bottom: 25),
             child: Center(
               child: Container(
-                //color: Colors.white,
                 child: Center(
                   child: widget.urlPic == "null"
                       ? Image.asset(
@@ -185,7 +185,7 @@ class MenuDetailState extends State<MenuDetailPage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          CommentPage(widget.uid)),
+                                          CommentPage(widget.laundryID)),
                                 );
                               },
                               child: new Text(
@@ -218,7 +218,8 @@ class MenuDetailState extends State<MenuDetailPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => MenuServicePage(widget.uid)),
+                        builder: (context) => MenuServicePage(widget.laundryID,
+                            widget.name, widget.customerFname)),
                   );
                 },
                 padding: EdgeInsets.all(10),
@@ -243,7 +244,6 @@ class MenuDetailState extends State<MenuDetailPage> {
   }
 
   Future<Widget> check(String urlPic) async {
-    //uploadPicToStorage();
     var fileUrl = Uri.decodeFull(Path.basename(urlPic))
         .replaceAll(new RegExp(r'(\?alt).*'), '');
     final StorageReference firebaseStorageRef =
